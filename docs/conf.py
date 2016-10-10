@@ -16,9 +16,20 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
+ import os
+ import sys
 # sys.path.insert(0, os.path.abspath('.'))
+
+sys.path.insert(0, os.path.abspath('..'))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "readthedocs.settings.dev")
+
+from django.conf import settings
+
+import django
+django.setup()
+
+
+sys.path.append(os.path.abspath('_ext'))
 
 # -- General configuration ------------------------------------------------
 
@@ -29,7 +40,12 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = []
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.intersphinx',
+    'sphinxcontrib.httpdomain',
+    'djangodocs',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -87,6 +103,12 @@ language = 'es'
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
+locale_dirs = [
+    'locale/',
+]
+
+gettext_compact = False
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
