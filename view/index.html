@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>CanchaX</title>
+
+	<link rel="stylesheet" href="/proyectotesis/view/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+	<link href="/proyectotesis/view/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+	<link href="/proyectotesis/view/node_modules/ng-toast/dist/ngToast.min.css" rel="stylesheet" />
+	<link href="/proyectotesis/view/node_modules/ui-select/dist/select.min.css" rel="stylesheet" />
+
+	<link href="/proyectotesis/view/bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+	<link href="/proyectotesis/view/bower_components/fullcalendar/dist/fullcalendar.css"/>
+
+	<link rel="stylesheet" href="/proyectotesis/view/css/base.css" />
+
+</head>
+
+<body ng-app="app">
+	<toast></toast>
+	<header ng-controller="navController as vm">
+		<nav class="navbar navbar-findcond navbar-fixed-top">
+			<div class="container">				
+				<div class="collapse navbar-collapse" id="navbar">
+					<ul class="nav navbar-nav navbar-left">
+						<li uib-dropdown is-open="vm.turnos.open">
+							<a href="" ng-class="{'active': vm.active == '/turnos'}"  uib-dropdown-toggle>
+								Turnos
+							</a>
+							<ul class="dropdown-menu cx-dropdown-menu" uib-dropdown-menu role="menu">
+								<li>
+									<a href="#/turnos/calendario" ng-click="vm.changeOfLocation('/turnos')"><i class="fa fa-calendar" aria-hidden="true"></i> Calendario</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="#"><i class="fa fa-plus-square" aria-hidden="true"></i> Crear turno</a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Dejar asentado turno semanal</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#">Seguridad</a>
+						</li>
+						<li>
+							<a href="#">Control de stock</a>
+						</li>
+						<li>
+							<a href="#">Facturación</a>
+						</li>
+						<li>
+							<a href="#">Productos</a>
+						</li>
+						<li>
+							<a href="#">Proveedores</a>
+						</li>
+						<li>
+							<a href="#">Torneos</a>
+						</li>
+						<li>
+							<a href="#">Estadísticas</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<section ng-view="" style="margin-top: 100px;">
+	</section>		
+	<aside></aside>
+	<article></article>
+	<footer></footer>
+</body>
+<script src="/proyectotesis/view/node_modules/angular/angular.min.js"></script>
+<script src="/proyectotesis/view/node_modules/angular-i18n/angular-locale_es-ar.js"></script>
+<script src="/proyectotesis/view/node_modules/angular-animate/angular-animate.min.js"></script>
+<script src="/proyectotesis/view/node_modules/angular-route/angular-route.min.js"></script>
+<script src="/proyectotesis/view/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+
+<script src="/proyectotesis/view/node_modules/ng-toast/dist/ngToast.min.js"></script>
+<script src="/proyectotesis/view/node_modules/ui-select/dist/select.min.js"></script>
+<script src="/proyectotesis/view/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+<script src="/proyectotesis/view/node_modules/lodash/lodash.min.js"></script>
+
+<script src="/proyectotesis/view/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+<script src="/proyectotesis/view/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/proyectotesis/view/bower_components/moment/min/moment.min.js"></script>
+<script src="/proyectotesis/view/bower_components/angular-ui-calendar/src/calendar.js"></script>
+<!-- jquery, moment, and angular have to get included before fullcalendar -->
+<script src="/proyectotesis/view/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<script src="/proyectotesis/view/bower_components/fullcalendar/dist/gcal.js"></script>
+
+<script src="/proyectotesis/view/js/app.module.js"></script>
+<script src="/proyectotesis/view/js/app.run.js"></script>
+<script src="/proyectotesis/view/js/app.routes.js"></script>
+<script src="/proyectotesis/view/js/app.config.js"></script>
+
+<script src="/proyectotesis/view/filters/filters.module.js"></script>
+<script src="/proyectotesis/view/filters/buscador.filter.js"></script>
+<script src="/proyectotesis/view/filters/percentage.filter.js"></script>
+
+<script src="/proyectotesis/view/services/services.module.js"></script>
+<script src="/proyectotesis/view/services/storage/storage.service.js"></script>
+
+<script src="/proyectotesis/view/components/components.module.js"></script>
+<script src="/proyectotesis/view/components/header/header.component.js"></script>
+<script src="/proyectotesis/view/components/focus-element/focus-element.directive.js"></script>
+<script src="/proyectotesis/view/components/calendario/calendario.module.js"></script>
+<script src="/proyectotesis/view/components/calendario/calendario.component.js"></script>
+
+<script src="/proyectotesis/view/nav/nav.module.js"></script>
+<script src="/proyectotesis/view/nav/nav.controller.js"></script>
+
+<script src="/proyectotesis/view/turnos/turnos.module.js"></script>
+<script src="/proyectotesis/view/turnos/calendario/calendario.controller.js"></script>
+
+</html>

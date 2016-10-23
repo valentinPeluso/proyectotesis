@@ -1,0 +1,69 @@
+<table class="table table-condensed table-bordered table-striped">
+    <thead style="background-color: #C0C0C0;color:white">
+        <!--
+        <tr>
+            <th>
+                <a href="" class="btn btn-sm btn-default" ng-click="$ctrl.mesAnterior()">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </a>
+            </th>
+            <th colspan="2">
+                <div uib-dropdown is-open="status2.isopen">
+                    <button type="button" class="btn btn-sm btn-default btn-block" uib-dropdown-toggle>
+                        {{$ctrl.anioActual}}
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem" ng-repeat="anio in $ctrl.anios track by $index">
+                            <a href="" ng-click="$ctrl.cambiarAnio(anio)" ng-class="{'font-bold': anio === $ctrl.anioActual}">{{anio}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </th>
+            <th colspan="3">
+                <div uib-dropdown is-open="status.isopen">
+                    <button type="button" class="btn btn-sm btn-default btn-block" uib-dropdown-toggle>
+                        {{$ctrl.mesActual}}
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem" ng-repeat="mes in $ctrl.meses">
+                            <a href="" ng-click="$ctrl.cambiarMes(mes)" ng-class="{'font-bold': mes === $ctrl.mesActual}">{{mes}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </th>
+            <th>
+                <a href="" class="btn btn-sm btn-default" ng-click="$ctrl.mesSiguiente()">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </a>
+            </th>
+        </tr>
+        -->
+        <tr>
+            <th></th>
+            <th>Domingo</th>
+            <th>Lunes</th>
+            <th>Martes</th>
+            <th>Miercoles</th>
+            <th>Jueves</th>
+            <th>Viernes</th>
+            <th>Sabado</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--<tr ng-repeat="semana in $ctrl.semanas track by $index">            
+            <td ng-repeat="dia in semana track by $index" ng-style="dia.estilos" ng-click="$ctrl.clickDia(dia)">
+                <span ng-class="{'badge LClink': dia.eventos.length > 0}" ng-click="$ctrl.clickDia(dia)">{{dia.numero}}</span>
+            </td>
+        </tr>-->
+        <tr ng-repeat="hora in $ctrl.horas">
+            <td style="text-align: center;">{{ hora.hora }}</td>  
+            <td></td>
+            <td></td>   
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>     
+            <td></td>   
+        </tr>
+    </tbody>
+</table>
