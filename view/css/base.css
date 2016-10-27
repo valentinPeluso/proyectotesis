@@ -13,9 +13,29 @@ body {
     background-repeat: repeat-x;
 }
 
+#page-wrap {
+     width: 1280px;
+     margin: 0 auto;
+}
+.table td, .table th {
+   text-align: center;   
+}
+
 html, body {
     font-size: 100%;
     height: 100%;
+}
+.badge-success {
+    background-color: #5cb85c !important;
+}
+.badge-warning {
+    background-color: #f0ad4e !important;
+}
+.badge-danger {
+    background-color: #d9534f;
+}
+.badge-info {
+    background-color: #5bc0de;
 }
 
 /* ----------NAVBAR-------------  */

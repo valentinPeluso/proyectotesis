@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('app.turnos', [
+    angular.module('app.verificacion_validacion', [
         'app.calendario'
     ])
     

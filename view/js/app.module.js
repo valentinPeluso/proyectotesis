@@ -12,7 +12,7 @@
 
         /* 3rd-party modules */
        'app.nav',
-       'app.turnos',
+       'app.verificacion_validacion',
        
        'app.components',
        'app.filters',

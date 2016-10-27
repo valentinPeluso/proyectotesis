@@ -1,0 +1,217 @@
+<link rel="stylesheet" href="/proyectotesis/view/verificacion_validacion/verificacion_validacion.css" />
+
+<table class="table table-hover table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Sprint</th>
+            <th>Card Trello</th>
+            <th>PR Github</th>
+            <th>PR Mergiados</th>
+            <th>Puntos cerrados</th>
+            <th>Puntos estimados</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="primerNivel">
+            <td>
+                #1
+            </td>
+            <td>
+                10
+                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
+            </td>
+            <td>
+                8
+                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
+            </td>
+            <td>
+                8
+                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
+            </td>
+            <td>
+                <span class="badge badge-success" style="font-size: 18px;">20</span>
+            </td>
+            <td>
+                <span class="badge badge-warning" style="font-size: 18px;">20</span>
+            </td>
+            <td>
+                <i class="fa fa-lock" aria-hidden="true"></i>
+            </td>
+        </tr>
+        <tr class="danger primerNivel">
+            <td>
+                #2
+            </td>
+            <td>
+                3
+                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
+            </td>
+            <td>
+                3
+                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
+            </td>
+            <td>
+                2
+                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
+            </td>
+            <td>
+                <span class="badge badge-success" style="font-size: 18px;">6</span>
+            </td>
+            <td>
+                <span class="badge badge-warning" style="font-size: 18px;">8</span>
+            </td>
+            <td>
+                <i class="fa fa-lock" aria-hidden="true"></i><span class="badge badge-danger cantidadPuntosAbajo">-2</span>
+            </td>
+        </tr>
+        <tr class="active primerNivel" ng-click="vm.abrir = ! vm.abrir">
+            <td>
+                #3
+            </td>
+            <td>
+                5
+                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
+            </td>
+            <td>
+                3
+                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
+            </td>
+            <td>
+                1
+                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
+            </td>
+            <td>
+                <span class="badge badge-success" style="font-size: 18px;">2</span>
+            </td>
+            <td>
+                <span class="badge badge-warning" style="font-size: 18px;">5</span>
+            </td>
+            <td>                
+                <img src="/proyectotesis/view/img/calendario.png" class="calendarioImg" />
+                <span class="badge badge-info cantidadDiasRestantes">7</span>
+            </td>
+        </tr>
+        <tr ng-show="vm.abrir">
+            <th colspan="2">Pull Request</th>
+            <th colspan="2">Trello Card</th>
+            <th>Usuario</th>
+            <th>Comentarios</th>
+            <th>Acciones</th>
+        </tr>
+        <!-- Inicio contenido segundo nivel -->
+        <tr ng-show="vm.abrir" style="font-size: 12px;">
+            <td colspan="2" style="padding-top: 12px;">
+                <a href="">Titulo PR</a>
+            </td>
+            <td colspan="2" style="padding-top: 12px;">
+                <a href="">Descripción Card</a>
+            </td>
+            <td style="padding-top: 12px;">
+                Valentin
+            </td>
+            <td style="padding-top: 12px;">
+                4 <i class="fa fa-comment" aria-hidden="true"></i>
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm btn-default disabled"><i class="fa fa-users" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-sm btn-default"><i class="fa fa-check" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-sm btn-default"><i class="fa fa-code-fork" aria-hidden="true"></i></button>
+            </td>
+        </tr>
+        <tr ng-show="vm.abrir" style="font-size: 12px;">
+            <td colspan="2" style="padding-top: 12px;">
+                <a href="">Titulo PR</a>
+            </td>
+            <td colspan="2" style="padding-top: 12px;">
+                <a href="">Descripción Card</a>
+            </td>
+            <td style="padding-top: 12px;">
+                Valentin
+            </td>
+            <td style="padding-top: 12px;">
+                2 <i class="fa fa-comment" aria-hidden="true"></i>
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm btn-default disabled"><i class="fa fa-users" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-sm btn-default disabled"><i class="fa fa-check" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-sm btn-default"><i class="fa fa-code-fork" aria-hidden="true"></i></button>
+            </td>
+        </tr>
+        <tr ng-show="vm.abrir" style="font-size: 12px;">
+            <td colspan="2" style="padding-top: 12px;">
+                <a href="">Titulo PR</a>
+            </td>
+            <td colspan="2" style="padding-top: 12px;">
+                <a href="">Descripcion Card</a>
+            </td>
+            <td style="padding-top: 12px;">
+                Valentin
+            </td>
+            <td style="padding-top: 12px;">
+                6 <i class="fa fa-comment" aria-hidden="true"></i>
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm btn-default"><i class="fa fa-users" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-sm btn-default"><i class="fa fa-check" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-sm btn-default"><i class="fa fa-code-fork" aria-hidden="true"></i></button>
+            </td>
+        </tr>
+        <!-- Fin contenido segundo nivel -->
+        <tr class="primerNivel">
+            <td>
+                #4
+            </td>
+            <td>
+                3
+                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
+            </td>
+            <td>
+                0
+                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
+            </td>
+            <td>
+                0
+                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
+            </td>
+            <td>
+                <span class="badge badge-success" style="font-size: 18px;">0</span>
+            </td>
+            <td>
+                <span class="badge badge-warning" style="font-size: 18px;">0</span>
+            </td>
+            <td>                
+                <img src="/proyectotesis/view/img/calendario.png" class="calendarioImg" />
+                <span class="badge badge-info cantidadDiasRestantes">21</span>
+            </td>
+        </tr>
+        <tr class="primerNivel">
+            <td>
+                #5
+            </td>
+            <td>
+                8
+                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
+            </td>
+            <td>
+                0
+                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
+            </td>
+            <td>
+                0
+                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
+            </td>
+            <td>
+                <span class="badge badge-success" style="font-size: 18px;">0</span>
+            </td>
+            <td>
+                <span class="badge badge-warning" style="font-size: 18px;">0</span>
+            </td>
+            <td>                
+                <img src="/proyectotesis/view/img/calendario.png" class="calendarioImg" />
+                <span class="badge badge-info cantidadDiasRestantes">35</span>
+            </td>
+        </tr>
+    </tbody>    
+    
+</table>

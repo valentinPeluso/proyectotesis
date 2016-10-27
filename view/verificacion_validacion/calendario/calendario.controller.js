@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    angular.module('app.turnos')
-    .controller('turnosCalendarioController', turnosCalendarioController)
+    angular.module('app.verificacion_validacion')
+    .controller('verificacionValidacionCalendarioController', verificacionValidacionCalendarioController)
     
-    turnosCalendarioController.$inject = ['ngToast'];
+    verificacionValidacionCalendarioController.$inject = ['ngToast'];
     
-    function turnosCalendarioController(ngToast){
+    function verificacionValidacionCalendarioController(ngToast){
         var vm = this;
 
         vm.clickEvento = clickEvento;

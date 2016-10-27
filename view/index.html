@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>CanchaX</title>
+	<title>Trello - Github</title>
 
 	<link rel="stylesheet" href="/proyectotesis/view/node_modules/bootstrap/dist/css/bootstrap.min.css" />
 
@@ -16,6 +16,7 @@
 	<link href="/proyectotesis/view/bower_components/fullcalendar/dist/fullcalendar.css"/>
 
 	<link rel="stylesheet" href="/proyectotesis/view/css/base.css" />
+	<link rel="stylesheet" href="/proyectotesis/view/css/landing-page.css" />
 
 </head>
 
@@ -26,50 +27,32 @@
 			<div class="container">				
 				<div class="collapse navbar-collapse" id="navbar">
 					<ul class="nav navbar-nav navbar-left">
-						<li uib-dropdown is-open="vm.turnos.open">
-							<a href="" ng-class="{'active': vm.active == '/turnos'}"  uib-dropdown-toggle>
-								Turnos
-							</a>
-							<ul class="dropdown-menu cx-dropdown-menu" uib-dropdown-menu role="menu">
-								<li>
-									<a href="#/turnos/calendario" ng-click="vm.changeOfLocation('/turnos')"><i class="fa fa-calendar" aria-hidden="true"></i> Calendario</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a href="#"><i class="fa fa-plus-square" aria-hidden="true"></i> Crear turno</a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Dejar asentado turno semanal</a>
-								</li>
-							</ul>
+						<li>
+							<a href="" ng-class="{'active': vm.active == '/verificacionvalidacion'}">
+								Verificación y Validación
+							</a>							
+						</li>						
+						<li>
+							<a href="#">Requerimientos</a>
 						</li>
 						<li>
-							<a href="#">Seguridad</a>
-						</li>
-						<li>
-							<a href="#">Control de stock</a>
-						</li>
-						<li>
-							<a href="#">Facturación</a>
-						</li>
-						<li>
-							<a href="#">Productos</a>
-						</li>
-						<li>
-							<a href="#">Proveedores</a>
-						</li>
-						<li>
-							<a href="#">Torneos</a>
+							<a href="#">Desarrollo</a>
 						</li>
 						<li>
 							<a href="#">Estadísticas</a>
+						</li>
+						<li>
+							<a href="#">Diseño</a>
+						</li>
+						<li>
+							<a href="#">Configuración</a>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 	</header>
-	<section ng-view="" style="margin-top: 100px;">
+	<section ng-view="" style="margin-top: 100px;" id="page-wrap">
 	</section>		
 	<aside></aside>
 	<article></article>
@@ -104,7 +87,8 @@
 <script src="/proyectotesis/view/filters/percentage.filter.js"></script>
 
 <script src="/proyectotesis/view/services/services.module.js"></script>
-<script src="/proyectotesis/view/services/storage/storage.service.js"></script>
+<script src="/proyectotesis/view/services/storage.service.js"></script>
+<script src="/proyectotesis/view/services/pull_request.service.js"></script>
 
 <script src="/proyectotesis/view/components/components.module.js"></script>
 <script src="/proyectotesis/view/components/header/header.component.js"></script>
@@ -115,7 +99,8 @@
 <script src="/proyectotesis/view/nav/nav.module.js"></script>
 <script src="/proyectotesis/view/nav/nav.controller.js"></script>
 
-<script src="/proyectotesis/view/turnos/turnos.module.js"></script>
-<script src="/proyectotesis/view/turnos/calendario/calendario.controller.js"></script>
+<script src="/proyectotesis/view/verificacion_validacion/verificacion_validacion.module.js"></script>
+<script src="/proyectotesis/view/verificacion_validacion/verificacion_validacion.controller.js"></script>
+<script src="/proyectotesis/view/verificacion_validacion/calendario/calendario.controller.js"></script>
 
 </html>

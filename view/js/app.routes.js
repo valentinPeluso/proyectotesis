@@ -8,13 +8,13 @@
 
     function routes($routeProvider) {
          $routeProvider
-            .when('/turnos/calendario', {
-                templateUrl: '/CanchaX/turnos/calendario/calendario.html',
-                controller: 'turnosCalendarioController',
+            .when('/verificacionvalidacion', {
+                templateUrl: '/proyectotesis/view/verificacion_validacion/verificacion_validacion.html',
+                controller: 'verificacionValidacionController',
                 controllerAs: 'vm'
             })            
             .otherwise({
-                redirectTo: '/turnos/calendario'
+                redirectTo: '/verificacionvalidacion'
             });
         
     }

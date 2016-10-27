@@ -1,0 +1,40 @@
+tbody .primerNivel {
+    font-size: 25px;
+}
+.trelloImg {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+.githubImg {
+    width: 25px;
+    height: 25px;
+    margin-top: 5px;
+    position: absolute;
+    margin-left: 5px;
+}
+.mergeImg {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.calendarioImg {
+    width: 33px;
+    height: 33px;
+}
+
+.cantidadPuntosAbajo {
+    position: absolute;
+    margin-left: 6px;
+    margin-top: 5px;
+    font-size: 18px;
+}
+.cantidadDiasRestantes {
+    font-size: 18px; 
+    position: absolute; 
+    margin-top: 8px;
+}
