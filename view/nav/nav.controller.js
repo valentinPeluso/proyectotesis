@@ -8,9 +8,7 @@
     
     function navController($location){
         var vm = this;
-
-        vm.turnos = {}
-        
+       
         vm.changeOfLocation = changeOfLocation;
         
         activate();

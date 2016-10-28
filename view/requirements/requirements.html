@@ -1,0 +1,167 @@
+<link rel="stylesheet" href="/proyectotesis/view/requirements/requirements.css" />
+
+<div class="row">
+    <div class="col-lg-4 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">2</div>
+                        <div>Requeriments</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <span class="pull-left">View</span>
+                <span class="pull-right">
+                    <i class="fa fa-arrow-circle-right"></i>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="list-group">
+            <a href="" class="list-group-item" ng-click="vm.openRequeriment1 = !vm.openRequeriment1">
+                <div class="row">
+                    <div class="col-xs-8">
+                        List of Requeriments
+                    </div>
+                    <div class="col-xs-2">
+                        <span>11/06</span>
+                    </div>
+                    <div class="col-xs-2">
+                        <span class="badge badge-success">1</span>
+                    </div>
+                </div>
+            </a>
+            <div class="list-group-item well" ng-if="vm.openRequeriment1">
+                <div class="row form-group">
+                    <div class="col-xs-12">
+                        <a href="#" editable-text="vm.requeriment.title" e-label="Title">{{ 'Title' || 'empty' }}</a>
+                    </div>                    
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-12">
+                        <a href="#" editable-textarea="vm.requeriment.title" e-rows="4" e-label="Description">{{ 'Description' || 'empty' }}</a>
+                    </div>                    
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-12">
+                        <a href="#" editable-text="vm.requeriment.priority" e-label="Priority">{{ 'Priority' || 'empty' }}</a>
+                    </div>                    
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-12">
+                        <a href="#" editable-text="vm.requeriment.origen" e-label="Origen">{{ 'Origen' || 'empty' }}</a>
+                    </div>                    
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-12">
+                        <a href="#" editable-text="vm.requeriment.rason" e-label="Rason">{{ 'Rason' || 'empty' }}</a>
+                    </div>                    
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-12">
+                        <a href="#" editable-text="vm.requeriment.issue_link" e-label="Issue link">{{ 'Issue link' || 'empty' }}</a>
+                    </div>                    
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-12">
+                        <a href="#" editable-text="vm.requeriment.use_case" e-label="Use case">{{ 'Use case' || 'empty' }}</a>
+                    </div>                    
+                </div>
+            </div>
+            <a href="" class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-8">
+                        Move of Requeriments
+                    </div>
+                    <div class="col-xs-2">
+                        <span>12/06</span>
+                    </div>
+                    <div class="col-xs-2">
+                        <span class="badge badge-success">1</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-8 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Create new requeriment
+            </div>
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Title</label>
+                            <input type="text" class="form-control" placeholder="Title of the requirement.">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Description</label>
+                            <textarea rows="2" class="form-control" placeholder="Description of the requirement."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Priority</label>
+                            <input type="number" class="form-control" max="10" min="1" placeholder="Priority of the requirements.">
+                        </div>
+                    </div>            
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Origen*</label>
+                            <input type="text" class="form-control" placeholder="Origen of the requirements.">
+                        </div>        
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Rason*</label>
+                            <input type="text" class="form-control" placeholder="Rason of the requirements.">
+                        </div>
+                    </div>
+                            
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Issue Link*</label>
+                            <select multiple="" class="form-control">
+                                <option>Requirement 1</option>
+                                <option>Requirement 2</option>
+                                <option>Requirement 3</option>
+                                <option>Requirement 4</option>
+                                <option>Requirement 5</option>
+                            </select>
+                            <p class="help-block">Issue links to others requirements.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Use case*</label>
+                            <input type="file">
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <div class="col-lg-6 col-sm-6">
+                            <button type="submit" class="btn btn-success btn-block">Save</button>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                            <button type="reset" class="btn btn-default btn-block">Reset</button>
+                        </div>
+                    </div>
+                </form> 
+            </div>
+            
+        </div>
+    </div>
+</div>

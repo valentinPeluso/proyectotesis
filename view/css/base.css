@@ -37,6 +37,14 @@ html, body {
 .badge-info {
     background-color: #5bc0de;
 }
+.list-group-item.well {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    font-size: 13px;
+}
+.editable-controls label {
+    margin-right: 10px;
+}
 
 /* ----------NAVBAR-------------  */
 nav.navbar-findcond { background: #fff; border-color: #ccc; box-shadow: 0 0 2px 0 #ccc; }
@@ -47,7 +55,7 @@ nav.navbar-findcond ul.navbar-nav a:visited,
 nav.navbar-findcond ul.navbar-nav a:focus,
 nav.navbar-findcond ul.navbar-nav a:active { background: #fff; }
 nav.navbar-findcond ul.navbar-nav a:hover { border-color: #010614; }
-nav.navbar-findcond ul.navbar-nav a.active { border-color: #010614; font-weight: bold;}
+nav.navbar-findcond ul.navbar-nav a.active { border-color: #010614; font-weight: bold; }
 nav.navbar-findcond li.divider { background: #ccc; }
 nav.navbar-findcond button.navbar-toggle { background: #010614; border-radius: 2px; }
 nav.navbar-findcond button.navbar-toggle:hover { background: #999; }

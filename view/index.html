@@ -16,6 +16,8 @@
 	<link href="/proyectotesis/view/bower_components/fullcalendar/dist/fullcalendar.css"/>
 
 	<link rel="stylesheet" href="/proyectotesis/view/css/base.css" />
+	<link rel="stylesheet" href="/proyectotesis/view/css/base_sb_admin.css" />
+	<link rel="stylesheet" href="/proyectotesis/view/css/style.css" />
 	<link rel="stylesheet" href="/proyectotesis/view/css/landing-page.css" />
 
 </head>
@@ -28,12 +30,14 @@
 				<div class="collapse navbar-collapse" id="navbar">
 					<ul class="nav navbar-nav navbar-left">
 						<li>
-							<a href="" ng-class="{'active': vm.active == '/verificacionvalidacion'}">
+							<a href="#/verificacionvalidacion" ng-class="{'active': vm.active == '/verificacionvalidacion'}" ng-click="vm.changeOfLocation('/verificacionvalidacion')">
 								Verificación y Validación
 							</a>							
 						</li>						
 						<li>
-							<a href="#">Requerimientos</a>
+							<a href="#/requirements" ng-class="{'active': vm.active == '/requirements'}" ng-click="vm.changeOfLocation('/requirements')">
+								Requeriments
+							</a>
 						</li>
 						<li>
 							<a href="#">Desarrollo</a>
@@ -52,8 +56,8 @@
 			</div>
 		</nav>
 	</header>
-	<section ng-view="" style="margin-top: 100px;" id="page-wrap">
-	</section>		
+	<div ng-view="" style="margin-top: 100px;" id="page-wrap">
+	</div>		
 	<aside></aside>
 	<article></article>
 	<footer></footer>
@@ -102,5 +106,8 @@
 <script src="/proyectotesis/view/verificacion_validacion/verificacion_validacion.module.js"></script>
 <script src="/proyectotesis/view/verificacion_validacion/verificacion_validacion.controller.js"></script>
 <script src="/proyectotesis/view/verificacion_validacion/calendario/calendario.controller.js"></script>
+
+<script src="/proyectotesis/view/requirements/requirements.module.js"></script>
+<script src="/proyectotesis/view/requirements/requirements.controller.js"></script>
 
 </html>
