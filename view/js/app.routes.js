@@ -8,9 +8,9 @@
 
     function routes($routeProvider) {
          $routeProvider
-            .when('/verificacionvalidacion', {
-                templateUrl: '/proyectotesis/view/verificacion_validacion/verificacion_validacion.html',
-                controller: 'verificacionValidacionController',
+            .when('/verificationvalidation', {
+                templateUrl: '/proyectotesis/view/verification_validation/verification_validation.html',
+                controller: 'verificationValidationController',
                 controllerAs: 'vm'
             })
             .when('/requirements', {
@@ -19,7 +19,7 @@
                 controllerAs: 'vm'
             })               
             .otherwise({
-                redirectTo: '/verificacionvalidacion'
+                redirectTo: '/verificationvalidation'
             });
         
     }

@@ -12,7 +12,7 @@
 
         /* 3rd-party modules */
        'app.nav',
-       'app.verificacion_validacion',
+       'app.verification_validation',
        'app.requirements',
        
        'app.components',

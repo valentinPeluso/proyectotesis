@@ -2,11 +2,24 @@ tbody .primerNivel {
     font-size: 25px;
 }
 .trelloImg {
-    width: 25px;
-    height: 25px;
+    width: 27px;
+    height: 27px;
     position: absolute;
     margin-left: 10px;
-    margin-top: 5px;
+    margin-top: 0px;
+}
+.huge {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+.large {
+    font-size: 24px;
+}
+.large {
+    font-size: 18px;
+}
+.medium {
+    font-size: 15px;
 }
 .githubImg {
     width: 25px;

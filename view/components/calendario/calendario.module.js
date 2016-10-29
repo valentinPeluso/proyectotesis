@@ -1,5 +1,5 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('app.calendario', ['ui.calendar']);
+    angular.module('app.calendar', ['ui.calendar']);
 })();

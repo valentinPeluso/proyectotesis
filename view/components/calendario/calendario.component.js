@@ -2,10 +2,10 @@
     'use strict';
 
     angular
-        .module('app.calendario')
-        .component('calendario', {
-            templateUrl: '/CanchaX/components/calendario/calendario.html',
-            controller: CalendarioComponentController,
+        .module('app.calendar')
+        .component('calendar', {
+            templateUrl: '/CanchaX/components/calendar/calendar.html',
+            controller: CalendarComponentController,
             //transclude: {
             //    'paramsSection': '?paramList',
             //    'gridSection': 'div'
@@ -18,9 +18,9 @@
                 cambioMes: '&',
             }
         })
-        .component('calendarioSemana', {
-            templateUrl: '/CanchaX/components/calendario/calendarioSemana.html',
-            controller: CalendarioSemanaComponentController,
+        .component('weekCalendar', {
+            templateUrl: '/CanchaX/components/calendar/calendar.html',
+            controller: WeekCalendarComponentController,
             //transclude: {
             //    'paramsSection': '?paramList',
             //    'gridSection': 'div'
@@ -31,7 +31,7 @@
                 eventos: '<'
             }
             /*
-            <calendario-semana click-evento='' cambio-semana='' eventos=''>
+            <calendar-semana click-evento='' cambio-semana='' eventos=''>
                 -click-evento: funcion que recibe como paramentro events -> array de eventos
                 -cambio-semana: funcion que recibe como parametro fecha que retorna una promesa. La
                 directiva esta esperando a que se retorne de la promera un array de eventos correspondientes
@@ -41,12 +41,12 @@
                     -eventos: todos los eventos correspondientes al dia de la fecha. El evento tiene 
                     que tener la propiedad hora_desde, hora_hasta que especifique la hora
                     desde hasta del evento
-            </calendario-semana>
+            </calendar-semana>
             */
         })
-        .component('calendarioMobile', {
-            templateUrl: '/CanchaX/components/calendario/calendarioMobile.html',
-            controller: CalendarioMobileComponentController,
+        .component('calendarMobile', {
+            templateUrl: '/CanchaX/components/calendar/calendarMobile.html',
+            controller: CalendarMobileComponentController,
             //transclude: {
             //    'paramsSection': '?paramList',
             //    'gridSection': 'div'
@@ -57,7 +57,7 @@
                 eventos: '<'
             }
             /*
-            <calendario-mobile click-events='' cambio-mes='' eventos=''>
+            <calendar-mobile click-events='' cambio-mes='' eventos=''>
                 -click-events: funcion que recibe como paramentro events -> array de eventos
                 -cambio-mes: funcion que recibe como parametro fecha que retorna una promesa. La
                 directiva esta esperando a que se retorne de la promera un array de eventos correspondientes
@@ -65,11 +65,11 @@
                 -eventos: array de dtos:
                     -fecha: fecha moment
                     -eventos: todos los eventos correspondientes a la fecha
-            </calendario-mobile>
+            </calendar-mobile>
             */
         });
 
-    function CalendarioComponentController($compile, $scope, uiCalendarConfig) {
+    function CalendarComponentController($compile, $scope, uiCalendarConfig) {
             var vm = this;
 
             vm.fechaDesde = new Date(moment().day(1).hours(0).minutes(0).seconds(0));
@@ -154,7 +154,7 @@
                     if (!event.color)
                         event.color = '#4dd4fd';
                 })
-                refreshCalendario();
+                refreshcalendar();
                 vm.events.sources[0] = vm.events.backward_events;
                 vm.events.sources[1] = vm.events.actual_events;
                 vm.events.sources[2] = vm.events.next_events;
@@ -174,12 +174,12 @@
                 vm.fechaHasta = view.end._d;
                 vm.cambioMes({ desde: vm.fechaDesde, hasta: vm.fechaHasta });
             }
-            function refreshCalendario(event, events) {
-                if (typeof uiCalendarConfig.calendars['calendario_eventos'] !== 'undefined')
-                    uiCalendarConfig.calendars['calendario_eventos'].fullCalendar('removeEvents');               
+            function refreshcalendar(event, events) {
+                if (typeof uiCalendarConfig.calendars['calendar_eventos'] !== 'undefined')
+                    uiCalendarConfig.calendars['calendar_eventos'].fullCalendar('removeEvents');               
             }    
         }    
-    function CalendarioSemanaComponentController(){
+    function WeekCalendarComponentController(){
         var vm = this;
 
         vm.fecha_moment = moment();
@@ -232,7 +232,7 @@
             { hora: "00:30"},
         ]
     }
-    function CalendarioMobileComponentController() {
+    function CalendarMobileComponentController() {
         var vm = this;
 
         vm.fecha_moment = moment();
@@ -270,7 +270,7 @@
         this.$onChanges = function (data) {
             if (typeof data.eventos.currentValue !== 'undefined') {
                 vm.eventos = data.eventos.currentValue;
-                //Meto los eventos en el calendario
+                //Meto los eventos en el calendar
                 _.forEach(vm.eventos, function (evento) {
                     if (!moment.isMoment(evento.fecha))
                         evento.fecha = moment(evento.fecha);
@@ -292,24 +292,24 @@
         vm.cambiarAnio = cambiarAnio;
         vm.clickDia = clickDia;
         
-        armarCalendario()
+        armarcalendar()
 
-        function armarCalendario() {
-            var diasCalendario = [];
+        function armarcalendar() {
+            var diascalendar = [];
             
             //Primero hay que armar los dias del mes actual
             //Segundo los dias previos al mes
             //Tercero y para completar los dias posteriores al mes
-            diasCalendario = armarDiasMesActual(diasCalendario, angular.copy(vm.fecha_moment));
-            diasCalendario = armarDiasPreviosMes(diasCalendario, angular.copy(vm.fecha_moment));
-            diasCalendario = armarDiasPostMes(diasCalendario, angular.copy(vm.fecha_moment));
+            diascalendar = armarDiasMesActual(diascalendar, angular.copy(vm.fecha_moment));
+            diascalendar = armarDiasPreviosMes(diascalendar, angular.copy(vm.fecha_moment));
+            diascalendar = armarDiasPostMes(diascalendar, angular.copy(vm.fecha_moment));
             
-            vm.fechaDesde = _.head(diasCalendario).fecha;
-            vm.fechaHasta = _.last(diasCalendario).fecha;
+            vm.fechaDesde = _.head(diascalendar).fecha;
+            vm.fechaHasta = _.last(diascalendar).fecha;
 
-            vm.semanas = _.chunk(diasCalendario, 7);
+            vm.semanas = _.chunk(diascalendar, 7);
         }
-        function armarDiasMesActual(diasCalendario, fecha_moment) {
+        function armarDiasMesActual(diascalendar, fecha_moment) {
             var cantidadDiasMesActual = fecha_moment.daysInMonth();
             var diaActual = fecha_moment.date();
             var i = 1;
@@ -317,7 +317,7 @@
                 //tengo que verificar si tengo eventos ese dia
                 //si tengo los guardo
                 if (i == vm.fecha_moment_hoy.date() && vm.fecha_moment_hoy.month() == fecha_moment.month() && vm.fecha_moment_hoy.year() == fecha_moment.year()) {
-                    diasCalendario.push(
+                    diascalendar.push(
                    {
                        numero: i,
                        estilos: { 'font-weight': 'bold' },
@@ -325,7 +325,7 @@
                        eventos: []
                    });
                 } else {
-                    diasCalendario.push(
+                    diascalendar.push(
                     {
                         numero: i,
                         fecha: angular.copy(fecha_moment).date(i),
@@ -334,13 +334,13 @@
                 }
                 i++;
             }
-            return diasCalendario;
+            return diascalendar;
         }
-        function armarDiasPostMes(diasCalendario, fecha_moment) {
+        function armarDiasPostMes(diascalendar, fecha_moment) {
             var i = 1;
-            while (diasCalendario.length % 7 !== 0) {
-                //Agrego tantos dias como sea necesario para completar el calendario
-                diasCalendario.push({
+            while (diascalendar.length % 7 !== 0) {
+                //Agrego tantos dias como sea necesario para completar el calendar
+                diascalendar.push({
                     numero: i,
                     estilos: { 'color': '#999999' },
                     fecha: angular.copy(fecha_moment).add(1, 'months').date(i),
@@ -348,9 +348,9 @@
                 });
                 i++;
             }
-            return diasCalendario;
+            return diascalendar;
         }
-        function armarDiasPreviosMes(diasCalendario, fecha_moment) {
+        function armarDiasPreviosMes(diascalendar, fecha_moment) {
             var cero_dias = {
                 numero: angular.copy(fecha_moment).subtract(1, 'months').endOf('month').date(),
                 fecha: angular.copy(fecha_moment).subtract(1, 'months').endOf('month')
@@ -384,144 +384,144 @@
             switch (fecha_moment.date(1).format('dddd')) {
                 case "lunes":
                     //si es lunes agrego 1 dia del mes anterior
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cero_dias));
                     break;
                 case "martes":
                     //si es lunes agrego 2 dia del mes anterior
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cero_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, uno_dias));
                     break;
                 case "miércoles":
                     //si es lunes agrego 3 dia del mes anterior
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cero_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, uno_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, dos_dias));
                     break;
                 case "jueves":
                     //si es lunes agrego 4 dia del mes anterior
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cero_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, uno_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, dos_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, tres_dias));
                     break;
                 case "viernes":
                     //si es lunes agrego 5 dia del mes anterior
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cero_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, uno_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, dos_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, tres_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cuatro_dias));
                     break;
                 case "sábado":
                     //si es lunes agrego 6 dia del mes anterior
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cero_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, uno_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, dos_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, tres_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cuatro_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cinco_dias));
                     break;
                 case "domingo":
                     //si es lunes agrego 7 dia del mes anterior
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cero_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, uno_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, dos_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, tres_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cuatro_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, cinco_dias));
-                    diasCalendario.unshift(_.merge({
+                    diascalendar.unshift(_.merge({
                         estilos: { 'color': '#999999' },
                         eventos: []
                     }, seis_dias));
                     break;
             }
-            return diasCalendario;
+            return diascalendar;
         }
         function mesSiguiente() {
             vm.fecha_moment = vm.fecha_moment.add(1, 'months').date(1);
             vm.mesActual = _.capitalize(vm.fecha_moment.format('MMMM'));
-            armarCalendario();
+            armarcalendar();
             //hay que llamar a la funcion cambioMes (si viene definida) para obtener los eventos correspondientes a ese mes
             if (typeof vm.cambioMes !== 'undefined') {
                 vm.cambioMes({ fechaDesde: vm.fechaDesde, fechaHasta: vm.fechaHasta })
@@ -530,7 +530,7 @@
         function mesAnterior() {
             vm.fecha_moment = vm.fecha_moment.subtract(1, 'months').date(1);
             vm.mesActual = _.capitalize(vm.fecha_moment.format('MMMM'));
-            armarCalendario();
+            armarcalendar();
             //hay que llamar a la funcion cambioMes (si viene definida) para obtener los eventos correspondientes a ese mes
             if (typeof vm.cambioMes !== 'undefined') {
                 vm.cambioMes({ fechaDesde: vm.fechaDesde, fechaHasta: vm.fechaHasta })
@@ -539,7 +539,7 @@
         function cambiarMes(mes) {
             vm.fecha_moment = vm.fecha_moment.month(mes).date(1);
             vm.mesActual = mes;
-            armarCalendario();
+            armarcalendar();
             //hay que llamar a la funcion cambioMes (si viene definida) para obtener los eventos correspondientes a ese mes
             if (typeof vm.cambioMes !== 'undefined') {
                 vm.cambioMes({ fechaDesde: vm.fechaDesde, fechaHasta: vm.fechaHasta })
@@ -548,7 +548,7 @@
         function cambiarAnio(anio) {
             vm.fecha_moment = vm.fecha_moment.year(anio).date(1);
             vm.anioActual = anio;
-            armarCalendario();
+            armarcalendar();
             //hay que llamar a la funcion cambioMes (si viene definida) para obtener los eventos correspondientes a ese mes
             if (typeof vm.cambioMes !== 'undefined') {
                 vm.cambioMes({ fechaDesde: vm.fechaDesde, fechaHasta: vm.fechaHasta })
