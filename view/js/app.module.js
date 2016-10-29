@@ -13,11 +13,12 @@
         /* 3rd-party modules */
        'app.nav',
        'app.verification_validation',
-       'app.requirements',
-       
+       'app.requirements',       
+
        'app.components',
        'app.filters',
        'app.services',
+       'app.ui_services',
        'xeditable'
         
        

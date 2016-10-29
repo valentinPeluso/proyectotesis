@@ -46,6 +46,19 @@ html, body {
     margin-right: 10px;
 }
 
+.panel-footer-clickable {
+    cursor: pointer;
+}
+
+.tg-font-13 {
+    font-size: 13px;
+}
+.tg-text-right {
+    text-align: right;
+}
+.tg-list-group-item-draggable {
+    cursor: move;
+}
 /* ----------NAVBAR-------------  */
 nav.navbar-findcond { background: #fff; border-color: #ccc; box-shadow: 0 0 2px 0 #ccc; }
 nav.navbar-findcond a { color: #010614; }
