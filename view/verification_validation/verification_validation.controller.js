@@ -13,30 +13,7 @@
 
         console.log(pullRequestService.get());
         //-----MOCKS-------
-        vm.cards = [
-            {
-                id: "123",
-                title: "Title of Card 1",
-                points: 3,
-                assignee: {
-                    id: 1,
-                    user: "Valentin"
-                },
-                pull_request_linked: true,
-                comments: 5
-            },
-            {
-                id: "231",
-                title: "Title of Card 2",
-                points: 1,
-                assignee: {
-                    id: 1,
-                    user: "Pedro"
-                },
-                pull_request_linked: false,
-                comments: 2
-            },
-        ];
+        vm.cards = UICardService.getMokedCards();
 
         function openCard(card) {
             UICardService.open(card);

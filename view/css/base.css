@@ -59,6 +59,11 @@ html, body {
 .tg-list-group-item-draggable {
     cursor: move;
 }
+.tg-well {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-top: -1px;
+}
 /* ----------NAVBAR-------------  */
 nav.navbar-findcond { background: #fff; border-color: #ccc; box-shadow: 0 0 2px 0 #ccc; }
 nav.navbar-findcond a { color: #010614; }

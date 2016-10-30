@@ -1,8 +1,150 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    <h3 class="modal-title" id="modal-title">
+        {{ vm.card.title }}<a href=""></a>
+        <!--<a href="#" editable-text="vm.card.title" e-label="Card title">{{ vm.card.title || 'empty' }}</a>-->
+        <span class="{{vm.card.state.clases}}" style="float: right;">{{ vm.card.state.label }}</span>
+    </h3>
 </div>
 <div class="modal-body" id="modal-body">
-    
+    <div class="row">
+        <div class="col-sm-12">
+            <uib-tabset justified="true" active="0">
+                <uib-tab index="0">
+                    <uib-tab-heading>
+                        <i class="fa fa-trello" aria-hidden="true"></i> Card 
+                    </uib-tab-heading>
+                    <div class="well tg-well">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form role="form">
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label>Title</label>
+                                            <input type="text" class="form-control" ng-model="vm.card.title">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label>Description</label>
+                                            <textarea rows="2" class="form-control" ng-model="vm.card.description" placeholder="Description of the requirement."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <label>Business rules</label>
+                                            <div class="input-group" ng-repeat="business_rule in vm.card.business_rules track by $index" style="margin-bottom: 2px;">
+                                                <span class="input-group-addon">
+                                                    <input type="checkbox" ng-model="business_rule.completed">
+                                                </span>
+                                                <input type="text" class="form-control" ng-model="business_rule.description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label>Assignee</label>
+                                            <ui-select ng-model="vm.card.assignee">
+                                                <ui-select-match placeholder="Assignee">{{$select.selected.user}}</ui-select-match>
+                                                <ui-select-choices repeat="assigne.id as assigne in vm.possible_assignees | filter: $select.search">
+                                                    {{assigne.user}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Points</label>
+                                            <input type="number" class="form-control" ng-model="vm.card.points"  max="3" min="1" placeholder="Points of the card.">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label>Reporter*</label>
+                                            <ui-select ng-model="vm.card.reporter">
+                                                <ui-select-match placeholder="Reporter">{{$select.selected.user}}</ui-select-match>
+                                                <ui-select-choices repeat="reporter.id as reporter in vm.possible_assignees | filter: $select.search">
+                                                    {{reporter.user}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Priority*</label>
+                                            <input type="number" class="form-control" ng-model="vm.card.priority"  max="10" min="1" placeholder="Priority of the card.">
+                                        </div>
+                                    </div>            
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <label>Issue Link*</label>
+                                            <ui-select multiple ng-model="vm.card.issue_links">
+                                                <ui-select-match placeholder="Issue links">{{$item.description}}</ui-select-match>
+                                                <ui-select-choices repeat="issue_link.id as issue_link in vm.possible_issue_links | filter: $select.search">
+                                                    {{issue_link.description}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label>Origen*</label>
+                                            <input type="text" class="form-control"  ng-model="vm.card.origen" placeholder="Origen of the card.">
+                                        </div>   
+                                         <div class="col-md-6">
+                                            <label>Rason*</label>
+                                            <input type="text" class="form-control" ng-model="vm.card.rason" placeholder="Rason of the card.">
+                                        </div>     
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label>Attachments*</label>
+                                            <input type="file" ng-model="vm.card.attachments" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label>Use case*</label>
+                                            <input type="file" ng-model="vm.card.use_case" />
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-sm-6">
+                                            <button type="submit" class="btn btn-success btn-block">Save</button>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6">
+                                            <button type="reset" class="btn btn-default btn-block">Reset</button>
+                                        </div>
+                                    </div>
+                                </form> 
+                            </div>        
+                        </div>
+                    </div>
+                    
+                </uib-tab>
+                <uib-tab index="1">
+                    <uib-tab-heading>
+                        <i class="fa fa-comments" aria-hidden="true"></i> Conversation 
+                        <span class="badge">{{ vm.card.comments }}</span>
+                    </uib-tab-heading>
+                    <div class="well tg-well">
+                        <tg-timeline id="234"></tg-timeline>
+                    </div>
+                </uib-tab>
+                <uib-tab index="2">
+                    <uib-tab-heading>
+                        <i class="fa fa-cloud-upload" aria-hidden="true"></i> Commits 
+                        <span class="badge">3</span>
+                    </uib-tab-heading>
+                    Short Labeled Justified content
+                </uib-tab>
+                <uib-tab index="3">
+                    <uib-tab-heading>
+                        <i class="fa fa-file-code-o" aria-hidden="true"></i> Files changed 
+                        <span class="badge">2</span>
+                    </uib-tab-heading>
+                    Long Labeled Justified content
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
