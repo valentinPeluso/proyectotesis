@@ -8,6 +8,9 @@
             controller: timelineComponentController,
             bindings: {
                 id: '<',
+                conversation: '<',
+                commits: '<',
+                filesChanged: '<'
             }
         });
         

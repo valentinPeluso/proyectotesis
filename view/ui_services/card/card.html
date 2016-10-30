@@ -125,7 +125,7 @@
                         <span class="badge">{{ vm.card.comments }}</span>
                     </uib-tab-heading>
                     <div class="well tg-well">
-                        <tg-timeline id="234"></tg-timeline>
+                        <tg-timeline id="234" conversation="true"></tg-timeline>
                     </div>
                 </uib-tab>
                 <uib-tab index="2">
@@ -133,14 +133,18 @@
                         <i class="fa fa-cloud-upload" aria-hidden="true"></i> Commits 
                         <span class="badge">3</span>
                     </uib-tab-heading>
-                    Short Labeled Justified content
+                    <div class="well tg-well">
+                        <tg-timeline id="234" commits="true"></tg-timeline>
+                    </div>
                 </uib-tab>
                 <uib-tab index="3">
                     <uib-tab-heading>
                         <i class="fa fa-file-code-o" aria-hidden="true"></i> Files changed 
                         <span class="badge">2</span>
                     </uib-tab-heading>
-                    Long Labeled Justified content
+                     <div class="well tg-well">
+                         <tg-timeline id="234" files-changed="true"></tg-timeline>
+                     </div>
                 </uib-tab>
             </uib-tabset>
         </div>
