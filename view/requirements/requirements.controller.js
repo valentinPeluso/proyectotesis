@@ -4,12 +4,12 @@
     angular.module('app.requirements')
     .controller('requirementsController', requirementsController)
     
-    requirementsController.$inject = ['pullRequestService'];
+    requirementsController.$inject = ['mockedObjectsService'];
     
-    function requirementsController(pullRequestService){
+    function requirementsController(mockedObjectsService){
         var vm = this;
         
-        console.log(pullRequestService.get());
+        console.log(mockedObjectsService.pull_requests.getMockedPullRequests());
     }
     
 })();

@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-xs-3">
                         <div class="huge">
-                            3 <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
+                            {{vm.backlog.quantity_cards}} <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
                         </div>
                         <i class="fa fa-list fa-5x"></i>
                     </div>
@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-footer panel-footer-clickable" ng-click="vm.openBacklog =! vm.openBacklog">
+            <div class="panel-footer panel-footer-clickable" ng-click="vm.openBacklog();vm.backlog.opened = !vm.backlog.opened">
                 <span class="pull-left">View</span>
                 <span class="pull-right">
                     <i class="fa fa-arrow-circle-right"></i>
@@ -23,10 +23,74 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <div class="list-group" ng-if="vm.openBacklog">
+        <div class="list-group" ng-if="vm.backlog.opened" dnd-list="vm.backlog.cards">
             <div class="list-group-item tg-list-group-item-draggable" 
-                 ng-repeat="card in vm.cards track by $index" 
-                 ng-click="vm.openCard(card)">
+                 ng-repeat="card in vm.backlog.cards track by $index" 
+                 ng-click="vm.openCard(card)"
+                 dnd-effect-allowed="move"
+                 dnd-draggable="card">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <a href="" >{{ card.title }}</a>
+                    </div>
+                    <div class="col-xs-4 tg-font-13 tg-text-right" style="margin-top: -3px;">
+                        <span class="label label-success">{{ card.points }} points</span>
+                    </div>
+                    <div class="tg-font-13 col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <span >{{ card.assignee }} <i class="fa fa-user" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span ng-show="card.pull_request_linked">
+                                    Pull Req. <i class="fa fa-code-fork" aria-hidden="true"></i>
+                                </span>                           
+                            </div>
+                            <div class="col-xs-4 tg-text-right">                                
+                                <span >
+                                    <span>{{ card.comments }} <i class="fa fa-comment" aria-hidden="true"></i></span>
+                                </span>  
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div class="col-lg-3" ng-repeat="sprint in vm.sprints track by $index">
+        <div class="panel " ng-class="{'panel-info': sprint.state == 'Open', 'panel-warning': sprint.state == 'Closed'}">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="huge">
+                            {{sprint.quantity_cards}} <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
+                        </div>
+                        <i ng-if="::sprint.state == 'Open'" class="fa fa-folder-open-o fa-5x"></i>
+                        <i ng-if="::sprint.state == 'Closed'" class="fa fa-lock fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{sprint.title}}</div>
+                        <div class="large">{{sprint.quantity_pull_requests}} Pull request </div>
+                        <div class="medium">{{sprint.points_made}} - {{sprint.points_total}}</div>                        
+                        <div>{{sprint.state}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer panel-footer-clickable"  ng-click="vm.openSprint(sprint);sprint.opened = !sprint.opened">
+                <span class="pull-left">View</span>
+                <span class="pull-right">
+                    <i class="fa fa-arrow-circle-right"></i>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="list-group" ng-if="sprint.opened" dnd-list="sprint.cards">
+            <div class="list-group-item tg-list-group-item-draggable" 
+                 ng-repeat="card in sprint.cards track by $index" 
+                 ng-click="vm.openCard(card)"
+                 dnd-effect-allowed="move"
+                 dnd-draggable="card">
                 <div class="row">
                     <div class="col-xs-8">
                         <a href="" >{{ card.title }}</a>
@@ -54,323 +118,6 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="list-group-item well" ng-if="vm.openRequeriment1">
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.title" e-label="Title">{{ 'Title' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-textarea="vm.requeriment.title" e-rows="4" e-label="Description">{{ 'Description' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.priority" e-label="Priority">{{ 'Priority' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.origen" e-label="Origen">{{ 'Origen' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.rason" e-label="Rason">{{ 'Rason' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.issue_link" e-label="Issue link">{{ 'Issue link' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.use_case" e-label="Use case">{{ 'Use case' || 'empty' }}</a>
-                    </div>                    
-                </div>
-            </div>-->
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <div class="huge">
-                            3 <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-                        </div>
-                        <i class="fa fa-folder-open-o fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">Sprint 1</div>
-                        <div class="large">3 Pull request </div>
-                        <div class="medium">10 - 15</div>                        
-                        <div>Open</div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-footer panel-footer-clickable">
-                <span class="pull-left">View</span>
-                <span class="pull-right">
-                    <i class="fa fa-arrow-circle-right"></i>
-                </span>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <div class="huge">
-                            4 <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-                        </div>
-                        <i class="fa fa-lock fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">Sprint 2</div>
-                        <div class="large">1 Pull request </div>
-                        <div class="medium">5 - 10</div>                        
-                        <div>Closed </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-footer panel-footer-clickable">
-                <span class="pull-left">View</span>
-                <span class="pull-right">
-                    <i class="fa fa-arrow-circle-right"></i>
-                </span>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <div class="huge">
-                            6 <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-                        </div>
-                        <i class="fa fa-lock fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">Sprint 3</div>
-                        <div class="large">0 Pull request </div>
-                        <div class="medium">0 - 0</div>                        
-                        <div>Closed</div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-footer panel-footer-clickable">
-                <span class="pull-left">View</span>
-                <span class="pull-right">
-                    <i class="fa fa-arrow-circle-right"></i>
-                </span>
-                <div class="clearfix"></div>
-            </div>
         </div>
     </div>
 </div>
-<!--<table class="table table-hover table-bordered table-condensed">
-    <thead>
-        <tr>
-            <th>Sprint</th>
-            <th>Card Trello</th>
-            <th>PR Github</th>
-            <th>PR Mergiados</th>
-            <th>Puntos cerrados</th>
-            <th>Puntos estimados</th>
-            <th>Estado</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="primerNivel">
-            <td>
-                #1
-            </td>
-            <td>
-                10
-                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-            </td>
-            <td>
-                8
-                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
-            </td>
-            <td>
-                8
-                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
-            </td>
-            <td>
-                <span class="badge badge-success" style="font-size: 18px;">20</span>
-            </td>
-            <td>
-                <span class="badge badge-warning" style="font-size: 18px;">20</span>
-            </td>
-            <td>
-                <i class="fa fa-lock" aria-hidden="true"></i>
-            </td>
-        </tr>
-        <tr class="danger primerNivel">
-            <td>
-                #2
-            </td>
-            <td>
-                3
-                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-            </td>
-            <td>
-                3
-                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
-            </td>
-            <td>
-                2
-                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
-            </td>
-            <td>
-                <span class="badge badge-success" style="font-size: 18px;">6</span>
-            </td>
-            <td>
-                <span class="badge badge-warning" style="font-size: 18px;">8</span>
-            </td>
-            <td>
-                <i class="fa fa-lock" aria-hidden="true"></i><span class="badge badge-danger cantidadPuntosAbajo">-2</span>
-            </td>
-        </tr>
-        <tr class="active primerNivel" ng-click="vm.abrir = ! vm.abrir">
-            <td>
-                #3
-            </td>
-            <td>
-                5
-                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-            </td>
-            <td>
-                3
-                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
-            </td>
-            <td>
-                1
-                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
-            </td>
-            <td>
-                <span class="badge badge-success" style="font-size: 18px;">2</span>
-            </td>
-            <td>
-                <span class="badge badge-warning" style="font-size: 18px;">5</span>
-            </td>
-            <td>                
-                <img src="/proyectotesis/view/img/calendario.png" class="calendarioImg" />
-                <span class="badge badge-info cantidadDiasRestantes">7</span>
-            </td>
-        </tr>
-        <tr ng-show="vm.abrir">
-            <th colspan="2">Pull Request</th>
-            <th colspan="3">Trello Card</th>
-            <th>Usuario</th>
-            <th>Comentarios</th>
-        </tr>
-        
-        <tr ng-show="vm.abrir" style="font-size: 12px;">
-            <td colspan="2" style="padding-top: 12px;">
-                <a href="">Titulo PR</a>
-            </td>
-            <td colspan="3" style="padding-top: 12px;">
-                <a href="">Descripción Card</a>
-            </td>
-            <td style="padding-top: 12px;">
-                Valentin
-            </td>
-            <td style="padding-top: 12px;">
-                4 <i class="fa fa-comment" aria-hidden="true"></i>
-            </td>            
-        </tr>
-        <tr ng-show="vm.abrir" style="font-size: 12px;">
-            <td colspan="2" style="padding-top: 12px;">
-                <a href="">Titulo PR</a>
-            </td>
-            <td colspan="3" style="padding-top: 12px;">
-                <a href="">Descripción Card</a>
-            </td>
-            <td style="padding-top: 12px;">
-                Valentin
-            </td>
-            <td style="padding-top: 12px;">
-                2 <i class="fa fa-comment" aria-hidden="true"></i>
-            </td>            
-        </tr>
-        <tr ng-show="vm.abrir" style="font-size: 12px;">
-            <td colspan="2" style="padding-top: 12px;">
-                <a href="">Titulo PR</a>
-            </td>
-            <td colspan="3" style="padding-top: 12px;">
-                <a href="">Descripcion Card</a>
-            </td>
-            <td style="padding-top: 12px;">
-                Valentin
-            </td>
-            <td style="padding-top: 12px;">
-                6 <i class="fa fa-comment" aria-hidden="true"></i>
-            </td>           
-        </tr>
-       
-        <tr class="primerNivel">
-            <td>
-                #4
-            </td>
-            <td>
-                3
-                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-            </td>
-            <td>
-                0
-                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
-            </td>
-            <td>
-                0
-                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
-            </td>
-            <td>
-                <span class="badge badge-success" style="font-size: 18px;">0</span>
-            </td>
-            <td>
-                <span class="badge badge-warning" style="font-size: 18px;">0</span>
-            </td>
-            <td>                
-                <img src="/proyectotesis/view/img/calendario.png" class="calendarioImg" />
-                <span class="badge badge-info cantidadDiasRestantes">21</span>
-            </td>
-        </tr>
-        <tr class="primerNivel">
-            <td>
-                #5
-            </td>
-            <td>
-                8
-                <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-            </td>
-            <td>
-                0
-                <img src="/proyectotesis/view/img/github.png" class="githubImg" />
-            </td>
-            <td>
-                0
-                <img src="/proyectotesis/view/img/merge.png" class="mergeImg" />
-            </td>
-            <td>
-                <span class="badge badge-success" style="font-size: 18px;">0</span>
-            </td>
-            <td>
-                <span class="badge badge-warning" style="font-size: 18px;">0</span>
-            </td>
-            <td>                
-                <img src="/proyectotesis/view/img/calendario.png" class="calendarioImg" />
-                <span class="badge badge-info cantidadDiasRestantes">35</span>
-            </td>
-        </tr>
-    </tbody>    
-    
-</table>-->

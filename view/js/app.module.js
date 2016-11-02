@@ -19,7 +19,8 @@
        'app.filters',
        'app.services',
        'app.ui_services',
-       'xeditable'
+       'xeditable',
+       'dndLists'
         
        
     ])
