@@ -15,7 +15,13 @@
         
         vm.card = angular.copy(card);       
         vm.card.state = _.find(vm.states, { 'id' : card.state});
+
+        vm.saveCard = saveCard;
        
         console.log(vm.card);
+
+        function saveCard(card) {
+            console.log(card);
+        }
     };
 })();

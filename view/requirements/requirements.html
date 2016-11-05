@@ -75,78 +75,12 @@
     </div>
     <div class="col-lg-8 col-sm-6">
         <div class="panel panel-primary">
-            <div class="panel-heading">
+            <div class="panel-heading huge">
                 Create new requeriment
             </div>
             <div class="panel-body">
-                <form role="form">
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Title</label>
-                            <input type="text" class="form-control" placeholder="Title of the requirement.">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Description</label>
-                            <textarea rows="2" class="form-control" placeholder="Description of the requirement."></textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Priority</label>
-                            <input type="number" class="form-control" max="10" min="1" placeholder="Priority of the requirements.">
-                        </div>
-                    </div>            
-
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Origen*</label>
-                            <input type="text" class="form-control" placeholder="Origen of the requirements.">
-                        </div>        
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Rason*</label>
-                            <input type="text" class="form-control" placeholder="Rason of the requirements.">
-                        </div>
-                    </div>
-                            
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Issue Link*</label>
-                            <select multiple="" class="form-control">
-                                <option>Requirement 1</option>
-                                <option>Requirement 2</option>
-                                <option>Requirement 3</option>
-                                <option>Requirement 4</option>
-                                <option>Requirement 5</option>
-                            </select>
-                            <p class="help-block">Issue links to others requirements.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Use case*</label>
-                            <input type="file">
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="form-group row">
-                        <div class="col-lg-6 col-sm-6">
-                            <button type="submit" class="btn btn-success btn-block">Save</button>
-                        </div>
-                        <div class="col-lg-6 col-sm-6">
-                            <button type="reset" class="btn btn-default btn-block">Reset</button>
-                        </div>
-                    </div>
-                </form> 
-            </div>
-            
+                <tg-card card="vm.card" save="vm.saveCard(card)"></tg-card>
+            </div>            
         </div>
     </div>
 </div>
