@@ -1,32 +1,18 @@
 <link rel="stylesheet" href="/proyectotesis/view/verification_validation/verification_validation.css" />
 <div class="row">
     <div class="col-lg-3">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <div class="huge">
-                            {{vm.backlog.quantity_cards}} <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-                        </div>
-                        <i class="fa fa-list fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">Backlog</div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-footer panel-footer-clickable" ng-click="vm.openBacklog();vm.backlog.opened = !vm.backlog.opened">
-                <span class="pull-left">View</span>
-                <span class="pull-right">
-                    <i class="fa fa-arrow-circle-right"></i>
-                </span>
-                <div class="clearfix"></div>
-            </div>
-        </div>
+        <tg-panel type="success"
+                  icon="fa-list"
+                  quantity-cards="vm.backlog.quantity_cards"
+                  huge-title="'Backlog'"
+                  on-click="vm.openBacklog(item)"
+                  item-param=""            
+        ></tg-panel>
         <div class="list-group" ng-if="vm.backlog.opened" dnd-list="vm.backlog.cards">
             <div class="list-group-item tg-list-group-item-draggable" 
                  ng-repeat="card in vm.backlog.cards track by $index" 
                  ng-click="vm.openCard(card)"
+                 dnd-moved="vm.removeCard(vm.backlog.cards, $index)"
                  dnd-effect-allowed="move"
                  dnd-draggable="card">
                 <div class="row">
@@ -39,7 +25,7 @@
                     <div class="tg-font-13 col-xs-12">
                         <div class="row">
                             <div class="col-xs-4">
-                                <span >{{ card.assignee }} <i class="fa fa-user" aria-hidden="true"></i></span>
+                                <span >{{ card.assignee.user }} <i class="fa fa-user" aria-hidden="true"></i></span>
                             </div>
                             <div class="col-xs-4">
                                 <span ng-show="card.pull_request_linked">
@@ -58,37 +44,23 @@
             </div>            
         </div>
     </div>
+
     <div class="col-lg-3" ng-repeat="sprint in vm.sprints track by $index">
-        <div class="panel " ng-class="{'panel-info': sprint.state == 'Open', 'panel-warning': sprint.state == 'Closed'}">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <div class="huge">
-                            {{sprint.quantity_cards}} <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
-                        </div>
-                        <i ng-if="::sprint.state == 'Open'" class="fa fa-folder-open-o fa-5x"></i>
-                        <i ng-if="::sprint.state == 'Closed'" class="fa fa-lock fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{sprint.title}}</div>
-                        <div class="large">{{sprint.quantity_pull_requests}} Pull request </div>
-                        <div class="medium">{{sprint.points_made}} - {{sprint.points_total}}</div>                        
-                        <div>{{sprint.state}}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-footer panel-footer-clickable"  ng-click="vm.openSprint(sprint);sprint.opened = !sprint.opened">
-                <span class="pull-left">View</span>
-                <span class="pull-right">
-                    <i class="fa fa-arrow-circle-right"></i>
-                </span>
-                <div class="clearfix"></div>
-            </div>
-        </div>
+        <tg-panel type="{{sprint.state == 'Open' ? 'info' : 'warning'}}"
+                  icon="{{sprint.state == 'Open' ? 'fa-folder-open-o' : 'fa-lock'}}"
+                  quantity-cards="sprint.quantity_cards"
+                  huge-title="sprint.title"
+                  large-title="sprint.quantity_pull_requests + ' Pull request'"
+                  medium-title="sprint.points_made + ' - ' + sprint.points_total"
+                  last-title="sprint.state"
+                  on-click="vm.openSprint(item)"
+                  item-param="sprint"            
+        ></tg-panel>
         <div class="list-group" ng-if="sprint.opened" dnd-list="sprint.cards">
             <div class="list-group-item tg-list-group-item-draggable" 
                  ng-repeat="card in sprint.cards track by $index" 
                  ng-click="vm.openCard(card)"
+                 dnd-moved="vm.removeCard(sprint.cards, $index)"
                  dnd-effect-allowed="move"
                  dnd-draggable="card">
                 <div class="row">
@@ -101,7 +73,7 @@
                     <div class="tg-font-13 col-xs-12">
                         <div class="row">
                             <div class="col-xs-4">
-                                <span >{{ card.assignee }} <i class="fa fa-user" aria-hidden="true"></i></span>
+                                <span >{{ card.assignee.user }} <i class="fa fa-user" aria-hidden="true"></i></span>
                             </div>
                             <div class="col-xs-4">
                                 <span ng-show="card.pull_request_linked">

@@ -1,0 +1,25 @@
+<div class="panel panel-{{$ctrl.type}}">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="huge" ng-if="$ctrl.quantityCards">
+                    {{$ctrl.quantityCards}} <img src="/proyectotesis/view/img/trello.png" class="trelloImg" />
+                </div>
+                <i class="fa {{$ctrl.icon}} fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+                <div class="huge">{{$ctrl.hugeTitle}}</div>
+                <div class="large">{{$ctrl.largeTitle}}</div>
+                <div class="medium">{{$ctrl.mediumTitle}}</div>                        
+                <div>{{$ctrl.lastTitle}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer panel-footer-clickable" ng-click="$ctrl.click()">
+        <span class="pull-left">View</span>
+        <span class="pull-right">
+            <i class="fa fa-arrow-circle-right"></i>
+        </span>
+        <div class="clearfix"></div>
+    </div>
+</div>
