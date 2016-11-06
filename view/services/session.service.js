@@ -10,7 +10,8 @@
     function sessionService(mockedObjectsService) {
         var service = {
             getUserLogued: getUserLogued,
-            checkRoutePermission: checkRoutePermission
+            checkRoutePermission: checkRoutePermission,
+            checkPermission: checkPermission
         };
 
         return service;   
@@ -24,6 +25,15 @@
                         _.map(user_logued.roles, 'role'), 
                         function(role) {
                             return _.includes(currentRoute.roles, role)
+                        }
+                    );
+        }
+        function checkPermission(roles) {
+            var user_logued = this.getUserLogued();
+            return _.some(
+                        _.map(user_logued.roles, 'role'), 
+                        function(role) {
+                            return _.includes(roles, role)
                         }
                     );
         }        

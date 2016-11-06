@@ -17,6 +17,7 @@
        'app.configuration',       
 
        'app.components',
+       'app.directives',
        'app.filters',
        'app.services',
        'app.ui_services',
