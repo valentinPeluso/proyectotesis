@@ -5,6 +5,8 @@
         .module('app.services')
         .factory('storageService', storage);
 
+    storage.$inject = ['ngToast', '$route', '$window', '$cacheFactory', '$q', '$http'];
+
     function storage(ngToast, $route, $window, $cacheFactory, $q, $http) {
         var service = {
             session: {
@@ -21,6 +23,10 @@
                 put: cache_put_data,
                 post: cache_post_data,
                 destroy: cache_destroy_cache,
+            },
+            cookie: {
+                get: cookie_get_data,
+                put: cookie_put_data
             }
         };
         var unresolved_promises = {};
@@ -29,6 +35,13 @@
 
         function local_get_data(id) {}
         function local_put_data(id, data, redirect) {}
+
+        function cookie_get_data(id) {
+
+        }
+        function cookie_put_data(id, data, redirect) {
+            
+        }
 
         function session_get_data(storage) {
             var data = null;

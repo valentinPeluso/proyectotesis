@@ -4,9 +4,9 @@
     angular.module('app')
         .config(configCore)
         
-    configCore.$inject=['ngToastProvider','$animateProvider','$compileProvider']; 
+    configCore.$inject=['ngToastProvider', '$animateProvider', '$compileProvider']; 
 
-    function configCore(ngToastProvider,$animateProvider,$compileProvider) {
+    function configCore(ngToastProvider, $animateProvider, $compileProvider) {
         ngToastProvider.configure({
             horizontalPosition: 'right',
             verticalPosition: 'top',

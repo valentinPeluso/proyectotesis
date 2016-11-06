@@ -13,7 +13,8 @@
         /* 3rd-party modules */
        'app.nav',
        'app.verification_validation',
-       'app.requirements',       
+       'app.requirements',
+       'app.configuration',       
 
        'app.components',
        'app.filters',
