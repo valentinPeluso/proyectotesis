@@ -1,20 +1,37 @@
-<div class="row form-group" style="background-color: #0e1a35;padding-bottom: 15px;">
-    <div class="col-sm-3"  ng-if="!$ctrl.mostrarBuscador">
-        <a href="" ng-click="$ctrl.mostrarBuscador = !$ctrl.mostrarBuscador">
-              <i class="fa fa-search" aria-hidden="true" style="font-size: 30px;margin-top: 25px;"></i>
-        </a>
-    </div>
+<div class="row form-group">
+    <!--<div class="col-sm-3"  ng-if="!$ctrl.mostrarBuscador">-->
+    <!--    <a href="" ng-click="$ctrl.mostrarBuscador = !$ctrl.mostrarBuscador">-->
+    <!--          <i class="fa fa-search" aria-hidden="true" ></i>-->
+    <!--    </a>-->
+    <!--</div>-->
    
-    <div class="col-sm-9" style="text-align:right; color: #ccc;" ng-if="!$ctrl.mostrarBuscador">
-        <h1>{{$ctrl.headerTitle}}</h1>
+    <div class="col-sm-12">
+        <div style="
+        border-bottom: 1px solid #ddd;
+        font-size: 20px;
+        width: 100%;">{{$ctrl.headerTitle}}</div>
     </div>
-     <div class="col-sm-12" style="margin-top: 18px;" ng-if="$ctrl.mostrarBuscador">
-        <div class="input-group">
-          <div class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></div>
-          <input type="text" class="form-control input-lg" focus-element="$ctrl.mostrarBuscador" ng-model="$ctrl.filtro" placeholder="Filtrar información" ng-keypress="$ctrl.filtrar()"  ng-keydown="$ctrl.filtrar()" ng-keyup="$ctrl.filtrar()" />
-          <div class="input-group-btn">
-               <button class="btn btn-default btn-lg" type="button" ng-click="$ctrl.mostrarBuscador = !$ctrl.mostrarBuscador; $ctrl.filtro = ''; $ctrl.filtrar()"><i class="fa fa-times" aria-hidden="true" style="    padding: 3px;"></i></button>
-          </div>
-        </div>
-    </div>
+    
+    <!--<div class="col-sm-12" ng-if="$ctrl.mostrarBuscador">-->
+    <!--    <div class="input-group">-->
+    <!--      <div class="input-group-addon">-->
+    <!--          <i class="glyphicon glyphicon-filter"></i>-->
+    <!--      </div>-->
+    <!--      <input type="text" -->
+    <!--            class="form-control input-lg" -->
+    <!--            focus-element="$ctrl.mostrarBuscador" -->
+    <!--            ng-model="$ctrl.filtro" -->
+    <!--            placeholder="Filtrar información" -->
+    <!--            ng-keypress="$ctrl.filtrar()"  -->
+    <!--            ng-keydown="$ctrl.filtrar()" -->
+    <!--            ng-keyup="$ctrl.filtrar()" />-->
+    <!--      <div class="input-group-btn">-->
+    <!--           <button class="btn btn-default btn-lg" -->
+    <!--                type="button" -->
+    <!--                ng-click="$ctrl.mostrarBuscador = !$ctrl.mostrarBuscador; $ctrl.filtro = ''; $ctrl.filtrar()">-->
+    <!--               <i class="fa fa-times" aria-hidden="true" style="padding: 3px;"></i>-->
+    <!--           </button>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--</div>-->
 </div>

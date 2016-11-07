@@ -14,7 +14,8 @@
        'app.nav',
        'app.verification_validation',
        'app.requirements',
-       'app.configuration',       
+       'app.configuration',
+       'app.analysis',
 
        'app.components',
        'app.directives',

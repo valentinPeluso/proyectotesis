@@ -3,8 +3,8 @@
 
     angular
         .module('app.components')
-        .component('headerComponent', {
-            templateUrl: '../project/components/header/header.html?v=13',
+        .component('tgHeaderComponent', {
+            templateUrl: '/view/components/header/header.html?v=13',
             controller: headerComponentController,
             bindings: {
                 headerTitle: '<',

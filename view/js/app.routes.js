@@ -26,13 +26,28 @@
                 templateUrl: '/view/verification_validation/verification_validation.html',
                 controller: 'verificationValidationController',
                 controllerAs: 'vm',
-                roles: ['Verification_Validation', 'Admin']
+                roles: [
+                    'Verification_Validation', 
+                    'Admin'
+                ]
+            })
+            .when('/analysis', {
+                templateUrl: '/view/analysis/analysis.html',
+                controller: 'analysisController',
+                controllerAs: 'vm',
+                roles: [
+                    'Admin', 
+                    'Analysis'
+                ]
             })
             .when('/requirements', {
                 templateUrl: '/view/requirements/requirements.html',
                 controller: 'requirementsController',
                 controllerAs: 'vm',
-                roles: ['Requeriment', 'Admin']
+                roles: [
+                    'Requeriment', 
+                    'Admin'
+                ]
             })               
             .otherwise({
                 redirectTo: '/configuration'
