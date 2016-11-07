@@ -8,69 +8,24 @@
                   large-title="2"                          
         ></tg-panel>
         <div class="list-group">
-            <a href="" class="list-group-item" ng-click="vm.openRequeriment1 = !vm.openRequeriment1">
+            <a href="" class="list-group-item" 
+                ng-click="vm.openRequeriment(requeriment)"
+                ng-repeat="requeriment in vm.requeriments track by $index">
                 <div class="row">
                     <div class="col-xs-8">
-                        List of Requeriments
+                        {{requeriment.description}}
                     </div>
                     <div class="col-xs-2">
                         <span>11/06</span>
                     </div>
                     <div class="col-xs-2">
-                        <span class="badge badge-success">1</span>
+                        <span class="badge badge-success">{{requeriment.priority}}</span>
                     </div>
                 </div>
             </a>
-            <div class="list-group-item well" ng-if="vm.openRequeriment1">
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.title" e-label="Title">{{ 'Title' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-textarea="vm.requeriment.title" e-rows="4" e-label="Description">{{ 'Description' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.priority" e-label="Priority">{{ 'Priority' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.origen" e-label="Origen">{{ 'Origen' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.rason" e-label="Rason">{{ 'Rason' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.issue_link" e-label="Issue link">{{ 'Issue link' || 'empty' }}</a>
-                    </div>                    
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-12">
-                        <a href="#" editable-text="vm.requeriment.use_case" e-label="Use case">{{ 'Use case' || 'empty' }}</a>
-                    </div>                    
-                </div>
-            </div>
-            <a href="" class="list-group-item">
-                <div class="row">
-                    <div class="col-xs-8">
-                        Move of Requeriments
-                    </div>
-                    <div class="col-xs-2">
-                        <span>12/06</span>
-                    </div>
-                    <div class="col-xs-2">
-                        <span class="badge badge-success">1</span>
-                    </div>
-                </div>
-            </a>
+            <!--<div class="list-group-item well" ng-show="requeriment.opened">-->
+            <!--    <tg-requeriment save="vm.updateRequeriment(requeriment)" requeriment="requeriment"></tg-requeriment>-->
+            <!--</div>-->
         </div>
     </div>
     <div class="col-lg-8 col-sm-6">
@@ -79,7 +34,7 @@
                 Create new requeriment
             </div>
             <div class="panel-body">
-                <tg-card card="vm.card" save="vm.saveCard(card)"></tg-card>
+                <tg-requeriment save="vm.saveRequeriment(requeriment)"></tg-requeriment>
             </div>            
         </div>
     </div>

@@ -52,32 +52,35 @@
             return [
                 {
                     id: 1,
-                    description: 'Requeriment 1',
+                    title: 'Requeriment 1',
+                    description: 'Description of Requeriment 1',
                     rason: "Rason 1",
                     origin: "Origin 1",
                     priority: 2,
                     dependencies: [2, 3],
-                    user_case: "Link",
+                    use_case: "Link",
                     cards: [1, 2]
                 },
                 {
                     id: 2,
-                    description: 'Requeriment 2',
+                    title: 'Requeriment 2',
+                    description: 'Description of Requeriment 2',
                     rason: "Rason 2",
                     origin: "Origin 2",
                     priority: 1,
                     dependencies: [],
-                    user_case: "Link",
+                    use_case: "Link",
                     cards: [3]
                 },
                 {
                     id: 3,
-                    description: 'Requeriment 3',
+                    title: 'Requeriment 3',
+                    description: 'Description of Requeriment 3',
                     rason: "Rason 3",
                     origin: "Origin 3",
                     priority: 3,
                     dependencies: [],
-                    user_case: "Link"
+                    use_case: "Link"
                 }
             ]
         }
