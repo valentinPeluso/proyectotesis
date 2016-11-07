@@ -4,7 +4,7 @@
     angular
         .module('app.components')
         .component('tgTimeline', {
-            templateUrl: '/proyectotesis/view/components/timeline/timeline.html',
+            templateUrl: '/view/components/timeline/timeline.html',
             controller: timelineComponentController,
             bindings: {
                 id: '<',

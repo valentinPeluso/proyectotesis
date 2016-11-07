@@ -9,7 +9,7 @@
     function routes($routeProvider) {
          $routeProvider
             .when('/configuration', {
-                templateUrl: '/proyectotesis/view/configuration/configuration.html',
+                templateUrl: '/view/configuration/configuration.html',
                 controller: 'configurationController',
                 controllerAs: 'vm',
                 roles: [
@@ -23,13 +23,13 @@
                 ]
             })
             .when('/verificationvalidation', {
-                templateUrl: '/proyectotesis/view/verification_validation/verification_validation.html',
+                templateUrl: '/view/verification_validation/verification_validation.html',
                 controller: 'verificationValidationController',
                 controllerAs: 'vm',
                 roles: ['Verification_Validation', 'Admin']
             })
             .when('/requirements', {
-                templateUrl: '/proyectotesis/view/requirements/requirements.html',
+                templateUrl: '/view/requirements/requirements.html',
                 controller: 'requirementsController',
                 controllerAs: 'vm',
                 roles: ['Requeriment', 'Admin']

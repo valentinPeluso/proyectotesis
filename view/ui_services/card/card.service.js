@@ -17,7 +17,7 @@
         function open(card) {
             var modalInstance = $uibModal.open({
                 animation: true,                
-                templateUrl: '/proyectotesis/view/ui_services/card/card.html',
+                templateUrl: '/view/ui_services/card/card.html',
                 controller: 'viewCardController',
                 controllerAs: 'vm',
                 size: 'lg',

@@ -4,7 +4,7 @@
     angular
         .module('app.components')
         .component('tgCard', {
-            templateUrl: '/proyectotesis/view/components/card/card.html',
+            templateUrl: '/view/components/card/card.html',
             controller: cardComponentController,
             bindings: {
                 card: '<',
@@ -12,10 +12,13 @@
             }
         });
         
-    cardComponentController.$inject = []    
+    cardComponentController.$inject = ['mockedObjectsService']    
 
-    function cardComponentController() {
+    function cardComponentController(mockedObjectsService) {
         var vm = this;
+        
+        vm.possible_issue_links = mockedObjectsService.cards.getMockedIssuesLinks();
+        vm.possible_assignees = mockedObjectsService.cards.getMockedPossibleAssigness();
 
         vm.origin_card = vm.card;
         vm.card = angular.copy(vm.card); 
