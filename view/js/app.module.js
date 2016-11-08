@@ -4,7 +4,7 @@
     angular.module('app', [
         /* Angular modules */
         'ngRoute',
-        // 'ngAnimate',
+        'ngAnimate',
         
         'ui.select',
         'ui.bootstrap',

@@ -40,7 +40,7 @@
                 roles: [
                     { id: 1, role: 'Admin' },
                     // { id: 2, role: 'Requeriment' },
-                    // { id: 3, role: 'Analysis' },
+                    { id: 3, role: 'Analysis' },
                     // { id: 4, role: 'Verification_Validation' },
                     // { id: 5, role: 'Developmen' },
                     // { id: 6, role: 'Statistics' },

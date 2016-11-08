@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('app.requirements')
+    angular.module('app.ui_services')
     .controller('viewRequerimentController', viewRequerimentController)
     
     viewRequerimentController.$inject = ['requeriment'];
@@ -16,7 +16,6 @@
         function updateRequeriment(requeriment) {
             
         }
-       
     }
-    
+
 })();

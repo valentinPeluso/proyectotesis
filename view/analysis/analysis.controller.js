@@ -4,17 +4,16 @@
     angular.module('app.analysis')
     .controller('analysisController', analysisController)
     
-    analysisController.$inject = ['mockedObjectsService', 'UICardService'];
+    analysisController.$inject = ['mockedObjectsService', 'UICardService', 'UIRequerimentService'];
     
-    function analysisController(mockedObjectsService, UICardService){
+    function analysisController(mockedObjectsService, UICardService, UIRequerimentService){
         var vm = this;
         
         vm.requeriments = mockedObjectsService.requeriments.getMockedRequeriments();
         
-        vm.openCard = openCard;
         vm.openSprint = openSprint;
         vm.openBacklog = openBacklog;
-        vm.removeCard = removeCard;
+        vm.openRequeriment = openRequeriment;
 
         //-----MOCKS-------
         vm.possible_assigness = mockedObjectsService.cards.getMockedPossibleAssigness();
@@ -35,11 +34,8 @@
                 card.assignee = _.find(vm.possible_assigness, { id : card.assignee});
             });
         };
-        function openCard(card) {
-            UICardService.open(card);
-        };
-        function removeCard(cards, index) {
-            cards.splice(index, 1);
+        function openRequeriment(requeriment) {
+            UIRequerimentService.open(requeriment);
         }
     }
     

@@ -14,7 +14,11 @@
             var route_permission = sessionService.checkRoutePermission(current.$$route);
             if (!route_permission) {
                 var prev_route = storageService.session.get({ id : 'Route'});
-                $location.path(prev_route.originalPath);
+                if (sessionService.checkRoutePermission(prev_route)) {
+                    $location.path(prev_route.originalPath);
+                } else {
+                    $location.path('/configuration');
+                }
             } else {
                 //save route in session
                 var session = {

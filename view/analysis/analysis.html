@@ -14,18 +14,30 @@
                     <th>Rason</th>
                     <th>Origin</th>
                     <th>Priority</th>
-                    <th>Requeriment links</th>
+                    <th>
+                        Requeriment links <i class="fa fa-info-circle" 
+                                             aria-hidden="true" 
+                                             tooltip-placement="top" 
+                                             uib-tooltip="Dependence with others requeriments"></i>
+                    </th>
                     <th>Use case</th>
+                    <th>
+                        Cards <i class="fa fa-info-circle" 
+                                 aria-hidden="true" 
+                                 tooltip-placement="top" 
+                                 uib-tooltip="Cards created from the requeriment"></i>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="req in vm.requeriments track by $index">
+                <tr ng-repeat="req in vm.requeriments track by $index" style="cursor: pointer;" ng-click="vm.openRequeriment(req)">
                     <td>{{ req.title }}</td>
                     <td>{{ req.rason }}</td>
                     <td>{{ req.origin }}</td>
                     <td>{{ req.priority }}</td>
                     <td>{{ req.dependencies }}</td>
                     <td>{{ req.use_case }}</td>
+                    <td>{{ req.cards }}</td>
                 </tr>
             </tbody>
         </table>
@@ -45,40 +57,8 @@
                   on-click="vm.openBacklog(item)"
                   item-param=""            
         ></tg-panel>
-        <div class="list-group" ng-if="vm.backlog.opened" dnd-list="vm.backlog.cards">
-            <div class="list-group-item tg-list-group-item-draggable" 
-                 ng-repeat="card in vm.backlog.cards track by $index" 
-                 ng-click="vm.openCard(card)"
-                 dnd-moved="vm.removeCard(vm.backlog.cards, $index)"
-                 dnd-effect-allowed="move"
-                 dnd-draggable="card">
-                <div class="row">
-                    <div class="col-xs-8">
-                        <a href="" >{{ card.title }}</a>
-                    </div>
-                    <div class="col-xs-4 tg-font-13 tg-text-right" style="margin-top: -3px;">
-                        <span class="label label-success">{{ card.points }} points</span>
-                    </div>
-                    <div class="tg-font-13 col-xs-12">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <span >{{ card.assignee.user }} <i class="fa fa-user" aria-hidden="true"></i></span>
-                            </div>
-                            <div class="col-xs-4">
-                                <span ng-show="card.pull_request_linked">
-                                    Pull Req. <i class="fa fa-code-fork" aria-hidden="true"></i>
-                                </span>                           
-                            </div>
-                            <div class="col-xs-4 tg-text-right">                                
-                                <span >
-                                    <span>{{ card.comments }} <i class="fa fa-comment" aria-hidden="true"></i></span>
-                                </span>  
-                            </div>
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>            
+        <div ng-if="vm.backlog.opened">
+            <tg-cards cards="vm.backlog.cards"></tg-cards>
         </div>
     </div>
 
@@ -92,40 +72,8 @@
                   on-click="vm.openSprint(item)"
                   item-param="sprint"            
         ></tg-panel>
-        <div class="list-group" ng-if="sprint.opened" dnd-list="sprint.cards">
-            <div class="list-group-item tg-list-group-item-draggable" 
-                 ng-repeat="card in sprint.cards track by $index" 
-                 ng-click="vm.openCard(card)"
-                 dnd-moved="vm.removeCard(sprint.cards, $index)"
-                 dnd-effect-allowed="move"
-                 dnd-draggable="card">
-                <div class="row">
-                    <div class="col-xs-8">
-                        <a href="" >{{ card.title }}</a>
-                    </div>
-                    <div class="col-xs-4 tg-font-13 tg-text-right" style="margin-top: -3px;">
-                        <span class="label label-success">{{ card.points }} points</span>
-                    </div>
-                    <div class="tg-font-13 col-xs-12">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <span >{{ card.assignee.user }} <i class="fa fa-user" aria-hidden="true"></i></span>
-                            </div>
-                            <div class="col-xs-4">
-                                <span ng-show="card.pull_request_linked">
-                                    Pull Req. <i class="fa fa-code-fork" aria-hidden="true"></i>
-                                </span>                           
-                            </div>
-                            <div class="col-xs-4 tg-text-right">                                
-                                <span >
-                                    <span>{{ card.comments }} <i class="fa fa-comment" aria-hidden="true"></i></span>
-                                </span>  
-                            </div>
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div ng-if="sprint.opened">
+            <tg-cards cards="sprint.cards"></tg-card>
         </div>
     </div>
 </div>
