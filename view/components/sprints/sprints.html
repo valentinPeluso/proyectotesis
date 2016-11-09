@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-lg-3">
+        <tg-panel type="success"
+                  icon="fa-list"
+                  quantity-cards="$ctrl.backlog.quantity_cards"
+                  huge-title="'Backlog'"
+                  on-click="$ctrl.openBacklog(item)"
+                  item-param=""            
+        ></tg-panel>
+        <div ng-if="$ctrl.backlog.opened">
+            <tg-cards cards="$ctrl.backlog.cards"></tg-cards>
+        </div>
+    </div>
+
+    <div class="col-lg-3" ng-repeat="sprint in $ctrl.sprints track by $index">
+        <tg-panel type="{{sprint.state == 'Open' ? 'info' : 'warning'}}"
+                  icon="{{sprint.state == 'Open' ? 'fa-folder-open-o' : 'fa-lock'}}"
+                  quantity-cards="sprint.quantity_cards"
+                  huge-title="sprint.title"
+                  medium-title="sprint.points_total"
+                  last-title="sprint.state"
+                  on-click="$ctrl.openSprint(item)"
+                  item-param="sprint"            
+        ></tg-panel>
+        <div ng-if="sprint.opened">
+            <tg-cards cards="sprint.cards"></tg-card>
+        </div>
+    </div>
+</div>
