@@ -12,14 +12,15 @@
             }
         });
         
-    requerimentComponentController.$inject = ['mockedObjectsService', 'sessionService']    
+    requerimentComponentController.$inject = ['mockedObjectsService', 'sessionService', '$location']    
 
-    function requerimentComponentController(mockedObjectsService, sessionService) {
+    function requerimentComponentController(mockedObjectsService, sessionService, $location) {
         var vm = this;
         
         vm.haveRol = haveRol;
+        vm.location = "/"+_.words($location.$$path)[0];   
         
-        if (vm.haveRol('Requeriment')) {
+        if (vm.location == '/requirements') {
             vm.possible_dependencies = mockedObjectsService.requeriments.getMockedRequeriments();
         
             vm.saveRequeriment = saveRequeriment;
@@ -31,7 +32,7 @@
             function resetRequeriment() {
                 vm.requeriment = {};
             }
-        } else if (vm.haveRol('Analysis')) {
+        } else if (vm.location == '/analysis') {
             vm.saveCard = saveCard;
             
             vm.possible_assigness = mockedObjectsService.cards.getMockedPossibleAssigness();

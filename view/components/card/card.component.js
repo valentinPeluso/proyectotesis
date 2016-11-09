@@ -12,10 +12,12 @@
             }
         });
         
-    cardComponentController.$inject = ['mockedObjectsService']    
+    cardComponentController.$inject = ['mockedObjectsService', '$location']    
 
-    function cardComponentController(mockedObjectsService) {
+    function cardComponentController(mockedObjectsService, $location) {
         var vm = this;
+        
+        vm.location = "/"+_.words($location.$$path)[0];
         
         vm.possible_issue_links = mockedObjectsService.cards.getMockedIssuesLinks();
         vm.possible_assignees = mockedObjectsService.cards.getMockedPossibleAssigness();
