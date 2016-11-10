@@ -40,15 +40,19 @@
 							</a>
 						</li>
 						<li tg-roles="Admin,Analysis">
-							<a href="#/analysis" ng-class="{'active': vm.active == '/analysis'}" ng-click="vm.changeOfLocation('/analysis')">Analysis</a>
+							<a href="#/analysis" ng-class="{'active': vm.active == '/analysis'}" ng-click="vm.changeOfLocation('/analysis')">
+								Analysis
+							</a>
+						</li>
+						<li tg-roles="Admin,Developmen">
+							<a href="#/development" ng-class="{'active': vm.active == '/development'}" ng-click="vm.changeOfLocation('/development')">
+								Development
+							</a>
 						</li>
 						<li tg-roles="Admin,Verification_Validation">
 							<a href="#/verificationvalidation" ng-class="{'active': vm.active == '/verificationvalidation'}" ng-click="vm.changeOfLocation('/verificationvalidation')">
 								Verification and Validation
 							</a>							
-						</li>	
-						<li tg-roles="Admin,Developmen">
-							<a href="#">Development</a>
 						</li>
 						<li tg-roles="Admin,Statistics">
 							<a href="#">Statistics</a>
@@ -119,6 +123,7 @@
 <script src="/view/components/card/card.component.js"></script>
 <script src="/view/components/cards/cards.component.js"></script>
 <script src="/view/components/sprints/sprints.component.js"></script>
+<script src="/view/components/github/github.component.js"></script>
 <script src="/view/components/requeriment/requeriment.component.js"></script>
 <script src="/view/components/header/header.component.js"></script>
 <!--<script src="/view/components/focus-element/focus-element.directive.js"></script>
@@ -137,6 +142,9 @@
 
 <script src="/view/configuration/configuration.module.js"></script>
 <script src="/view/configuration/configuration.controller.js"></script>
+
+<script src="/view/development/development.module.js"></script>
+<script src="/view/development/development.controller.js"></script>
 
 <script src="/view/analysis/analysis.module.js"></script>
 <script src="/view/analysis/analysis.controller.js"></script>

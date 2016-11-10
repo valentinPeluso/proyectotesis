@@ -99,8 +99,11 @@
             <div class="col-md-12">
                 <label>Business rules:</label>
                 <div class="input-group" ng-repeat="business_rule in $ctrl.card.business_rules track by $index" style="margin-bottom: 2px;">
-                    <span class="input-group-addon">
+                    <span class="input-group-addon" ng-if="$ctrl.location !== '/development'">
                         <input type="checkbox" ng-model="business_rule.completed" disabled>
+                    </span>
+                    <span class="input-group-addon" ng-if="$ctrl.location == '/development'">
+                        <input type="checkbox" ng-model="business_rule.completed">
                     </span>
                     <input type="text" class="form-control" ng-model="business_rule.description" disabled>
                 </div>

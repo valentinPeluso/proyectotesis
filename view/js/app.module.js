@@ -16,6 +16,7 @@
        'app.requirements',
        'app.configuration',
        'app.analysis',
+       'app.development',
 
        'app.components',
        'app.directives',

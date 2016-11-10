@@ -48,7 +48,16 @@
                     'Requeriment', 
                     'Admin'
                 ]
-            })               
+            }) 
+            .when('/development', {
+                templateUrl: '/view/development/development.html',
+                controller: 'developmentController',
+                controllerAs: 'vm',
+                roles: [
+                    'Developmen', 
+                    'Admin'
+                ]
+            })
             .otherwise({
                 redirectTo: '/configuration'
             });

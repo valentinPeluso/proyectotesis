@@ -17,7 +17,15 @@
                         <tg-card card="vm.card" save="vm.saveCard(card)"></tg-card>                        
                     </div>
                 </uib-tab>
-                <uib-tab index="1" ng-if="vm.location == '/verificationvalidation' || vm.location == '/Developmen'">
+                <uib-tab index="1" ng-if="vm.location == '/development'">
+                    <uib-tab-heading>
+                        <i class="fa fa-github" aria-hidden="true"></i> Github 
+                    </uib-tab-heading>
+                    <div class="well tg-well">
+                        <tg-github></tg-github>
+                    </div>
+                </uib-tab>
+                <uib-tab index="2" ng-if="vm.location == '/verificationvalidation' || vm.location == '/development'">
                     <uib-tab-heading>
                         <i class="fa fa-comments" aria-hidden="true"></i> Conversation 
                         <span class="badge">{{ vm.card.comments }}</span>
@@ -26,7 +34,7 @@
                         <tg-timeline id="234" conversation="true"></tg-timeline>
                     </div>
                 </uib-tab>
-                <uib-tab index="2" ng-if="vm.location == '/verificationvalidation' || vm.location == '/Developmen'">
+                <uib-tab index="3" ng-if="vm.location == '/verificationvalidation' || vm.location == '/development'">
                     <uib-tab-heading>
                         <i class="fa fa-cloud-upload" aria-hidden="true"></i> Commits 
                         <span class="badge">3</span>
@@ -35,7 +43,7 @@
                         <tg-timeline id="234" commits="true"></tg-timeline>
                     </div>
                 </uib-tab>
-                <uib-tab index="3" ng-if="vm.location == '/verificationvalidation' || vm.location == '/Developmen'">
+                <uib-tab index="4" ng-if="vm.location == '/verificationvalidation' || vm.location == '/development'">
                     <uib-tab-heading>
                         <i class="fa fa-file-code-o" aria-hidden="true"></i> Files changed 
                         <span class="badge">2</span>

@@ -1,0 +1,133 @@
+<div class="row">
+    <div class="col-lg-12">
+        <uib-accordion close-others="oneAtATime">
+            <div uib-accordion-group class="panel-warning" heading="Files changed">
+                <div class="row form-group">
+                    <div class="col-lg-6">
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <tg-header-component header-title="'Files changed'"></tg-header-component>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        /url/file.html
+                                        <span class="badge">
+                                            <i class="fa fa-share" 
+                                               aria-hidden="true"
+                                               tooltip-placement="top" 
+                                               uib-tooltip="Stage"></i>
+                                        </span>
+                                        <span class="badge">
+                                            <i class="fa fa-minus" 
+                                           aria-hidden="true"
+                                           tooltip-placement="top" 
+                                           uib-tooltip="Clean"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <tg-header-component header-title="'Files staged'"></tg-header-component>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        /url/file.html
+                                        <span class="badge">
+                                            <i class="fa fa-reply" 
+                                               aria-hidden="true"
+                                               tooltip-placement="top" 
+                                               uib-tooltip="Unstage"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div uib-accordion-group class="panel-success" heading="Commit">
+                <div class="row form-group">
+                    <div class="col-lg-12">
+                        <input type="text" name="commit" class="form-control" ng-model="$ctrl.commit_message" placeholder="Commit message" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-4">
+                        <button type="button" class="btn  btn-default btn-block">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Commit staged
+                        </button>
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="button" class="btn btn-default btn-block">
+                            <i class="fa fa-cloud-upload" aria-hidden="true"></i> Push
+                        </button>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="btn-group" uib-dropdown is-open="status.isopen" style="width: 100%;">
+                            <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle style="width: 100%;">
+                            More options <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button" style="width: 100%;">
+                                <li role="menuitem">
+                                    <a href="#">Sync</a>
+                                </li>
+                                <li role="menuitem">
+                                    <a href="#">Pull</a>
+                                </li>
+                                <li role="menuitem">
+                                    <a href="#">Pull (Rebase)</a>
+                                </li>
+                                <li role="menuitem">
+                                    <a href="#">Push</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="menuitem">
+                                    <a href="#">Publish</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="menuitem">
+                                    <a href="#">Commit Staged</a>
+                                </li>
+                                <li role="menuitem">
+                                    <a href="#">Commit All</a>
+                                </li>
+                                <li role="menuitem">
+                                    <a href="#">Undo last commit</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="menuitem">
+                                    <a href="#">Stage All</a>
+                                </li>
+                                <li role="menuitem">
+                                    <a href="#">Unestage All</a>
+                                </li>
+                                <li role="menuitem">
+                                    <a href="#">Clean All</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div uib-accordion-group class="panel-info" heading="Pull request">
+                <div class="row form-group">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn-default  btn-block">
+                            <i class="fa fa-code-fork" aria-hidden="true"></i> Create Pull request
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </uib-accordion>
+    </div>
+</div>
