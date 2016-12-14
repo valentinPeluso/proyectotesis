@@ -1,5 +1,5 @@
 function me(req, res){
-   console.log(res.locals.data);
+   res.send(res.data);
 }
 
 function getBoardLists(req, res) {

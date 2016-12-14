@@ -1,13 +1,13 @@
- (function () {
+(function () {
     'use strict';
 
     angular
         .module('app.services')
         .factory('sessionService', sessionService);
 
-    sessionService.$inject = ['mockedObjectsService']
+    sessionService.$inject = ['mockedObjectsService', '$location']
 
-    function sessionService(mockedObjectsService) {
+    function sessionService(mockedObjectsService, $location) {
         var service = {
             getUserLogued: getUserLogued,
             checkRoutePermission: checkRoutePermission,

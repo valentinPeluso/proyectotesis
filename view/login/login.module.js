@@ -1,12 +1,6 @@
 (function () {
     'use strict';
 
-    angular.module('app', [
-        /* Angular modules */
-        'ngRoute',
-        
-        'ngToast'
-       
-    ])
+    angular.module('app.login', []);
     
 })();

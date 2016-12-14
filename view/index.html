@@ -24,13 +24,15 @@
 	<link rel="stylesheet" href="/view/components/timeline/timeline.css" />
 	<link rel="stylesheet" href="/view/components/panel/panel.css" />
 	<link rel="stylesheet" href="/view/components/card/card.css" />
+	
+	<link href="/view/login/login.css" rel="stylesheet" />
 
 </head>
 
 <body ng-app="app">
 	<toast></toast>
 	<header ng-controller="navController as vm">
-		<nav class="navbar navbar-findcond navbar-fixed-top">
+		<nav id="nav" class="navbar navbar-findcond navbar-fixed-top">
 			<div class="container">				
 				<div class="collapse navbar-collapse" id="navbar">
 					<ul class="nav navbar-nav navbar-left">											
@@ -74,12 +76,15 @@
 	<article></article>
 	<footer></footer>
 </body>
+
 <script src="/view/node_modules/angular/angular.min.js"></script>
 <script src="/view/node_modules/angular-i18n/angular-locale_es-ar.js"></script>
 <script src="/view/node_modules/angular-animate/angular-animate.min.js"></script>
 <script src="/view/node_modules/angular-route/angular-route.min.js"></script>
 <script src="/view/node_modules/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="/view/node_modules/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js"></script>
+
+<script src="/view/node_modules/jquery/dist/jquery.min.js"></script>
 
 <script src="/view/node_modules/ng-toast/dist/ngToast.min.js"></script>
 <script src="/view/node_modules/ui-select/dist/select.min.js"></script>
@@ -93,6 +98,8 @@
 <!-- jquery, moment, and angular have to get included before fullcalendar -->
 <script src="/view/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <script src="/view/bower_components/fullcalendar/dist/gcal.js"></script>
+
+<script src="https://trello.com/1/client.js?key=4542a25c559e28c2ecaaf43c0799106a"></script>
 
 <script src="/view/js/app.module.js"></script>
 <script src="/view/js/app.run.js"></script>
@@ -115,6 +122,7 @@
 <script src="/view/services/services.module.js"></script>
 <script src="/view/services/storage.service.js"></script>
 <script src="/view/services/session.service.js"></script>
+<script src="/view/services/login.service.js"></script>
 <script src="/view/services/get_mocked_objects.service.js"></script>
 
 <script src="/view/components/components.module.js"></script>
@@ -148,5 +156,8 @@
 
 <script src="/view/analysis/analysis.module.js"></script>
 <script src="/view/analysis/analysis.controller.js"></script>
+
+<script src="/view/login/login.module.js"></script>
+<script src="/view/login/login.controller.js"></script>
 
 </html>

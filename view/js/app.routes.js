@@ -58,6 +58,11 @@
                     'Admin'
                 ]
             })
+            .when('/login', {
+                templateUrl: '/view/login/login.html',
+                controller: 'loginController',
+                controllerAs: 'vm',
+            })
             .otherwise({
                 redirectTo: '/configuration'
             });

@@ -17,6 +17,7 @@
        'app.configuration',
        'app.analysis',
        'app.development',
+       'app.login',
 
        'app.components',
        'app.directives',

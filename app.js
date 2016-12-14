@@ -1,14 +1,16 @@
 // Cargamos express en vez de http
-var express = require('express');
+var restify = require('restify');
 var routes =  require('./config/routes');
 
-
-// Lo iniciamos
-var app = express();
-
-routes(app);
-
-// Decimos en que puerto queremos escuchar (el 8000)
-app.listen(8000, function () {
-  console.log("Esperando requests en el puerto 8000");
+var server = restify.createServer({
+    name: 'Proyecto Tesis App',
+    version: '1.0.0'
 });
+
+server.use(restify.acceptParser(server.acceptable));
+server.use(restify.queryParser());
+server.use(restify.bodyParser());
+
+routes(server);
+
+server.listen(process.env.PORT, process.env.IP);
