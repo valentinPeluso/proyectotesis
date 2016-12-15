@@ -58,9 +58,9 @@
                     'Admin'
                 ]
             })
-            .when('/login', {
-                templateUrl: '/view/login/login.html',
-                controller: 'loginController',
+            .when('/board', {
+                templateUrl: '/view/board/board.html',
+                controller: 'boardController',
                 controllerAs: 'vm',
             })
             .otherwise({

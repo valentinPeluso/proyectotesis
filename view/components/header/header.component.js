@@ -4,7 +4,7 @@
     angular
         .module('app.components')
         .component('tgHeaderComponent', {
-            templateUrl: '/view/components/header/header.html?v=13',
+            templateUrl: '/view/components/header/header.html',
             controller: headerComponentController,
             bindings: {
                 headerTitle: '<',

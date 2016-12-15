@@ -5,12 +5,13 @@
         .module('app.services')
         .factory('trelloService', trelloService);
 
-    trelloService.$inject = ['$http'];
+    trelloService.$inject = ['$http', 'storageService'];
 
-    function trelloService($http) {
+    function trelloService($http, storageService) {
         var service = {
             members: {
-                me: membersMe
+                me: membersMe,
+                boards: membersBoards
             }
         };
 
@@ -18,6 +19,16 @@
 
         function membersMe() {
             return $http.get('/trello/members/me');
+        }
+        function membersBoards() {
+            return $http.get('/trello/members/' + getUserLoggedId() + '/boards');
+        }
+        function getUserLoggedId() {
+            var cookie = {
+                id: 'TrelloUserLogged'
+            }
+            var userLogged = storageService.session.get(cookie);
+            return userLogged.id;
         }
     }
 

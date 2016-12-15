@@ -9,6 +9,7 @@
         'ui.select',
         'ui.bootstrap',
         'ngToast',
+        'cgBusy',
 
         /* 3rd-party modules */
        'app.nav',
@@ -17,6 +18,7 @@
        'app.configuration',
        'app.analysis',
        'app.development',
+       'app.board',
        'app.interceptors',
 
        'app.components',

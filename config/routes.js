@@ -14,6 +14,12 @@ module.exports = function(app) {
     trelloAPI.me, 
     trello.me
   ]);
+  app.get('/trello/members/:id/boards', [
+    errorHandling.checkauth, 
+    trelloAPI.membersBoards, 
+    trello.membersBoards
+  ]);
+  
   app.get('/trello/boards/:id/lists', [
     errorHandling.checkauth,
     trelloAPI.getBoardLists,
