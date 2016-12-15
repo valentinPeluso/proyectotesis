@@ -17,7 +17,7 @@
        'app.configuration',
        'app.analysis',
        'app.development',
-       'app.login',
+       'app.interceptors',
 
        'app.components',
        'app.directives',

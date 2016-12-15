@@ -4,10 +4,16 @@
     angular.module('app.configuration')
     .controller('configurationController', configurationController)
     
-    configurationController.$inject = [];
+    configurationController.$inject = ['trelloService'];
     
-    function configurationController(){
+    function configurationController(trelloService){
         var vm = this;
-
+        
+        trelloService.members.me().then(
+            function(result) {
+                console.log();
+            }, function(error) {
+                console.log();
+            });
     };
 })();

@@ -12,11 +12,9 @@
         
         $rootScope.$on("$routeChangeStart", function (event, current) {
             var nav_element = $('#nav');
-            if (!Trello.authorized()) {
-                nav_element.hide();
-                $location.path('/login');
-            } else {
+            if (Trello.authorized()) {
                 nav_element.show();
+                
                 var route_permission = sessionService.checkRoutePermission(current.$$route);
                 if (!route_permission) {
                     var prev_route = storageService.session.get({ id : 'Route'});
