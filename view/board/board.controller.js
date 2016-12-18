@@ -4,9 +4,9 @@
     angular.module('app.board')
     .controller('boardController', boardController)
     
-    boardController.$inject = ['trelloService', '$uibModal'];
+    boardController.$inject = ['trelloService', '$uibModal', '$location'];
     
-    function boardController(trelloService, $uibModal){
+    function boardController(trelloService, $uibModal, $location){
         var vm = this;
         
         vm.boards = [];
@@ -30,7 +30,9 @@
             
             
         function selectBoard(board) {
-            // body...
+            trelloService.boards.postInSession(board);
+            
+            $location.path('/configuration');
         }
         function createBoard() {
             var modalInstance = $uibModal.open({

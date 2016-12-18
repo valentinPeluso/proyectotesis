@@ -10,7 +10,8 @@
         ngToastProvider.configure({
             horizontalPosition: 'right',
             verticalPosition: 'top',
-            timeout: 5000
+            timeout: 5000,
+            animation: 'fade'
         });
         $animateProvider.classNameFilter(/(animate|toast)/);
         $compileProvider.debugInfoEnabled(false);

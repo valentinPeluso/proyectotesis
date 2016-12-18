@@ -3,10 +3,46 @@
        Create Board
     </h3>
 </div>
-<div class="modal-body" id="modal-body">
-    <div class="row">
+<div class="modal-body" id="modal-body" cg-busy="vm.createBoardPromise">
+    <div class="row form-group">
+        <label for="" class="col-sm-12">Name:</label>
         <div class="col-sm-12">
-            
+            <input type="text" name="name" ng-model="vm.board.name" class="form-control"  placeholder="Board name"/>
+        </div>
+    </div>
+    <div class="row">
+        <label for="" class="col-sm-12">Add users to the board</label>
+    </div>
+    <div class="well well-sm">
+        <div class="row form-group">
+            <div class="col-sm-6">
+                <div>
+                    <label for="">Full name:</label>
+                </div>
+                <input type="text" class="form-control" ng-model="vm.member.fullName" placeholder="User Full name" />
+            </div>
+            <div class="col-sm-6">
+                <div>
+                    <label for="">Email:</label>
+                </div>
+                <input type="email" class="form-control" ng-model="vm.member.email" placeholder="User Email" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-success btn-sm pull-right" ng-click="vm.addMember()">Add user</button>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <label for="" class="col-sm-12">Users added to the board</label>
+    </div>
+    <div class="row form-group">
+        <div class="col-sm-12">
+            <span class="label label-info tg-board-email" ng-repeat="member in vm.members track by $index" ng-click="vm.removeMember($index)">
+                {{member.fullName}} - {{member.email}} <i class="fa fa-times" aria-hidden="true"></i>
+            </span>
         </div>
     </div>
 </div>

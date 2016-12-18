@@ -19,6 +19,56 @@ module.exports = function(app) {
     trelloAPI.membersBoards, 
     trello.membersBoards
   ]);
+  app.post('/trello/boards', [
+    errorHandling.checkauth, 
+    trelloAPI.createBoard,
+    trello.createBoard
+  ]);
+  
+  app.put('/trello/boards/:id/members', [
+    errorHandling.checkauth, 
+    trelloAPI.addMemberToBoard,
+    trello.addMemberToBoard
+  ]);
+
+  app.put('/trello/boards/:id/labelNames/blue', [
+    errorHandling.checkauth, 
+    trelloAPI.addLabelBlue,
+    trello.addLabelBlue
+  ]);
+    app.put('/trello/boards/:id/labelNames/green', [
+    errorHandling.checkauth, 
+    trelloAPI.addLabelGreen,
+    trello.addLabelGreen
+  ]);
+    app.put('/trello/boards/:id/labelNames/orange', [
+    errorHandling.checkauth, 
+    trelloAPI.addLabelOrange,
+    trello.addLabelOrange
+  ]);
+    app.put('/trello/boards/:id/labelNames/purple', [
+    errorHandling.checkauth, 
+    trelloAPI.addLabelPurple,
+    trello.addLabelPurple
+  ]);
+    app.put('/trello/boards/:id/labelNames/red', [
+    errorHandling.checkauth, 
+    trelloAPI.addLabelRed,
+    trello.addLabelRed
+  ]);
+  app.put('/trello/boards/:id/labelNames/yellow', [
+    errorHandling.checkauth, 
+    trelloAPI.addLabelYellow,
+    trello.addLabelYellow
+  ]);
+  
+  
+  
+  app.post('/trello/boards/:id/lists', [
+    errorHandling.checkauth, 
+    trelloAPI.addListToBoard,
+    trello.addListToBoard
+  ]);
   
   app.get('/trello/boards/:id/lists', [
     errorHandling.checkauth,
