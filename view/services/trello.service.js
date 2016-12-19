@@ -36,6 +36,9 @@
         function addListToBoard(boardId, list) {
             return $http.post('/trello/boards/' + boardId + '/lists', list);
         }
+        function getLists(boardId) {
+            return $http.get('/trello/boards/' + boardId + '/lists');
+        }
         function membersBoards() {
             return $http.get('/trello/members/' + getUserLoggedId() + '/boards');
         }
@@ -49,6 +52,13 @@
         function createBoard(board) {
             return $http.post('/trello/boards', board);
         }
+        function createCard(listId, card) {
+            return $http.post('/trello/lists/'+ listId +'/cards', card);
+        }
+        function createComent(cardId, comment) {
+            return $http.post('/trello/cards/'+ cardId +'/actions/comments', comment);
+        }
+        
         function boardPostInSession(board) {
             var session = {
                 id: 'BoardSelected',
@@ -68,6 +78,9 @@
                 me: membersMe,
                 boards: membersBoards
             },
+            lists: {
+                createCard: createCard
+            },
             boards: {
                 create: createBoard,
                 postInSession: boardPostInSession,
@@ -79,7 +92,11 @@
                 addLabelOrange: addLabelOrange,
                 addLabelPurple: addLabelPurple,
                 addLabelRed: addLabelRed,
-                addLabelYellow: addLabelYellow
+                addLabelYellow: addLabelYellow,
+                getLists: getLists
+            },
+            cards: {
+                createComent: createComent
             }
         };
 

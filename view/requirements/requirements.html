@@ -1,24 +1,24 @@
 <link rel="stylesheet" href="/view/requirements/requirements.css" />
 
-<div class="row">
+<div class="row" cg-busy="vm.promiseLists">
     <div class="col-lg-4 col-sm-6">
         <tg-panel type="primary"
                   icon="fa-comments"
                   huge-title="'Requeriments'"
-                  large-title="vm.requeriments.length"                          
+                  large-title="vm.requeriments.cards.length"                          
         ></tg-panel>
         <div class="list-group">
             <a href="" class="list-group-item" 
                 ng-click="vm.openRequeriment(requeriment)"
-                ng-repeat="requeriment in vm.requeriments track by $index">
+                ng-repeat="requeriment in vm.requeriments.cards track by $index">
                 <div class="row">
-                    <div class="col-xs-8">
-                        {{requeriment.description}}
+                    <div class="col-xs-7">
+                        {{requeriment.name}}
                     </div>
-                    <div class="col-xs-2">
-                        <span>11/06</span>
+                    <div class="col-xs-4">
+                        <span>{{requeriment.dateLastActivity | date: 'dd/MM/yyyy HH:mm'}}</span>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-1">
                         <span class="badge badge-success">{{requeriment.priority}}</span>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
             <div class="panel-heading huge">
                 Create new requeriment
             </div>
-            <div class="panel-body">
+            <div class="panel-body" cg-busy="vm.createCardPromise">
                 <tg-requeriment save="vm.saveRequeriment(requeriment)"></tg-requeriment>
             </div>            
         </div>

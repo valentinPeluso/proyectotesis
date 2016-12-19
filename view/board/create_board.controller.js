@@ -49,7 +49,7 @@
                    
                     var cantPromiseResolved = 0,
                         cantPromiseMembers = vm.members.length,
-                        cantPromiseList = 4,
+                        cantPromiseList = 5,
                         cantPromiseLabels = 6,
                         cantPromise =  cantPromiseMembers + cantPromiseList + cantPromiseLabels;
                     
@@ -69,16 +69,19 @@
                     //Lists
                     var lists = [
                         {
-                            name: 'Backlog',
+                            name: 'Requeriments'
                         },
                         {
-                            name: 'Sprint 1',
+                            name: 'Backlog'
                         },
                         {
-                            name: 'Sprint 2',
+                            name: 'Sprint 1'
                         },
                         {
-                            name: 'Sprint 3',
+                            name: 'Sprint 2'
+                        },
+                        {
+                            name: 'Sprint 3'
                         }
                     ];
                     _.forEach(lists, function(list, pos) {

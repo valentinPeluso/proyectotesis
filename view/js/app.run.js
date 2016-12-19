@@ -4,9 +4,9 @@
     angular.module('app')
         .run(run)
         
-        run.$inject = ["editableOptions", "$rootScope", "sessionService", '$location', 'storageService', 'trelloService']
+        run.$inject = ["editableOptions", "$rootScope", "sessionService", '$location', 'storageService', 'trelloService', '$route', '$http']
 
-    function run(editableOptions, $rootScope, sessionService, $location, storageService, trelloService) {
+    function run(editableOptions, $rootScope, sessionService, $location, storageService, trelloService, $route, $http) {
         
         editableOptions.theme = 'bs3'; // ANGULAR-XEDITABLE: bootstrap3 theme. Can be also 'bs2', 'default'
         
@@ -54,6 +54,8 @@
                         storageService.session.put(session);
                     }  
                 }
+            } else {
+                
             }         
         });
         

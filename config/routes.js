@@ -61,19 +61,25 @@ module.exports = function(app) {
     trelloAPI.addLabelYellow,
     trello.addLabelYellow
   ]);
-  
-  
-  
   app.post('/trello/boards/:id/lists', [
     errorHandling.checkauth, 
     trelloAPI.addListToBoard,
     trello.addListToBoard
   ]);
-  
   app.get('/trello/boards/:id/lists', [
+    errorHandling.checkauth, 
+    trelloAPI.getListsFromBoard,
+    trello.getListsFromBoard
+  ]);
+  app.post('/trello/lists/:id/cards', [
     errorHandling.checkauth,
-    trelloAPI.getBoardLists,
-    trello.getBoardLists
+    trelloAPI.createCard,
+    trello.createCard
+  ]);
+  app.post('/trello/cards/:id/actions/comments', [
+    errorHandling.checkauth,
+    trelloAPI.createComent,
+    trello.createComent
   ]);
   //-------- VIEW FILES ------
   app.get(/\/view\/?.*/, filesController.getFile);

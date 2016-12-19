@@ -124,6 +124,18 @@ function addListToBoard(req, res, next){
     });
 }
 
+function getListsFromBoard(req, res, next) {
+    var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
+    if (typeof req.params.id == 'undefined')
+        throw "The ID of the board is required";
+    
+    trelloAPI.get("/1/boards/" + req.params.id + '/lists', { cards : "all" },function(err, data) {
+        if (err) throw err;  
+        res.data = data;      
+        next();
+    });
+}
+
 function addMemberToBoard(req, res, next){
     var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
     if (typeof req.params.email == 'undefined')
@@ -148,20 +160,42 @@ function membersBoards(req, res, next){
         next();
     });
 }
-
-function getBoardLists(req, res, next){
+function createCard(req, res, next) {
     var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
-    trelloAPI.get("/1/boards/" + req.params.id,{ lists: "open" }, function(err, data) {
+    if (typeof req.params.id == 'undefined')
+        throw "List id is required";
+    
+    var card = {
+        name: req.params.name,
+    	desc: req.params.desc
+    };
+    
+    trelloAPI.post("/1/lists/" + req.params.id + "/cards", card, function(err, data) {
+        if (err) throw err;  
+        res.data = data;      
+        next();
+    });
+}
+function createComent(req, res, next) {
+    var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
+    if (typeof req.params.id == 'undefined')
+        throw "Card id is required";
+    
+    var comment = {
+        text: req.params.text
+    };
+    
+    trelloAPI.post("/1/cards/" + req.params.id + "/actions/comments", comment, function(err, data) {
         if (err) throw err;  
         res.data = data;      
         next();
     });
 }
 
+
 module.exports = {
     me: getMe,
     membersBoards: membersBoards,
-    getBoardLists: getBoardLists,
     createBoard: createBoard,
     addMemberToBoard: addMemberToBoard,
     addListToBoard: addListToBoard,
@@ -170,5 +204,8 @@ module.exports = {
     addLabelOrange: addLabelOrange,
     addLabelPurple: addLabelPurple,
     addLabelRed: addLabelRed,
-    addLabelYellow: addLabelYellow
+    addLabelYellow: addLabelYellow,
+    getListsFromBoard: getListsFromBoard,
+    createCard: createCard,
+    createComent: createComent
 };
