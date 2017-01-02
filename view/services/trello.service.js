@@ -59,6 +59,10 @@
             return $http.post('/trello/cards/'+ cardId +'/actions/comments', comment);
         }
         
+        function updateCard(cardId, card) {
+            return $http.put('/trello/cards/' + cardId , card);
+        }
+        
         function boardPostInSession(board) {
             var session = {
                 id: 'BoardSelected',
@@ -72,6 +76,7 @@
             }
             return storageService.session.get(session);
         }
+        
         
         var service = {
             members: {
@@ -96,7 +101,8 @@
                 getLists: getLists
             },
             cards: {
-                createComent: createComent
+                createComent: createComent,
+                update: updateCard
             }
         };
 

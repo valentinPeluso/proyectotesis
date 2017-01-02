@@ -40,6 +40,9 @@ function createCard(req, res) {
 function createComent(req, res) {
     res.send(res.data);
 }
+function updateCard(req, res) {
+    res.send(res.data);
+}
 
 module.exports = {
     me: me,
@@ -55,5 +58,6 @@ module.exports = {
     addLabelYellow: addLabelYellow,
     getListsFromBoard: getListsFromBoard,
     createCard: createCard,
-    createComent: createComent
+    createComent: createComent,
+    updateCard: updateCard
 };

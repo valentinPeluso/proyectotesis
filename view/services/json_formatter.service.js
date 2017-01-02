@@ -21,6 +21,9 @@
             _.forEach(array, function(element, index){
                 var key = _.split(element[0], ':')[0],
                     value = _.startCase(_.replace(element[1], '\n', ''));
+                if (!isNaN(parseInt(value))) {
+                    value = parseInt(value);
+                }
                 json = _.merge(json, {
                    [key] : value
                 });

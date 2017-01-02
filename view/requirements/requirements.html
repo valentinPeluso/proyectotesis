@@ -7,18 +7,18 @@
                   huge-title="'Requeriments'"
                   large-title="vm.requeriments.cards.length"                          
         ></tg-panel>
-        <div class="list-group">
+        <div class="list-group" cg-busy="vm.updateRequerimentPromise">
             <a href="" class="list-group-item" 
                 ng-click="vm.openRequeriment(requeriment)"
                 ng-repeat="requeriment in vm.requeriments.cards track by $index">
                 <div class="row">
-                    <div class="col-xs-7">
+                    <div class="col-xs-6">
                         {{requeriment.name}}
                     </div>
                     <div class="col-xs-4">
                         <span>{{requeriment.dateLastActivity | date: 'dd/MM/yyyy HH:mm'}}</span>
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-2">
                         <span class="badge badge-success">{{requeriment.priority}}</span>
                     </div>
                 </div>

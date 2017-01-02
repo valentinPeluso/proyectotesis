@@ -192,6 +192,23 @@ function createComent(req, res, next) {
     });
 }
 
+function updateCard(req, res, next) {
+    var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
+    if (typeof req.params.id == 'undefined')
+        throw "Card id is required";
+    
+    var card = {
+        name: req.params.name,
+    	desc: req.params.desc
+    };
+    
+    trelloAPI.put("/1/cards/" + req.params.id, card, function(err, data) {
+        if (err) throw err;  
+        res.data = data;      
+        next();
+    });
+}
+
 
 module.exports = {
     me: getMe,
@@ -207,5 +224,6 @@ module.exports = {
     addLabelYellow: addLabelYellow,
     getListsFromBoard: getListsFromBoard,
     createCard: createCard,
-    createComent: createComent
+    createComent: createComent,
+    updateCard: updateCard
 };

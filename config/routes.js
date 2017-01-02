@@ -81,6 +81,11 @@ module.exports = function(app) {
     trelloAPI.createComent,
     trello.createComent
   ]);
+  app.put('/trello/cards/:id', [
+    errorHandling.checkauth,
+    trelloAPI.updateCard,
+    trello.updateCard
+  ]);
   //-------- VIEW FILES ------
   app.get(/\/view\/?.*/, filesController.getFile);
   

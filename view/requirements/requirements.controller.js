@@ -37,8 +37,8 @@
         
         function saveRequeriment(requeriment) {
             var card = {
-                name: requeriment.title,
-                desc: jsonFormatterService.jsonToString(_.omit(requeriment, ['title']))
+                name: requeriment.name,
+                desc: jsonFormatterService.jsonToString(_.omit(requeriment, ['name']))
             };
             
             var deferred = $q.defer();
@@ -63,7 +63,24 @@
             
         }
         function openRequeriment(requeriment) {
-            UIRequerimentService.open(requeriment);
+            UIRequerimentService.open(requeriment).then(
+                function (requirementUpdated) {
+                   var promise = trelloService.cards.update(requeriment.id, requirementUpdated).then(
+                       function(result) {
+                           var card = _.merge(result.data, jsonFormatterService.stringToJson(result.data.desc));
+                           var pos = _.findIndex(vm.requeriments.cards, { 'id': card.id });
+                           vm.requeriments.cards[pos] = card;
+                       }, function(err) {
+                           
+                       });
+                   
+                   vm.updateRequerimentPromise = {
+                        promise: promise,
+                        message: 'Updating requeriment'
+                    }
+                }, function() {
+                    
+                });
         }
     }
     
