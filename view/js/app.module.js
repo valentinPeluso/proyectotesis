@@ -27,7 +27,8 @@
        'app.services',
        'app.ui_services',
        'xeditable',
-       'dndLists'
+       'dndLists',
+       'isteven-multi-select'
         
        
     ])

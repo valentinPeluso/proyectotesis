@@ -29,9 +29,9 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                <tr ng-repeat="req in vm.requeriments track by $index" style="cursor: pointer;" ng-click="vm.openRequeriment(req)">
-                    <td>{{ req.title }}</td>
+            <tbody cg-busy="vm.promiseLists">
+                <tr ng-repeat="req in vm.requeriments.cards track by $index" style="cursor: pointer;" ng-click="vm.openRequeriment(req)">
+                    <td>{{ req.name }}</td>
                     <td>{{ req.rason }}</td>
                     <td>{{ req.origin }}</td>
                     <td>{{ req.priority }}</td>

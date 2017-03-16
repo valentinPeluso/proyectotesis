@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-12" ng-if="$ctrl.location == '/analysis'">
+    <div class="col-sm-12" ng-if="$ctrl.location == '/analysis'" cg-busy="vm.promiseBoardMembers">
         <form role="form">
             <div class="form-group row">
                 <div class="col-lg-12">
@@ -27,27 +27,33 @@
             <div class="form-group row">
                 <div class="col-md-6">
                     <label>Assignee</label>
-                    <ui-select ng-model="$ctrl.card.assignee">
-                        <ui-select-match placeholder="Assignee">{{$select.selected.user}}</ui-select-match>
-                        <ui-select-choices repeat="assigne.id as assigne in $ctrl.possible_assignees | filter: $select.search">
-                            {{assigne.user}}
-                        </ui-select-choices>
-                    </ui-select>
+                    <div
+                        isteven-multi-select
+                        input-model="$ctrl.possible_assignees"
+                        output-model="$ctrl.card.assignee"
+                        button-label="fullName"
+                        item-label="fullName"
+                        tick-property="selected"
+                    >
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label>Points</label>
-                    <input type="number" class="form-control" ng-model="$ctrl.card.points"  max="3" min="1" placeholder="Points of the card.">
+                    <input type="number" class="form-control" ng-model="$ctrl.card.points"  max="15" min="1" placeholder="Points of the card.">
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-6">
                     <label>Reporter*</label>
-                    <ui-select ng-model="$ctrl.card.reporter">
-                        <ui-select-match placeholder="Reporter">{{$select.selected.user}}</ui-select-match>
-                        <ui-select-choices repeat="reporter.id as reporter in $ctrl.possible_assignees | filter: $select.search">
-                            {{reporter.user}}
-                        </ui-select-choices>
-                    </ui-select>
+                    <div
+                        isteven-multi-select
+                        input-model="$ctrl.possible_reporter"
+                        output-model="$ctrl.card.reporter"
+                        button-label="fullName"
+                        item-label="fullName"
+                        tick-property="selected"
+                    >
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label>Priority*</label>
@@ -55,14 +61,29 @@
                 </div>
             </div>            
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <label>Issue Link*</label>
-                    <ui-select multiple ng-model="$ctrl.card.issue_links">
-                        <ui-select-match placeholder="Issue links">{{$item.description}}</ui-select-match>
-                        <ui-select-choices repeat="issue_link.id as issue_link in $ctrl.possible_issue_links | filter: $select.search">
-                            {{issue_link.description}}
-                        </ui-select-choices>
-                    </ui-select>
+                    <div
+                        isteven-multi-select
+                        input-model="$ctrl.possible_issue_links"
+                        output-model="$ctrl.card.issue_links"
+                        button-label="description"
+                        item-label="description"
+                        tick-property="selected"
+                    >
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label>Labels*</label>
+                    <div
+                        isteven-multi-select
+                        input-model="$ctrl.possible_labels"
+                        output-model="$ctrl.card.labels"
+                        button-label="labels"
+                        item-label="labels"
+                        tick-property="selected"
+                    >
+                    </div>
                 </div>
             </div>
             <div class="form-group row">

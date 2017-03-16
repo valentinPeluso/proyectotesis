@@ -126,10 +126,10 @@
         }
         function getMockedPossibleAssigness() {
             return [
-                { id: 1, user: 'Valentin'},
-                { id: 2, user: 'Matias'},
-                { id: 3, user: 'Cristian'},
-                { id: 4, user: 'Tebi'},
+                { id: 1, user: 'Valentin', selected: false},
+                { id: 2, user: 'Matias',  selected: false},
+                { id: 3, user: 'Cristian',  selected: false},
+                { id: 4, user: 'Tebi',  selected: false},
             ];
         }
         function getMockedIssuesLinks() {

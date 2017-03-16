@@ -4,12 +4,33 @@
     angular.module('app.analysis')
     .controller('analysisController', analysisController)
     
-    analysisController.$inject = ['mockedObjectsService', 'UICardService', 'UIRequerimentService'];
+    analysisController.$inject = ['trelloService', 'UICardService', 'UIRequerimentService', 'storageService', 'jsonFormatterService'];
     
-    function analysisController(mockedObjectsService, UICardService, UIRequerimentService){
+    function analysisController(trelloService, UICardService, UIRequerimentService, storageService, jsonFormatterService){
         var vm = this;
         
-        vm.requeriments = mockedObjectsService.requeriments.getMockedRequeriments();
+        var session = {
+            id: 'BoardSelected'
+        }
+        var boardSelected = storageService.session.get(session);
+        
+        vm.requeriments = [];
+        
+        var promise = trelloService.boards.getLists(boardSelected.id).then(
+            function (result) {
+                vm.requeriments = _.find(result.data, { 'name': 'Requeriments' });
+                _.forEach(vm.requeriments.cards, function (card, index) {
+                    card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
+                })
+                console.log();
+            }, function (err) {
+                console.log();
+            });
+            
+        vm.promiseLists = {
+            promise: promise,
+            message: 'Loading requeriments'
+        };
         
         vm.openRequeriment = openRequeriment;
         
