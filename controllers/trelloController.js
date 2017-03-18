@@ -62,6 +62,14 @@ function updateCard(req, res) {
     res.send(res.data);
 }
 
+function getListById(req, res) {
+    res.send(res.data);
+}
+
+function getCardById(req, res) {
+    res.send(res.data);
+}
+
 module.exports = {
     me: me,
     membersBoards: membersBoards,
@@ -75,6 +83,8 @@ module.exports = {
     addLabelRed: addLabelRed,
     addLabelYellow: addLabelYellow,
     getListsFromBoard: getListsFromBoard,
+    getListById: getListById,
+    getCardById: getCardById,
     getMembersFromBoard: getMembersFromBoard,
     createCard: createCard,
     createComent: createComent,

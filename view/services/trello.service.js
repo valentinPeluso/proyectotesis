@@ -15,7 +15,8 @@
                 boards: membersBoards
             },
             lists: {
-                createCard: createCard
+                createCard: createCard,
+                getList: getListById
             },
             boards: {
                 create: createBoard,
@@ -34,9 +35,18 @@
             },
             cards: {
                 createComent: createComent,
-                update: updateCard
+                update: updateCard,
+                getCard: getCardById
             }
         };
+
+        function getCardById(idList) {
+            return $http.get('/trello/cards/' + idList);
+        }
+
+        function getListById(idList) {
+            return $http.get('/trello/lists/' + idList);
+        }
 
         function membersMe() {
             return $http.get('/trello/members/me');

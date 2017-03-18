@@ -76,6 +76,16 @@ module.exports = function(app) {
     trelloAPI.getMembersFromBoard,
     trello.getMembersFromBoard
   ]);
+  app.get('/trello/lists/:id', [
+    errorHandling.checkauth,
+    trelloAPI.getListById,
+    trello.getListById
+  ]);
+  app.get('/trello/cards/:id', [
+    errorHandling.checkauth,
+    trelloAPI.getCardById,
+    trello.getCardById
+  ]);
   app.post('/trello/lists/:id/cards', [
     errorHandling.checkauth,
     trelloAPI.createCard,

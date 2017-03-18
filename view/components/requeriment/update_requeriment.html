@@ -1,4 +1,4 @@
-<div class="row form-group">
+<div class="row form-group" cg-busy="$ctrl.promiseGetRequeriment">
     <div class="col-sm-12">
         <form role="form" >
              <div class="form-group row">
@@ -26,8 +26,8 @@
                         isteven-multi-select
                         input-model="$ctrl.possible_dependencies"
                         output-model="$ctrl.requeriment.dependencies"
-                        button-label="description"
-                        item-label="description"
+                        button-label="name"
+                        item-label="name"
                         tick-property="selected"
                     ></div>
                 </div>
