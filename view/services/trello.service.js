@@ -40,8 +40,8 @@
             }
         };
 
-        function getCardById(idList) {
-            return $http.get('/trello/cards/' + idList);
+        function getCardById(idCard) {
+            return $http.get('/trello/cards/' + idCard);
         }
 
         function getListById(idList) {

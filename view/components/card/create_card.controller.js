@@ -49,7 +49,8 @@
 
             var card = {
                 name: vm.card.name,
-                desc: jsonFormatterService.jsonToString(_.omit(vm.card, ['name']))
+                desc: jsonFormatterService.jsonToString(_.omit(vm.card, ['name'])),
+                idMembers: vm.card.assignee
             };
 
             var promise = trelloService.lists.createCard(vm.idBacklogList, card).then(

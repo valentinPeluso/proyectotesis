@@ -162,7 +162,7 @@ function getListById(req, res, next) {
 
     trelloAPI.get("/1/lists/" + req.params.id, {
         cards: "all",
-        card_fields: "name"
+        card_fields: "name,desc"
     }, function(err, data) {
         if (err) throw err;
         res.data = data;
@@ -220,6 +220,10 @@ function createCard(req, res, next) {
         name: req.params.name,
         desc: req.params.desc
     };
+
+    if (req.params.idMembers) {
+        card.idMembers = req.params.idMembers;
+    }
 
     trelloAPI.post("/1/lists/" + req.params.id + "/cards", card, function(err, data) {
         if (err) throw err;
