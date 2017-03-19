@@ -14,7 +14,8 @@
             templateUrl: '/view/components/requeriment/detail_requeriment.html',
             controller: 'detailRequerimentComponentController',
             bindings: {
-                requeriment: '<',
+                idRequeriment: '<',
+                idRequerimentList: '<'
             }
         })
         .component('tgUpdateRequeriment', {
@@ -22,6 +23,7 @@
             controller: 'updateRequerimentComponentController',
             bindings: {
                 idRequeriment: '<',
+                idRequerimentList: '<'
             }
         });
 

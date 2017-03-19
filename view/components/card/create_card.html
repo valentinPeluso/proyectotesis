@@ -1,10 +1,10 @@
 <div class="row">
-    <div class="col-sm-12" ng-if="$ctrl.location == '/analysis'" cg-busy="vm.promiseBoardMembers">
+    <div class="col-sm-12" cg-busy="$ctrl.promise">
         <form role="form">
             <div class="form-group row">
                 <div class="col-lg-12">
                     <label>Title</label>
-                    <input type="text" class="form-control" ng-model="$ctrl.card.title">
+                    <input type="text" class="form-control" ng-model="$ctrl.card.name">
                 </div>
             </div>
             <div class="form-group row">
@@ -67,8 +67,8 @@
                         isteven-multi-select
                         input-model="$ctrl.possible_issue_links"
                         output-model="$ctrl.card.issue_links"
-                        button-label="description"
-                        item-label="description"
+                        button-label="name"
+                        item-label="name"
                         tick-property="selected"
                     >
                     </div>
@@ -102,65 +102,5 @@
                 </div>
             </div>
         </form> 
-    </div>
-    <div class="col-sm-12"  ng-if="$ctrl.location !== '/analysis'">
-        <div class="form-group row">
-            <div class="col-lg-12">
-                <label>Title:</label>
-                <div>{{$ctrl.card.title}}</div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-12">
-                <label>Description:</label>
-                <div>{{$ctrl.card.description}}</div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-12">
-                <label>Business rules:</label>
-                <div class="input-group" ng-repeat="business_rule in $ctrl.card.business_rules track by $index" style="margin-bottom: 2px;">
-                    <span class="input-group-addon" ng-if="$ctrl.location !== '/development'">
-                        <input type="checkbox" ng-model="business_rule.completed" disabled>
-                    </span>
-                    <span class="input-group-addon" ng-if="$ctrl.location == '/development'">
-                        <input type="checkbox" ng-model="business_rule.completed">
-                    </span>
-                    <input type="text" class="form-control" ng-model="business_rule.description" disabled>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label>Assignee:</label>
-                <div>{{$ctrl.card.assignee.user}}</div>
-            </div>
-            <div class="col-md-6">
-                <label>Points:</label>
-                <div>{{$ctrl.card.points}}</div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label>Reporter:</label>
-                <div>{{$ctrl.card.reporter || 'none'}}</div>
-            </div>
-            <div class="col-md-6">
-                <label>Priority:</label>
-                <div>{{$ctrl.card.priority || 'none'}}</div>
-            </div>
-        </div>            
-        <div class="form-group row">
-            <div class="col-md-12">
-                <label>Issue Link:</label>
-                <div>{{$ctrl.card.issue_links || 'none'}}</div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-12">
-                <label>Attachments:</label>
-                <div>{{$ctrl.card.attachments || 'none'}}</div>
-            </div>
-        </div>
     </div>
 </div>

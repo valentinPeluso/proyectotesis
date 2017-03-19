@@ -35,28 +35,7 @@
         vm.openRequeriment = openRequeriment;
 
         function openRequeriment(requeriment) {
-            UIRequerimentService.open(requeriment).then(
-                function(requirementUpdated) {
-                    // var promise = trelloService.cards.update(requeriment.id, requirementUpdated).then(
-                            //     function(result) {
-                            //         var card = _.merge(result.data, jsonFormatterService.stringToJson(result.data.desc));
-                            //         var pos = _.findIndex(vm.requerimentList.cards, {
-                            //             'id': card.id
-                            //         });
-                            //         vm.requerimentList.cards[pos] = card;
-                            //     },
-                            //     function(err) {
-                    
-                            //     });
-                    
-                            // vm.updateRequerimentPromise = {
-                            //     promise: promise,
-                            //     message: 'Updating requeriment'
-                            // }
-                },
-                function() {
-
-                });
+            UIRequerimentService.update(requeriment);
         }
     }
 

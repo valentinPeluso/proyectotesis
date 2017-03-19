@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h3 class="modal-title">
+        {{vm.requeriment.name}}
+    </h3>
+</div>
+<div class="modal-body">
+    <div class="row" cg-busy="vm.promiseBoardLists">
+        <div class="col-lg-12">
+            <uib-tabset justified="true" active="0">
+                <uib-tab index="0">
+                    <uib-tab-heading>
+                        <i class="fa fa-search" aria-hidden="true"></i> Details of the requeriment 
+                    </uib-tab-heading>
+                    <div class="well tg-well">
+                        <tg-detail-requeriment id-requeriment="vm.requeriment.id" id-requeriment-list="vm.requeriment.idList"></tg-detail-requeriment>                        
+                    </div>
+                </uib-tab>
+                <uib-tab index="1">
+                    <uib-tab-heading>
+                        <i class="fa fa-trello" aria-hidden="true"></i> Create cards
+                    </uib-tab-heading>
+                    <div class="well tg-well">
+                        <tg-create-card id-backlog-list="vm.idBacklogList" id-requeriment="vm.requeriment.id"></tg-create-card>                       
+                    </div>
+                </uib-tab>
+                <uib-tab index="2">
+                    <uib-tab-heading>
+                        <i class="fa fa-list" aria-hidden="true"></i> Cards created
+                    </uib-tab-heading>
+                    <div class="well tg-well">
+                        <tg-cards cards="$ctrl.cards"></tg-card>                        
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

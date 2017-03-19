@@ -4,51 +4,73 @@
     angular.module('app.components')
         .controller('updateRequerimentComponentController', updateRequerimentComponentController)
 
-    updateRequerimentComponentController.$inject = ['mockedObjectsService', 'sessionService', '$location', 'jsonFormatterService', 'trelloService']
+    updateRequerimentComponentController.$inject = ['jsonFormatterService', 'trelloService', '$q']
 
-    function updateRequerimentComponentController(mockedObjectsService, sessionService, $location, jsonFormatterService, trelloService) {
+    function updateRequerimentComponentController(jsonFormatterService, trelloService, $q) {
         var vm = this;
 
-        var promise = trelloService.cards.getCard(vm.idRequeriment).then(
+        var promise = $q.all([
+            trelloService.cards.getCard(vm.idRequeriment),
+            trelloService.lists.getList(vm.idRequerimentList)
+        ]).then(
             function(result) {
-                vm.requeriment = result.data;
+                vm.requeriment = result[0].data;
                 vm.requeriment = _.merge(vm.requeriment, jsonFormatterService.stringToJson(vm.requeriment.desc));
-                debugger;
+                vm.requerimentList = result[1].data
+                vm.possible_dependencies = vm.requerimentList.cards;
+                var dependencies = [];
+                _.forEach(vm.requeriment.dependencies, function(idDependencie) {
+                    dependencies.push(
+                        _.merge(
+                            _.find(
+                                vm.possible_dependencies, {
+                                    id: idDependencie
+                                }
+                            ), {
+                                selected: true
+                            }
+                        )
+                    );
+                });
+                vm.requeriment.dependencies = dependencies;
             },
             function(err) {
                 console.log();
             });
 
-        vm.promiseGetRequeriment = {
+        vm.promise = {
             promise: promise,
             message: 'Loading requeriment'
         };
 
+        vm.saveRequeriment = saveRequeriment;
 
+        function saveRequeriment() {
+            var updatedRequirement = {
+                rason: vm.requeriment.rason,
+                origin: vm.requeriment.origin,
+                description: vm.requeriment.description,
+                priority: vm.requeriment.priority,
+                dependencies: _.map(vm.requeriment.dependencies, 'id')
+            }
+            var requeriment = {
+                name: vm.requeriment.name,
+                desc: jsonFormatterService.jsonToString(updatedRequirement)
+            };
 
-        // var boardSelected = trelloService.boards.getFromSession();
+            var promise = trelloService.cards.update(vm.requeriment.id, requeriment).then(
+                function(result) {
+                    location.reload();
+                },
+                function(err) {
+                    location.reload();
+                });
 
-        // var promise = trelloService.boards.getLists(boardSelected.id).then(
-        //     function(result) {
-        //         vm.lists = result.data;
-        //     },
-        //     function(err) {
-        //         console.log();
-        //     });
-
-        // vm.promiseBoardLists = {
-        //     promise: promise,
-        //     message: 'Loading board lists'
-        // };
-
-        // vm.possible_assigness = mockedObjectsService.cards.getMockedPossibleAssigness();
-
-        // vm.cards = mockedObjectsService.cards.getMokedCards();
-        // _.forEach(vm.cards, function(card, index) {
-        //     card.assignee = _.find(vm.possible_assigness, {
-        //         id: card.assignee
-        //     });
-        // });
+            vm.promise = {
+                promise: promise,
+                message: 'Updating requeriment'
+            }
+        }
 
     }
 

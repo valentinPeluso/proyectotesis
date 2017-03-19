@@ -4,9 +4,9 @@
     angular.module('app.components')
         .controller('createRequerimentComponentController', createRequerimentComponentController)
 
-    createRequerimentComponentController.$inject = ['$route', 'jsonFormatterService', 'trelloService', '$q']
+    createRequerimentComponentController.$inject = ['jsonFormatterService', 'trelloService', '$q']
 
-    function createRequerimentComponentController($route, jsonFormatterService, trelloService, $q) {
+    function createRequerimentComponentController(jsonFormatterService, trelloService, $q) {
         var vm = this;
 
         this.$onChanges = function(changesObj) {
@@ -56,10 +56,10 @@
                 function(err) {})
             deferred.promise.then(
                 function(card) {
-                    $route.reload();
+                    location.reload();
                 },
                 function(err) {
-                    $route.reload();
+                    location.reload();
                 });
         }
 

@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     angular
@@ -9,40 +9,47 @@
 
     function UIRequerimentService($uibModal, sessionService, $q) {
         var service = {
-            open: open
+            update: updateRequeriment,
+            createCardsFromRequeriment: createCardsFromRequeriment
         };
 
         return service;
-        
-        function open(requeriment) {
-            var deferred = $q.defer();
+
+        function updateRequeriment(requeriment) {
             var modalInstance = $uibModal.open({
-                animation: true,                
+                animation: true,
                 templateUrl: '/view/ui_services/requeriment/requeriment.html',
                 controller: 'viewRequerimentController',
                 controllerAs: 'vm',
-                size: getSize(),
+                size: 'md',
                 resolve: {
-                    requeriment: function () {
+                    requeriment: function() {
                         return requeriment;
                     }
                 }
             });
-            modalInstance.result.then(
-                function (card) {
-                    deferred.resolve(card);
-                }, function () {
-                    deferred.reject();
-                });
-            return deferred.promise;
+            modalInstance.result.then(function(success) {}, function(err) {});
         }
-        function getSize() {
-            if (sessionService.checkPermission('Analysis')) {
-                return 'lg';
-            } else {
-                return 'md';
-            }
+
+        function createCardsFromRequeriment(requeriment, idBacklogList) {
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '/view/ui_services/requeriment/create_cards_from_requeriment.html',
+                controller: 'viewCreateCardsFromRequerimentController',
+                controllerAs: 'vm',
+                size: 'lg',
+                resolve: {
+                    requeriment: function() {
+                        return requeriment;
+                    },
+                    idBacklogList: function() {
+                        return idBacklogList;
+                    }
+                }
+            });
+            modalInstance.result.then(function(success) {}, function(err) {});
         }
+
     }
 
 })();

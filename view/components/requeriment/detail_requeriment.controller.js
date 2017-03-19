@@ -4,34 +4,44 @@
     angular.module('app.components')
         .controller('detailRequerimentComponentController', detailRequerimentComponentController)
 
-    detailRequerimentComponentController.$inject = ['mockedObjectsService', 'sessionService', '$location', 'jsonFormatterService', 'trelloService']
+    detailRequerimentComponentController.$inject = ['$q', '$location', 'jsonFormatterService', 'trelloService']
 
-    function detailRequerimentComponentController(mockedObjectsService, sessionService, $location, jsonFormatterService, trelloService) {
+    function detailRequerimentComponentController($q, $location, jsonFormatterService, trelloService) {
         var vm = this;
 
-        // var boardSelected = trelloService.boards.getFromSession();
+        var promise = $q.all([
+            trelloService.cards.getCard(vm.idRequeriment),
+            trelloService.lists.getList(vm.idRequerimentList)
+        ]).then(
+            function(result) {
+                vm.requeriment = result[0].data;
+                vm.requeriment = _.merge(vm.requeriment, jsonFormatterService.stringToJson(vm.requeriment.desc));
+                vm.requerimentList = result[1].data
+                vm.possible_dependencies = vm.requerimentList.cards;
+                var dependencies = [];
+                _.forEach(vm.requeriment.dependencies, function(idDependencie) {
+                    dependencies.push(
+                        _.merge(
+                            _.find(
+                                vm.possible_dependencies, {
+                                    id: idDependencie
+                                }
+                            ), {
+                                selected: true
+                            }
+                        )
+                    );
+                });
+                vm.requeriment.dependencies = dependencies;
+            },
+            function(err) {
+                console.log();
+            });
 
-        // var promise = trelloService.boards.getLists(boardSelected.id).then(
-        //     function(result) {
-        //         vm.lists = result.data;
-        //     },
-        //     function(err) {
-        //         console.log();
-        //     });
-
-        // vm.promiseBoardLists = {
-        //     promise: promise,
-        //     message: 'Loading board lists'
-        // };
-
-        // vm.possible_assigness = mockedObjectsService.cards.getMockedPossibleAssigness();
-
-        // vm.cards = mockedObjectsService.cards.getMokedCards();
-        // _.forEach(vm.cards, function(card, index) {
-        //     card.assignee = _.find(vm.possible_assigness, {
-        //         id: card.assignee
-        //     });
-        // });
+        vm.promise = {
+            promise: promise,
+            message: 'Loading requeriment'
+        };
 
     }
 
