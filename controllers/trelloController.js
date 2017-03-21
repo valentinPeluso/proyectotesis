@@ -70,6 +70,11 @@ function getCardById(req, res) {
     res.send(res.data);
 }
 
+function getCardsFromBoard(req, res) {
+    res.send(res.data);
+}
+
+
 module.exports = {
     me: me,
     membersBoards: membersBoards,
@@ -88,5 +93,6 @@ module.exports = {
     getMembersFromBoard: getMembersFromBoard,
     createCard: createCard,
     createComent: createComent,
-    updateCard: updateCard
+    updateCard: updateCard,
+    getCardsFromBoard: getCardsFromBoard
 };

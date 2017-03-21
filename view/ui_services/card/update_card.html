@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+        {{ vm.card.name }}
+    </h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <tg-update-card id-card="vm.card.id"></tg-update-card>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+</div>

@@ -4,9 +4,9 @@
     angular.module('app.components')
         .controller('listCardsComponentController', listCardsComponentController)
 
-    listCardsComponentController.$inject = ['trelloService', '$q', 'jsonFormatterService']
+    listCardsComponentController.$inject = ['trelloService', '$q', 'jsonFormatterService', 'UICardService']
 
-    function listCardsComponentController(trelloService, $q, jsonFormatterService) {
+    function listCardsComponentController(trelloService, $q, jsonFormatterService, UICardService) {
         var vm = this;
 
         vm.cards = [];
@@ -34,7 +34,6 @@
                 if (vm.idLinkedCard) {
                     vm.cards = _.filter(vm.cards, ['idRequeriment', vm.idLinkedCard]);
                 }
-                debugger;
             },
             function(err) {
                 console.log();
@@ -44,7 +43,7 @@
         vm.removeCard = removeCard;
 
         function openCard(card) {
-            //UICardService.open(card);
+            UICardService.updateCard(card.id, card.name);
         };
 
         function removeCard(cards, index) {

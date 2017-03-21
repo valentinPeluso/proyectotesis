@@ -155,6 +155,18 @@ function getMembersFromBoard(req, res, next) {
     });
 }
 
+function getCardsFromBoard(req, res, next) {
+    var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
+    if (typeof req.params.id == 'undefined')
+        throw "The ID of the board is required";
+
+    trelloAPI.get("/1/boards/" + req.params.id + '/cards', function(err, data) {
+        if (err) throw err;
+        res.data = data;
+        next();
+    });
+}
+
 function getListById(req, res, next) {
     var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
     if (typeof req.params.id == 'undefined')
@@ -284,5 +296,6 @@ module.exports = {
     getMembersFromBoard: getMembersFromBoard,
     createCard: createCard,
     createComent: createComent,
-    updateCard: updateCard
+    updateCard: updateCard,
+    getCardsFromBoard: getCardsFromBoard
 };

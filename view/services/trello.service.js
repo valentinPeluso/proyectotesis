@@ -31,7 +31,8 @@
                 addLabelPurple: addLabelPurple,
                 addLabelRed: addLabelRed,
                 addLabelYellow: addLabelYellow,
-                getLists: getLists
+                getLists: getLists,
+                getCards: getCards
             },
             cards: {
                 createComent: createComent,
@@ -86,6 +87,10 @@
 
         function addListToBoard(boardId, list) {
             return $http.post('/trello/boards/' + boardId + '/lists', list);
+        }
+
+        function getCards(boardId) {
+            return $http.get('/trello/boards/' + boardId + '/cards');
         }
 
         function getLists(boardId) {

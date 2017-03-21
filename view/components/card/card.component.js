@@ -11,6 +11,13 @@
                 idRequeriment: '<'
             }
         })
+        .component('tgUpdateCard', {
+            templateUrl: '/view/components/card/update_card.html',
+            controller: 'updateCardComponentController',
+            bindings: {
+                idCard: '<'
+            }
+        })
         .component('tgListCards', {
             templateUrl: '/view/components/card/list_cards.html',
             controller: 'listCardsComponentController',
