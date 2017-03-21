@@ -7,8 +7,8 @@
             templateUrl: '/view/components/panel/panel.html',
             controller: panelComponentController,
             bindings: {
-                type: '@',
-                icon: '@',
+                type: '<',
+                icon: '<',
                 quantityCards: '<',
                 hugeTitle: '<',
                 largeTitle: '<',
@@ -18,14 +18,16 @@
                 itemParam: '<'
             }
         });
-        
-    panelComponentController.$inject = []    
+
+    panelComponentController.$inject = []
 
     function panelComponentController() {
         var vm = this;
-        
+
         vm.click = function() {
-            vm.onClick({ item : vm.itemParam});
+            vm.onClick({
+                item: vm.itemParam
+            });
         }
     }
 
