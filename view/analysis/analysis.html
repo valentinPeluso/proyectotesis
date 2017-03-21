@@ -30,14 +30,26 @@
                 </tr>
             </thead>
             <tbody cg-busy="vm.promiseLists">
-                <tr ng-repeat="req in vm.requeriments.cards track by $index" style="cursor: pointer;" ng-click="vm.openRequeriment(req)">
+                <tr ng-repeat="req in vm.requerimentList.cards track by $index" style="cursor: pointer;" ng-click="vm.openRequeriment(req)">
                     <td>{{ req.name }}</td>
                     <td>{{ req.rason }}</td>
                     <td>{{ req.origin }}</td>
                     <td>{{ req.priority }}</td>
-                    <td>{{ req.dependencies }}</td>
+                    <td>
+                        <ul style="padding-left: 0; list-style-type: none;">
+                            <li ng-repeat="dep in req.dependencies track by $index">
+                                {{ dep.name }}
+                            </li>
+                        </ul>
+                    </td>
                     <td>{{ req.use_case }}</td>
-                    <td>{{ req.cards }}</td>
+                    <td>
+                        <ul style="padding-left: 0; list-style-type: none;">
+                            <li ng-repeat="card in req.cardsCreatedFromRequeriment track by $index">
+                                {{ card.name }}
+                            </li>
+                        </ul>
+                    </td>
                 </tr>
             </tbody>
         </table>

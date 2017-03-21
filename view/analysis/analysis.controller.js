@@ -18,19 +18,49 @@
 
         var promise = trelloService.boards.getLists(boardSelected.id).then(
             function(result) {
-                vm.requeriments = _.find(result.data, {
+
+                vm.requerimentList = _.find(result.data, {
                     'name': 'Requeriments'
                 });
+
                 vm.backlogList = _.find(result.data, {
                     'name': 'Backlog'
                 });
-                _.forEach(vm.requeriments.cards, function(card, index) {
+
+                _.forEach(vm.backlogList.cards, function(card) {
                     card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
-                })
-                console.log();
+                });
+
+                var possible_dependencies = angular.copy(vm.requerimentList.cards);
+
+                _.forEach(vm.requerimentList.cards, function(card, index) {
+                    card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
+
+                    var dependencies = [];
+                    _.forEach(card.dependencies, function(idDependencie) {
+                        dependencies.push(
+                            _.pick(
+                                _.find(
+                                    possible_dependencies, {
+                                        id: idDependencie
+                                    }
+                                ), [
+                                    'id',
+                                    'name'
+                                ]
+                            )
+                        );
+                        card.dependencies = dependencies;
+                    });
+                    card.cardsCreatedFromRequeriment = _.filter(vm.backlogList.cards, {
+                        idRequeriment: card.id
+                    });
+
+                });
+                debugger;
             },
             function(err) {
-                console.log();
+
             });
 
         vm.promiseLists = {
