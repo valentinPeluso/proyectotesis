@@ -19,9 +19,9 @@
             }
         });
 
-    panelComponentController.$inject = []
+    panelComponentController.$inject = ['$sce']
 
-    function panelComponentController() {
+    function panelComponentController($sce) {
         var vm = this;
 
         vm.click = function() {

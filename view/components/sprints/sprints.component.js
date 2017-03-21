@@ -33,7 +33,12 @@
                             _.pick(card, 'points')
                         );
                     })
-                    sprint.points_total = _.sum(cards_points);
+                    sprint.points_to_do = _.sum(cards_points);
+                    sprint.points_made = 0;
+                    sprint.points_section =
+                        '<span class="label label-success">' + sprint.points_made + '</span' +
+                        '>&nbsp;&nbsp;' +
+                        '<span class="label label-primary">' + sprint.points_to_do + '</span>';
                 })
 
                 vm.backlog = _.find(result.data, {
