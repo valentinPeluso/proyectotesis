@@ -37,9 +37,14 @@
             cards: {
                 createComent: createComent,
                 update: updateCard,
-                getCard: getCardById
+                getCard: getCardById,
+                moveCard: moveCard
             }
         };
+
+        function moveCard(idCard, value) {
+            return $http.put('/trello/cards/' + idCard + '/idList', value);
+        }
 
         function getCardById(idCard) {
             return $http.get('/trello/cards/' + idCard);

@@ -74,6 +74,10 @@ function getCardsFromBoard(req, res) {
     res.send(res.data);
 }
 
+function moveCard(req, res) {
+    res.send(res.data);
+}
+
 
 module.exports = {
     me: me,
@@ -94,5 +98,6 @@ module.exports = {
     createCard: createCard,
     createComent: createComent,
     updateCard: updateCard,
-    getCardsFromBoard: getCardsFromBoard
+    getCardsFromBoard: getCardsFromBoard,
+    moveCard: moveCard
 };

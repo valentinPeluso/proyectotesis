@@ -1,10 +1,13 @@
-<div class="list-group" dnd-list="$ctrl.cards">
-    <div class="list-group-item tg-list-group-item-draggable" 
-         ng-repeat="card in $ctrl.cards track by $index" 
-         ng-click="$ctrl.openCard(card)"
-         dnd-moved="$ctrl.removeCard($ctrl.cards, $index)"
-         dnd-effect-allowed="move"
-         dnd-draggable="card">
+<div class="list-group"
+    dnd-list="$ctrl.cards">
+    <div class="list-group-item"
+        ng-class="{'tg-list-group-item-draggable' : $ctrl.allowMoveCard}"
+        ng-repeat="card in $ctrl.cards track by $index" 
+        ng-click="$ctrl.openCard(card)"
+        dnd-moved="$ctrl.removeCard($ctrl.cards, $index, card)"
+        dnd-effect-allowed="move"
+        dnd-draggable="card"
+        dnd-disable-if="!$ctrl.allowMoveCard">
         <div class="row">
             <div class="col-xs-8">
                 <a href="" >{{ card.name }}</a>

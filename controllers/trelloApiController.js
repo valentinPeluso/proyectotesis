@@ -260,6 +260,26 @@ function createComent(req, res, next) {
     });
 }
 
+function moveCard(req, res, next) {
+    var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
+    if (typeof req.params.idCard == 'undefined')
+        throw "Card id is required";
+
+    var card = {
+        value: req.params.value
+    };
+
+    trelloAPI.put(
+        "/1/cards/" + req.params.idCard + "/idList",
+        card,
+        function(err, data) {
+            if (err) throw err;
+            res.data = data;
+            next();
+        }
+    );
+}
+
 function updateCard(req, res, next) {
     var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
     if (typeof req.params.id == 'undefined')
@@ -297,5 +317,6 @@ module.exports = {
     createCard: createCard,
     createComent: createComent,
     updateCard: updateCard,
+    moveCard: moveCard,
     getCardsFromBoard: getCardsFromBoard
 };

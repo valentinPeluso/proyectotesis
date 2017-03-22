@@ -22,6 +22,7 @@
                 vm.members = result[1].data;
                 _.forEach(vm.cards, function(card) {
                     card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
+                    card.idList = vm.idList;
                     var assignees = [];
                     _.forEach(card.assignee, function(idMember) {
                         assignees.push(_.find(vm.members, {
@@ -39,6 +40,15 @@
                 console.log();
             });
 
+        vm.promise = {
+            promise: promise,
+            message: 'Loading'
+        };
+
+        vm.onOpen({
+            promise: promise
+        })
+
         vm.openCard = openCard;
         vm.removeCard = removeCard;
 
@@ -46,8 +56,9 @@
             UICardService.updateCard(card.id, card.name);
         };
 
-        function removeCard(cards, index) {
+        function removeCard(cards, index, card) {
             cards.splice(index, 1);
+            debugger;
         }
 
     }

@@ -1,27 +1,52 @@
-<div class="panel panel-{{$ctrl.type}}">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-xs-3">
-                <div class="huge" ng-if="$ctrl.quantityCards">
-                    {{$ctrl.quantityCards}} <img src="/view/img/trello.png" class="trelloImg" />
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel"
+            ng-class="{
+                'panel-success': !$ctrl.list.closed && $ctrl.list.name !== 'Backlog', 
+                'panel-warning': $ctrl.list.closed,
+                'panel-primary': $ctrl.list.name == 'Backlog'}"
+            dnd-list="$ctrl.list.cards"
+            dnd-inserted="$ctrl.inserted(index, item, external, type)"
+            cg-busy="$ctrl.promise">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="huge" ng-if="$ctrl.list.cards.lenght > 0">
+                            {{$ctrl.list.cards.lenght}} <img src="/view/img/trello.png" class="trelloImg" />
+                        </div>
+                        <i class="fa fa-5x"
+                            ng-class="{
+                            'fa-list': $ctrl.list.name == 'Backlog',
+                            'fa-lock': $ctrl.list.closed,
+                            'fa-folder-open-o': !$ctrl.list.closed && $ctrl.list.name !== 'Backlog'
+                            }"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{$ctrl.list.name}}</div>
+                        <div class="medium" ng-if="$ctrl.list.name !== 'Backlog'">
+                            <span class="label label-success">
+                                {{ $ctrl.list.points_made }}
+                            </span>
+                            &nbsp;&nbsp;
+                            <span class="label label-primary">
+                                {{ $ctrl.list.points_to_do }}
+                            </span>
+                        </div>                        
+                        <div ng-if="$ctrl.list.closed">Closed</div>
+                        <div ng-if="!$ctrl.list.closed">Opened</div>
+                    </div>
                 </div>
-                <i class="fa {{$ctrl.icon}} fa-5x"></i>
             </div>
-            <div class="col-xs-9 text-right">
-                <div class="huge">{{$ctrl.hugeTitle}}</div>
-                <div class="large">{{$ctrl.largeTitle}}</div>
-                <div class="medium">
-                    <span ng-bind-html="$ctrl.mediumTitle | unsafe"></span>
-                </div>                        
-                <div>{{$ctrl.lastTitle}}</div>
+            <div class="panel-footer panel-footer-clickable" ng-click="$ctrl.click()">
+                <span class="pull-left">View</span>
+                <span class="pull-right">
+                    <i class="fa fa-arrow-circle-right"></i>
+                </span>
+                <div class="clearfix"></div>
             </div>
         </div>
-    </div>
-    <div class="panel-footer panel-footer-clickable" ng-click="$ctrl.click()">
-        <span class="pull-left">View</span>
-        <span class="pull-right">
-            <i class="fa fa-arrow-circle-right"></i>
-        </span>
-        <div class="clearfix"></div>
+        <div ng-if="$ctrl.list.opened">
+            <tg-list-cards id-list="$ctrl.list.id" allow-move-card="true" on-open="$ctrl.onOpen(promise)"></tg-list-cards>
+        </div>
     </div>
 </div>

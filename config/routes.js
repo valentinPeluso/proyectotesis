@@ -106,6 +106,11 @@ module.exports = function(app) {
     trelloAPI.updateCard,
     trello.updateCard
   ]);
+  app.put('/trello/cards/:idCard/idList', [
+    errorHandling.checkauth,
+    trelloAPI.moveCard,
+    trello.moveCard
+  ]);
   //-------- VIEW FILES ------
   app.get(/\/view\/?.*/, filesController.getFile);
 

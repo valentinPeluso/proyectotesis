@@ -1,28 +1,9 @@
 <div class="row form-group">
     <div class="col-lg-6">
-        <tg-panel type="'success'"
-                  icon="'fa-list'"
-                  quantity-cards="$ctrl.backlog.cards.lenght"
-                  huge-title="$ctrl.backlog.name"
-                  on-click="$ctrl.openBacklog()"
-        ></tg-panel>
-        <div ng-if="$ctrl.backlog.opened">
-            <tg-list-cards id-list="$ctrl.backlog.id"></tg-list-cards>
-        </div>
+        <tg-panel list="$ctrl.backlog"></tg-panel>
     </div>
 
     <div class="col-lg-6" ng-repeat="sprint in $ctrl.sprints track by $index">
-        <tg-panel type="(sprint.closed) ? 'warning' : 'info'"
-                  icon="(sprint.closed) ? 'fa-lock' : 'fa-folder-open-o'"
-                  quantity-cards="sprint.cards.lenght"
-                  huge-title="sprint.name"
-                  medium-title="sprint.points_section"
-                  last-title="(sprint.closed) ? 'Closed' : 'Opened'"
-                  on-click="$ctrl.openSprint(item)"
-                  item-param="sprint"
-        ></tg-panel>
-        <div ng-if="sprint.opened">
-            <tg-list-cards id-list="sprint.id"></tg-list-cards>
-        </div>
+        <tg-panel list="sprint"></tg-panel>
     </div>
 </div>

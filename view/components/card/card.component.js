@@ -23,7 +23,9 @@
             controller: 'listCardsComponentController',
             bindings: {
                 idList: '<',
-                idLinkedCard: '<'
+                idLinkedCard: '<',
+                allowMoveCard: '<',
+                onOpen: '&'
             }
         });
 

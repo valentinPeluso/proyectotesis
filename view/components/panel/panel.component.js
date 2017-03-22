@@ -7,27 +7,41 @@
             templateUrl: '/view/components/panel/panel.html',
             controller: panelComponentController,
             bindings: {
-                type: '<',
-                icon: '<',
-                quantityCards: '<',
-                hugeTitle: '<',
-                largeTitle: '<',
-                mediumTitle: '<',
-                lastTitle: '<',
-                onClick: '&',
-                itemParam: '<'
+                list: '<'
             }
         });
 
-    panelComponentController.$inject = ['$sce']
+    panelComponentController.$inject = ['$sce', 'trelloService']
 
-    function panelComponentController($sce) {
+    function panelComponentController($sce, trelloService) {
         var vm = this;
 
+        vm.inserted = function(index, item, external, type) {
+            var body = {
+                value: vm.list.id
+            }
+            var promise = trelloService.cards.moveCard(
+                item.id,
+                body
+            ).then(
+                function(result) {
+                    debugger;
+                },
+                function(err) {
+                    debugger;
+                });
+            vm.promise = {
+                promise: promise,
+                message: 'Loading'
+            };
+        };
+
         vm.click = function() {
-            vm.onClick({
-                item: vm.itemParam
-            });
+            vm.list.opened = !vm.list.opened;
+        }
+
+        vm.onOpen = function(promise) {
+            vm.promise = promise;
         }
     }
 
