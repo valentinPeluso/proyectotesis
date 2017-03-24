@@ -26,7 +26,8 @@
                 idLinkedCard: '<',
                 allowMoveCard: '<',
                 onOpen: '&',
-                type: '<' // REQUERIMENT | CARD
+                type: '<', // REQUERIMENT | CARD
+                onRemove: '&'
             }
         });
 

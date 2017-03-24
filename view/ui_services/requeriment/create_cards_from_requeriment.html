@@ -4,7 +4,7 @@
     </h3>
 </div>
 <div class="modal-body">
-    <div class="row" cg-busy="vm.promiseBoardLists">
+    <div class="row" cg-busy="vm.promise">
         <div class="col-lg-12">
             <uib-tabset justified="true" active="0">
                 <uib-tab index="0">
@@ -28,7 +28,11 @@
                         <i class="fa fa-list" aria-hidden="true"></i> Cards created
                     </uib-tab-heading>
                     <div class="well tg-well">
-                        <tg-list-cards id-list="vm.idBacklogList" id-linked-card="vm.requeriment.id"></tg-card>                        
+                        <tg-list-cards id-list="vm.idBacklogList" 
+                            id-linked-card="vm.requeriment.id"
+                            allow-move-card="false"
+                            on-open="$ctrl.onOpen(promise)"
+                            type="'CARD'"></tg-card>                        
                     </div>
                 </uib-tab>
             </uib-tabset>

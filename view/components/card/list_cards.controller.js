@@ -25,46 +25,56 @@
 
         var boardSelected = trelloService.boards.getFromSession();
 
-        var promise = $q.all([
-            trelloService.lists.getList(vm.idList),
-            trelloService.boards.getMembers(boardSelected.id)
-        ]).then(
-            function(result) {
-                vm.cards = result[0].data.cards;
-                vm.members = result[1].data;
-                _.forEach(vm.cards, function(card) {
-                    card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
-                    card.idList = vm.idList;
-                    if (typeof card.assignee !== 'undefined') {
-                        var assignees = [];
-                        _.forEach(card.assignee, function(idMember) {
-                            assignees.push(_.find(vm.members, {
-                                id: idMember
-                            }));
-                        });
-                        card.assignee = assignees;
-                    }
-                });
-                // Si 
-                if (vm.idLinkedCard) {
-                    vm.cards = _.filter(vm.cards, ['idRequeriment', vm.idLinkedCard]);
-                }
-            },
-            function(err) {
-                console.log();
-            });
-
-        vm.promise = {
-            promise: promise,
-            message: 'Loading'
+        this.$onChanges = function(changesObj) {
+            if (changesObj.idList.currentValue) {
+                vm.idList = changesObj.idList.currentValue;
+                vm.cards = [];
+                activate();
+            };
         };
-
-        vm.onOpen({
-            promise: promise
-        })
 
         vm.openCard = openCard;
         vm.removeCard = removeCard;
+
+        function activate() {
+            var promise = $q.all([
+                trelloService.lists.getList(vm.idList),
+                trelloService.boards.getMembers(boardSelected.id)
+            ]).then(
+                function(result) {
+                    vm.cards = result[0].data.cards;
+                    vm.members = result[1].data;
+                    _.forEach(vm.cards, function(card) {
+                        card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
+                        card.idList = vm.idList;
+                        if (typeof card.assignee !== 'undefined') {
+                            var assignees = [];
+                            _.forEach(card.assignee, function(idMember) {
+                                assignees.push(_.find(vm.members, {
+                                    id: idMember
+                                }));
+                            });
+                            card.assignee = assignees;
+                        }
+                    });
+                    // Si 
+                    if (vm.idLinkedCard) {
+                        vm.cards = _.filter(vm.cards, ['idRequeriment', vm.idLinkedCard]);
+                    }
+                },
+                function(err) {
+                    console.log();
+                });
+
+            vm.promise = {
+                promise: promise,
+                message: 'Loading'
+            };
+
+            vm.onOpen({
+                promise: promise
+            });
+        }
 
         function openCard(card) {
             switch (vm.type) {
@@ -81,8 +91,14 @@
 
         function removeCard(cards, index, card) {
             cards.splice(index, 1);
-            debugger;
+            if (typeof vm.onRemove !== 'undefined') {
+                vm.onRemove({
+                    card: card
+                })
+            }
         }
+
+        activate();
 
     }
 

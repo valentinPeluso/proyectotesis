@@ -17,7 +17,7 @@
                  ng-if="card.points">
                 <span class="label label-success">{{ card.points }} points</span>
             </div>
-            <div class="tg-font-13 col-xs-12" ng-if="vm.type == 'CARD'">
+            <div class="tg-font-13 col-xs-12" ng-if="$ctrl.type == 'CARD'">
                 <div class="row">
                     <div class="col-xs-4" ng-if="card.assignee">
                         <span ng-repeat="member in card.assignee track by $index">{{ member.fullName }} </span><i class="fa fa-user" aria-hidden="true"></i>

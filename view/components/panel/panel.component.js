@@ -13,21 +13,39 @@
             }
         });
 
-    panelComponentController.$inject = ['$sce', 'trelloService']
+    panelComponentController.$inject = [
+        '$sce',
+        'trelloService',
+        'jsonFormatterService'
+    ];
 
-    function panelComponentController($sce, trelloService) {
+    function panelComponentController(
+        $sce,
+        trelloService,
+        jsonFormatterService
+    ) {
         var vm = this;
 
         vm.inserted = function(index, item, external, type) {
             var body = {
                 value: vm.list.id
             }
+            vm.list.opened = false;
             var promise = trelloService.cards.moveCard(
                 item.id,
                 body
             ).then(
                 function(result) {
-                    debugger;
+                    var card = jsonFormatterService.stringToJson(result.data.desc);
+                    vm.list.points_to_do = _.sum(
+                        [
+                            card.points,
+                            vm.list.points_to_do
+                        ]
+                    );
+                    vm.list.points_made = 0;
+                    vm.list.id = result.data.idList;
+                    vm.list.opened = true;
                 },
                 function(err) {
                     debugger;
@@ -38,12 +56,20 @@
             };
         };
 
-        vm.click = function() {
+        vm.click = click;
+        vm.onRemove = onRemove;
+        vm.onOpen = onOpen;
+
+        function click() {
             vm.list.opened = !vm.list.opened;
         }
 
-        vm.onOpen = function(promise) {
+        function onOpen(promise) {
             vm.promise = promise;
+        }
+
+        function onRemove(card) {
+            vm.list.points_to_do = _.subtract(vm.list.points_to_do, card.points);
         }
     }
 

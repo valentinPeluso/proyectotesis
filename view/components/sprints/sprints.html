@@ -1,10 +1,14 @@
 <div class="row form-group">
     <div class="col-lg-6">
-        <tg-panel list="$ctrl.backlog"></tg-panel>
+        <tg-panel 
+            list="$ctrl.backlog"
+            allow-move-card="true"
+            type="'CARD'"></tg-panel>
     </div>
 
     <div class="col-lg-6" ng-repeat="sprint in $ctrl.sprints track by $index">
-        <tg-panel list="sprint"
+        <tg-panel 
+            list="sprint"
             allow-move-card="true"
             type="'CARD'"
         ></tg-panel>
