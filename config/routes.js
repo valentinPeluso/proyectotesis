@@ -76,6 +76,11 @@ module.exports = function(app) {
     trelloAPI.getMembersFromBoard,
     trello.getMembersFromBoard
   ]);
+  app.get('/trello/boards/:id/labels', [
+    errorHandling.checkauth,
+    trelloAPI.getLabelsFromBoard,
+    trello.getLabelsFromBoard
+  ]);
   app.get('/trello/boards/:id/cards', [
     errorHandling.checkauth,
     trelloAPI.getCardsFromBoard,
@@ -110,6 +115,11 @@ module.exports = function(app) {
     errorHandling.checkauth,
     trelloAPI.moveCard,
     trello.moveCard
+  ]);
+  app.post('/trello/cards/:idCard/idLabels', [
+    errorHandling.checkauth,
+    trelloAPI.assigneeState,
+    trello.assigneeState
   ]);
   //-------- VIEW FILES ------
   app.get(/\/view\/?.*/, filesController.getFile);

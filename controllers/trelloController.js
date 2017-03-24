@@ -78,6 +78,13 @@ function moveCard(req, res) {
     res.send(res.data);
 }
 
+function getLabelsFromBoard(req, res) {
+    res.send(res.data);
+}
+
+function assigneeState(req, res) {
+    res.send(res.data);
+}
 
 module.exports = {
     me: me,
@@ -90,6 +97,7 @@ module.exports = {
     addLabelOrange: addLabelOrange,
     addLabelPurple: addLabelPurple,
     addLabelRed: addLabelRed,
+    getLabelsFromBoard: getLabelsFromBoard,
     addLabelYellow: addLabelYellow,
     getListsFromBoard: getListsFromBoard,
     getListById: getListById,
@@ -99,5 +107,6 @@ module.exports = {
     createComent: createComent,
     updateCard: updateCard,
     getCardsFromBoard: getCardsFromBoard,
-    moveCard: moveCard
+    moveCard: moveCard,
+    assigneeState: assigneeState
 };

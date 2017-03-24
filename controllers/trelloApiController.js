@@ -143,6 +143,18 @@ function getListsFromBoard(req, res, next) {
     });
 }
 
+function getLabelsFromBoard(req, res, next) {
+    var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
+    if (typeof req.params.id == 'undefined')
+        throw "The ID of the board is required";
+
+    trelloAPI.get("/1/boards/" + req.params.id + '/labels', function(err, data) {
+        if (err) throw err;
+        res.data = data;
+        next();
+    });
+}
+
 function getMembersFromBoard(req, res, next) {
     var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
     if (typeof req.params.id == 'undefined')
@@ -260,6 +272,26 @@ function createComent(req, res, next) {
     });
 }
 
+function assigneeState(req, res, next) {
+    var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
+    if (typeof req.params.idCard == 'undefined')
+        throw "Card id is required";
+
+    var card = {
+        value: req.params.value
+    };
+
+    trelloAPI.put(
+        "/1/cards/" + req.params.idCard + "/idLabels",
+        card,
+        function(err, data) {
+            if (err) throw err;
+            res.data = data;
+            next();
+        }
+    );
+}
+
 function moveCard(req, res, next) {
     var trelloAPI = new Trello(trelloAPIKey, req.headers.authorization);
     if (typeof req.params.idCard == 'undefined')
@@ -310,6 +342,7 @@ module.exports = {
     addLabelPurple: addLabelPurple,
     addLabelRed: addLabelRed,
     addLabelYellow: addLabelYellow,
+    getLabelsFromBoard: getLabelsFromBoard,
     getListsFromBoard: getListsFromBoard,
     getListById: getListById,
     getCardById: getCardById,
@@ -318,5 +351,6 @@ module.exports = {
     createComent: createComent,
     updateCard: updateCard,
     moveCard: moveCard,
+    assigneeState: assigneeState,
     getCardsFromBoard: getCardsFromBoard
 };

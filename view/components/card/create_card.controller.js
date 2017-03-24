@@ -22,7 +22,8 @@
 
         var promise = $q.all([
             trelloService.boards.getMembers(boardSelected.id),
-            trelloService.lists.getList(vm.idBacklogList)
+            trelloService.lists.getList(vm.idBacklogList),
+            trelloService.boards.getStates(boardSelected.id),
         ]).then(
             function(result) {
                 vm.members = result[0].data;
@@ -30,6 +31,9 @@
                 vm.possible_reporter = angular.copy(vm.members);
                 vm.backlogCards = result[1].data.cards;
                 vm.possible_issue_links = vm.backlogCards;
+                vm.newCardState = _.find(result[2].data, {
+                    name: "Not started"
+                });
             },
             function(err) {
                 console.log();
@@ -45,7 +49,15 @@
             vm.card.reporter = _.map(vm.card.reporter, 'id');
             vm.card.issue_links = _.map(vm.card.issue_links, 'id');
             vm.card.labels = _.map(vm.card.labels, 'id');
+            vm.card.state = [vm.newCardState.id];
             vm.card.idRequeriment = vm.idRequeriment;
+
+            var deferred = $q.defer();
+
+            vm.promise = {
+                promise: deferred.promise,
+                message: 'Creating card'
+            };
 
             var card = {
                 name: vm.card.name,
@@ -53,17 +65,23 @@
                 idMembers: vm.card.assignee
             };
 
-            var promise = trelloService.lists.createCard(vm.idBacklogList, card).then(
+            trelloService.lists.createCard(vm.idBacklogList, card).then(
                 function(result) {
                     var cardCreated = result.data;
-                    vm.card = {};
+                    var body = {
+                        value: vm.newCardState.id
+                    }
+                    trelloService.cards.assigneeState(
+                        cardCreated.id,
+                        body
+                    ).then(function(result) {
+                        deferred.resolve();
+                        debugger;
+                    }, function(err) {});
                 },
                 function(err) {});
 
-            vm.promise = {
-                promise: promise,
-                message: 'Creating card'
-            };
+
         }
 
         function resetCard() {

@@ -32,15 +32,25 @@
                 addLabelRed: addLabelRed,
                 addLabelYellow: addLabelYellow,
                 getLists: getLists,
-                getCards: getCards
+                getCards: getCards,
+                getStates: getStates
             },
             cards: {
                 createComent: createComent,
                 update: updateCard,
                 getCard: getCardById,
-                moveCard: moveCard
+                moveCard: moveCard,
+                assigneeState: assigneeState
             }
         };
+
+        function assigneeState(idCard, value) {
+            return $http.post('/trello/cards/' + idCard + '/idLabels', value);
+        }
+
+        function getStates(boardId) {
+            return $http.get('/trello/boards/' + boardId + '/labels');
+        }
 
         function moveCard(idCard, value) {
             return $http.put('/trello/cards/' + idCard + '/idList', value);
