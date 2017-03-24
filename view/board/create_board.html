@@ -40,9 +40,17 @@
     </div>
     <div class="row form-group">
         <div class="col-sm-12">
-            <span class="label label-info tg-board-email" ng-repeat="member in vm.members track by $index" ng-click="vm.removeMember($index)">
-                {{member.fullName}} - {{member.email}} <i class="fa fa-times" aria-hidden="true"></i>
-            </span>
+            <div class="list-group">
+                <a class="list-group-item"
+                    ng-repeat="member in vm.members track by $index"
+                    style="cursor: no-drop;"
+                    ng-click="vm.removeMember($index)">
+                    {{member.fullName}} - {{member.email}}
+                    <span class="badge">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
 </div>

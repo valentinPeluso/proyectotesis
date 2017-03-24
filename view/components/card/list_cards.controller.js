@@ -4,9 +4,21 @@
     angular.module('app.components')
         .controller('listCardsComponentController', listCardsComponentController)
 
-    listCardsComponentController.$inject = ['trelloService', '$q', 'jsonFormatterService', 'UICardService']
+    listCardsComponentController.$inject = [
+        'trelloService',
+        '$q',
+        'jsonFormatterService',
+        'UICardService',
+        'UIRequerimentService'
+    ];
 
-    function listCardsComponentController(trelloService, $q, jsonFormatterService, UICardService) {
+    function listCardsComponentController(
+        trelloService,
+        $q,
+        jsonFormatterService,
+        UICardService,
+        UIRequerimentService
+    ) {
         var vm = this;
 
         vm.cards = [];
@@ -23,13 +35,15 @@
                 _.forEach(vm.cards, function(card) {
                     card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
                     card.idList = vm.idList;
-                    var assignees = [];
-                    _.forEach(card.assignee, function(idMember) {
-                        assignees.push(_.find(vm.members, {
-                            id: idMember
-                        }));
-                    });
-                    card.assignee = assignees;
+                    if (typeof card.assignee !== 'undefined') {
+                        var assignees = [];
+                        _.forEach(card.assignee, function(idMember) {
+                            assignees.push(_.find(vm.members, {
+                                id: idMember
+                            }));
+                        });
+                        card.assignee = assignees;
+                    }
                 });
                 // Si 
                 if (vm.idLinkedCard) {
@@ -53,7 +67,16 @@
         vm.removeCard = removeCard;
 
         function openCard(card) {
-            UICardService.updateCard(card.id, card.name);
+            switch (vm.type) {
+                case "CARD":
+                    UICardService.updateCard(card.id, card.name);
+                    break;
+                case "REQUERIMENT":
+                    UIRequerimentService.update(card)
+                    break;
+                default:
+                    break;
+            };
         };
 
         function removeCard(cards, index, card) {

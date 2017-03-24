@@ -4,6 +4,9 @@
     </div>
 
     <div class="col-lg-6" ng-repeat="sprint in $ctrl.sprints track by $index">
-        <tg-panel list="sprint"></tg-panel>
+        <tg-panel list="sprint"
+            allow-move-card="true"
+            type="'CARD'"
+        ></tg-panel>
     </div>
 </div>

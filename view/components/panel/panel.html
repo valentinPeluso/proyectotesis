@@ -23,7 +23,8 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">{{$ctrl.list.name}}</div>
-                        <div class="medium" ng-if="$ctrl.list.name !== 'Backlog'">
+                        <div class="medium"
+                            ng-if="$ctrl.list.name !== 'Backlog' && $ctrl.list.name !== 'Requeriments'">
                             <span class="label label-success">
                                 {{ $ctrl.list.points_made }}
                             </span>
@@ -46,7 +47,11 @@
             </div>
         </div>
         <div ng-if="$ctrl.list.opened">
-            <tg-list-cards id-list="$ctrl.list.id" allow-move-card="true" on-open="$ctrl.onOpen(promise)"></tg-list-cards>
+            <tg-list-cards 
+                id-list="$ctrl.list.id"
+                allow-move-card="$ctrl.allowMoveCard"
+                on-open="$ctrl.onOpen(promise)"
+                type="$ctrl.type"></tg-list-cards>
         </div>
     </div>
 </div>

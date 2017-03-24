@@ -18,8 +18,8 @@
         function updateRequeriment(requeriment) {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/ui_services/requeriment/requeriment.html',
-                controller: 'viewRequerimentController',
+                templateUrl: '/view/ui_services/requeriment/update_requeriment.html',
+                controller: 'viewUpdateRequerimentController',
                 controllerAs: 'vm',
                 size: 'md',
                 resolve: {

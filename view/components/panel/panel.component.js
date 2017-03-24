@@ -7,7 +7,9 @@
             templateUrl: '/view/components/panel/panel.html',
             controller: panelComponentController,
             bindings: {
-                list: '<'
+                list: '<',
+                allowMoveCard: '<',
+                type: '<' // REQUERIMENT | CARD
             }
         });
 

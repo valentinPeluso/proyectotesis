@@ -25,7 +25,8 @@
                 idList: '<',
                 idLinkedCard: '<',
                 allowMoveCard: '<',
-                onOpen: '&'
+                onOpen: '&',
+                type: '<' // REQUERIMENT | CARD
             }
         });
 

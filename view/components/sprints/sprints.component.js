@@ -21,7 +21,10 @@
         var promise = trelloService.boards.getLists(boardSelected.id).then(
             function(result) {
                 vm.sprints = _.filter(result.data, function(list) {
-                    return list.name !== 'Requeriments' && list.name !== "Backlog" && !list.closed
+                    return list.name !== 'Requeriments' &&
+                        list.name !== 'Attachments' &&
+                        list.name !== "Backlog" &&
+                        !list.closed;
                 });
                 _.forEach(vm.sprints, function(sprint) {
                     sprint.opened = false;

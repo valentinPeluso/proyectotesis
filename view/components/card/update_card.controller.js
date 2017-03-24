@@ -41,7 +41,6 @@
                 vm.card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
 
                 parseCard();
-                debugger;
             },
             function(err) {
                 console.log();

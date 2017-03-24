@@ -12,16 +12,18 @@
             <div class="col-xs-8">
                 <a href="" >{{ card.name }}</a>
             </div>
-            <div class="col-xs-4 tg-font-13 tg-text-right" style="margin-top: -3px;">
+            <div class="col-xs-4 tg-font-13 tg-text-right"
+                 style="margin-top: -3px;"
+                 ng-if="card.points">
                 <span class="label label-success">{{ card.points }} points</span>
             </div>
-            <div class="tg-font-13 col-xs-12">
+            <div class="tg-font-13 col-xs-12" ng-if="vm.type == 'CARD'">
                 <div class="row">
-                    <div class="col-xs-4">
+                    <div class="col-xs-4" ng-if="card.assignee">
                         <span ng-repeat="member in card.assignee track by $index">{{ member.fullName }} </span><i class="fa fa-user" aria-hidden="true"></i>
                     </div>
-                    <div class="col-xs-4">
-                        <span ng-show="card.pull_request_linked">
+                    <div class="col-xs-4" ng-if="card.pull_request_linked">
+                        <span >
                             Pull Req. <i class="fa fa-code-fork" aria-hidden="true"></i>
                         </span>                           
                     </div>

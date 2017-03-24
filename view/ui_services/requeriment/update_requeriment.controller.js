@@ -2,11 +2,11 @@
     'use strict';
 
     angular.module('app.ui_services')
-        .controller('viewRequerimentController', viewRequerimentController)
+        .controller('viewUpdateRequerimentController', viewUpdateRequerimentController)
 
-    viewRequerimentController.$inject = ['requeriment', 'jsonFormatterService', '$uibModalInstance'];
+    viewUpdateRequerimentController.$inject = ['requeriment', 'jsonFormatterService', '$uibModalInstance'];
 
-    function viewRequerimentController(requeriment, jsonFormatterService, $uibModalInstance) {
+    function viewUpdateRequerimentController(requeriment, jsonFormatterService, $uibModalInstance) {
         var vm = this;
 
         vm.requeriment = angular.copy(requeriment);
