@@ -41,9 +41,17 @@
                 update: updateCard,
                 getCard: getCardById,
                 moveCard: moveCard,
-                assigneeState: assigneeState
+                assigneeState: assigneeState,
+                removeState: removeState
             }
         };
+
+        function removeState(idCard, idLabel, value) {
+            return $http.delete(
+                '/trello/cards/' + idCard + '/idLabels/' + idLabel,
+                value
+            );
+        }
 
         function assigneeState(idCard, value) {
             return $http.post('/trello/cards/' + idCard + '/idLabels', value);

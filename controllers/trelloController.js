@@ -86,6 +86,10 @@ function assigneeState(req, res) {
     res.send(res.data);
 }
 
+function removeState(req, res) {
+    res.send(res.data);
+}
+
 module.exports = {
     me: me,
     membersBoards: membersBoards,
@@ -108,5 +112,6 @@ module.exports = {
     updateCard: updateCard,
     getCardsFromBoard: getCardsFromBoard,
     moveCard: moveCard,
-    assigneeState: assigneeState
+    assigneeState: assigneeState,
+    removeState: removeState
 };

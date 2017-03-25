@@ -121,6 +121,11 @@ module.exports = function(app) {
     trelloAPI.assigneeState,
     trello.assigneeState
   ]);
+  app.del('/trello/cards/:idCard/idLabels/:idLabel', [
+    errorHandling.checkauth,
+    trelloAPI.removeState,
+    trello.removeState
+  ]);
   //-------- VIEW FILES ------
   app.get(/\/view\/?.*/, filesController.getFile);
 
