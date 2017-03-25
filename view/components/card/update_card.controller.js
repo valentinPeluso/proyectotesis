@@ -13,7 +13,6 @@
         vm.possible_assignees = [];
         vm.possible_reporter = [];
         vm.possible_issue_links = [];
-        vm.possible_labels = [];
 
         vm.saveCard = saveCard;
         vm.resetCard = resetCard;
@@ -105,7 +104,6 @@
             vm.card.assignee = _.map(vm.card.assignee, 'id');
             vm.card.reporter = _.map(vm.card.reporter, 'id');
             vm.card.issue_links = _.map(vm.card.issue_links, 'id');
-            vm.card.labels = _.map(vm.card.labels, 'id');
 
             var card = {
                 name: vm.card.name,
@@ -118,7 +116,7 @@
                             'assignee',
                             'reporter',
                             'issue_links',
-                            'labels',
+                            'states',
                             'idRequeriment'
                         ]
                     )

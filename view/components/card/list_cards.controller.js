@@ -24,6 +24,7 @@
         vm.cards = [];
 
         var boardSelected = trelloService.boards.getFromSession();
+        var boardStates = trelloService.boards.getStatesFromSession();
 
         this.$onChanges = function(changesObj) {
             if (changesObj.idList.currentValue) {
@@ -44,19 +45,40 @@
                 function(result) {
                     vm.cards = result[0].data.cards;
                     vm.members = result[1].data;
-                    _.forEach(vm.cards, function(card) {
-                        card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
-                        card.idList = vm.idList;
-                        if (typeof card.assignee !== 'undefined') {
-                            var assignees = [];
-                            _.forEach(card.assignee, function(idMember) {
-                                assignees.push(_.find(vm.members, {
-                                    id: idMember
-                                }));
-                            });
-                            card.assignee = assignees;
+                    vm.states = boardStates;
+                    _.forEach(
+                        vm.cards,
+                        function(card) {
+                            card = _.merge(
+                                card,
+                                jsonFormatterService.stringToJson(card.desc)
+                            );
+                            card.idList = vm.idList;
+                            var cardStates = [];
+                            _.forEach(
+                                card.states,
+                                function(idState) {
+                                    cardStates.push(
+                                        _.find(
+                                            vm.states, {
+                                                id: idState
+                                            }
+                                        )
+                                    )
+                                }
+                            );
+                            card.states = cardStates;
+                            if (typeof card.assignee !== 'undefined') {
+                                var assignees = [];
+                                _.forEach(card.assignee, function(idMember) {
+                                    assignees.push(_.find(vm.members, {
+                                        id: idMember
+                                    }));
+                                });
+                                card.assignee = assignees;
+                            }
                         }
-                    });
+                    );
                     // Si 
                     if (vm.idLinkedCard) {
                         vm.cards = _.filter(vm.cards, ['idRequeriment', vm.idLinkedCard]);

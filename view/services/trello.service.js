@@ -33,7 +33,8 @@
                 addLabelYellow: addLabelYellow,
                 getLists: getLists,
                 getCards: getCards,
-                getStates: getStates
+                postStatesInSession: postStatesInSession,
+                getStatesFromSession: getStatesFromSession
             },
             cards: {
                 createComent: createComent,
@@ -46,10 +47,6 @@
 
         function assigneeState(idCard, value) {
             return $http.post('/trello/cards/' + idCard + '/idLabels', value);
-        }
-
-        function getStates(boardId) {
-            return $http.get('/trello/boards/' + boardId + '/labels');
         }
 
         function moveCard(idCard, value) {
@@ -151,6 +148,32 @@
         function boardGetFromSession() {
             var session = {
                 id: 'BoardSelected'
+            }
+            return storageService.session.get(session);
+        }
+
+        function getStates(boardId) {
+            return $http.get('/trello/boards/' + boardId + '/labels');
+        }
+
+        function postStatesInSession(boardId) {
+            getStates(boardId).then(
+                function(result) {
+                    var session = {
+                        id: 'BoardStates',
+                        data: result.data
+                    }
+                    storageService.session.put(session);
+                },
+                function(data) {
+
+                }
+            )
+        }
+
+        function getStatesFromSession() {
+            var session = {
+                id: 'BoardStates'
             }
             return storageService.session.get(session);
         }

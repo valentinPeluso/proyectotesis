@@ -26,6 +26,9 @@
     ) {
         var vm = this;
 
+        var boardSelected = trelloService.boards.getFromSession();
+        var boardStates = trelloService.boards.getStatesFromSession();
+
         vm.inserted = function(index, item, external, type) {
             var body = {
                 value: vm.list.id

@@ -94,3 +94,24 @@ nav.navbar-findcond span.badge.new { background: rgba(255, 0, 0, 0.8); color: #f
 .cx-logo {
    width:50px;
 }
+
+/* ------------- STATES LABELS ---------*/
+
+.label-blue {
+    background-color: #0079BF;
+}
+.label-green {
+    background-color: #61BD4F;
+}
+.label-orange {
+    background-color: #FFAB4A;
+}
+.label-purple {
+    background-color: #C377E0;
+}
+.label-red {
+    background-color: #EB5A46;
+}
+.label-yellow {
+    background-color: #F2D600;
+}

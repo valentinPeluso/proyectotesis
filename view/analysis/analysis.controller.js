@@ -4,9 +4,23 @@
     angular.module('app.analysis')
         .controller('analysisController', analysisController)
 
-    analysisController.$inject = ['trelloService', 'UICardService', 'UIRequerimentService', 'storageService', 'jsonFormatterService'];
+    analysisController.$inject = [
+        'trelloService',
+        'UICardService',
+        'UIRequerimentService',
+        'storageService',
+        'jsonFormatterService',
+        '$q'
+    ];
 
-    function analysisController(trelloService, UICardService, UIRequerimentService, storageService, jsonFormatterService) {
+    function analysisController(
+        trelloService,
+        UICardService,
+        UIRequerimentService,
+        storageService,
+        jsonFormatterService,
+        $q
+    ) {
         var vm = this;
 
         var session = {
@@ -16,25 +30,51 @@
 
         vm.requeriments = [];
 
-        var promise = trelloService.boards.getLists(boardSelected.id).then(
+        var promise = $q.all(
+            [
+                trelloService.boards.getLists(boardSelected.id),
+                trelloService.boards.getCards(boardSelected.id)
+            ]
+        ).then(
             function(result) {
 
-                vm.requerimentList = _.find(result.data, {
+                vm.requerimentList = _.find(result[0].data, {
                     'name': 'Requeriments'
                 });
 
-                vm.backlogList = _.find(result.data, {
+                vm.backlogList = _.find(result[0].data, {
                     'name': 'Backlog'
                 });
 
-                _.forEach(vm.backlogList.cards, function(card) {
-                    card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
+                vm.cards = _.filter(
+                    result[1].data,
+                    function(card) {
+                        return card.idList !== vm.requerimentList.id;
+                    }
+                );
+
+                _.forEach(vm.cards, function(card) {
+                    card = _.merge(
+                        card,
+                        jsonFormatterService.stringToJson(card.desc)
+                    );
                 });
 
-                var possible_dependencies = angular.copy(vm.requerimentList.cards);
+                _.forEach(vm.backlogList.cards, function(card) {
+                    card = _.merge(
+                        card,
+                        jsonFormatterService.stringToJson(card.desc)
+                    );
+                });
+
+                var possible_dependencies =
+                    angular.copy(vm.requerimentList.cards);
 
                 _.forEach(vm.requerimentList.cards, function(card, index) {
-                    card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
+                    card = _.merge(
+                        card,
+                        jsonFormatterService.stringToJson(card.desc)
+                    );
 
                     var dependencies = [];
                     _.forEach(card.dependencies, function(idDependencie) {
@@ -52,7 +92,7 @@
                         );
                         card.dependencies = dependencies;
                     });
-                    card.cardsCreatedFromRequeriment = _.filter(vm.backlogList.cards, {
+                    card.cardsCreatedFromRequeriment = _.filter(vm.cards, {
                         idRequeriment: card.id
                     });
 
