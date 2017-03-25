@@ -9,7 +9,8 @@
             bindings: {
                 list: '<',
                 allowMoveCard: '<',
-                type: '<' // REQUERIMENT | CARD
+                type: '<', // REQUERIMENT | CARD
+                idBacklogList: '<'
             }
         });
 
@@ -17,103 +18,48 @@
         '$sce',
         'trelloService',
         'jsonFormatterService',
-        '$q'
+        '$q',
+        '$route'
     ];
 
     function panelComponentController(
         $sce,
         trelloService,
         jsonFormatterService,
-        $q
+        $q,
+        $route
     ) {
         var vm = this;
 
-        vm.inserted = function(index, item, external, type) {
+        vm.inserted = inserted;
 
-            var boardStates = trelloService.boards.getStatesFromSession();
-            var bodyMove = {
-                value: vm.list.id
-            };
-            var boardStates = trelloService.boards.getStatesFromSession();
-            var readyForDevState = _.find(boardStates, {
-                name: "Ready for dev"
-            });
-            var cardState = _.find(item.states, {
-                name: "Not started"
-            });
-            var bodyState = {
-                value: readyForDevState.id
-            };
-            var bodyRemoveState = {
-                idLabel: cardState.id
+        vm.click = click;
+        vm.onRemove = onRemove;
+        vm.onOpen = onOpen;
+
+        function inserted(index, item, external, type) {
+
+            var promises = [];
+            promises.push(moveCard(item));
+
+            if (vm.list.id == vm.idBacklogList) {
+                //esta moviendo una card desde un sprint al backlog
+                promises.push(removeState(item, "Ready for dev"));
+                promises.push(assigneeState(item, "Not started"));
+            }
+            else if (item.idList == vm.idBacklogList) {
+                //esta moviendo una card de la lista de backlog a un sprint
+                promises.push(removeState(item, "Not started"));
+                promises.push(assigneeState(item, "Ready for dev"));
             }
 
-            _.remove(
-                item.states,
-                function(state) {
-                    return state.id == cardState.id;
-                }
-            );
+            promises.push(updateCard(item));
 
-            item.states.push(readyForDevState.id);
-            item.assignee = _.map(item.assignee, 'id');
-            item.issue_links = _.map(item.issue_links, 'id');
-
-            var card = {
-                name: item.name,
-                desc: jsonFormatterService.jsonToString(
-                    _.pick(
-                        item, [
-                            'priority',
-                            'points',
-                            'description',
-                            'assignee',
-                            'reporter',
-                            'issue_links',
-                            'states',
-                            'idRequeriment'
-                        ]
-                    )
-                ),
-                idMembers: item.assignee
-
-            };
-
-            vm.list.opened = false;
             var promise = $q.all(
-                [
-                    trelloService.cards.moveCard(
-                        item.id,
-                        bodyMove
-                    ),
-                    trelloService.cards.removeState(
-                        item.id,
-                        cardState.id,
-                        bodyRemoveState
-                    ),
-                    trelloService.cards.assigneeState(
-                        item.id,
-                        bodyState
-                    ),
-                    trelloService.cards.update(
-                        item.id,
-                        card
-                    )
-                ]
+                promises
             ).then(
                 function(result) {
-                    var card = jsonFormatterService.stringToJson(
-                        result[0].data.desc
-                    );
-                    vm.list.points_to_do = _.sum(
-                        [
-                            card.points,
-                            vm.list.points_to_do
-                        ]
-                    );
-                    vm.list.points_made = 0;
-                    vm.list.id = result[0].data.idList;
-                    vm.list.opened = true;
+                    $route.reload();
                 },
                 function(err) {
                     debugger;
@@ -123,10 +69,6 @@
                 message: 'Loading'
             };
         };
-
-        vm.click = click;
-        vm.onRemove = onRemove;
-        vm.onOpen = onOpen;
 
         function click() {
             vm.list.opened = !vm.list.opened;
@@ -140,6 +82,103 @@
             vm.list.points_to_do = _.subtract(
                 vm.list.points_to_do,
                 card.points
+            );
+        }
+
+        function moveCard(card) {
+            var bodyMove = {
+                value: vm.list.id
+            };
+            return trelloService.cards.moveCard(
+                card.id,
+                bodyMove
+            );
+        }
+
+        function removeState(card, state) {
+            var cardState = _.find(card.states, {
+                name: state
+            });
+            if (typeof cardState !== 'undefined') {
+                var bodyRemoveState = {
+                    idLabel: cardState.id
+                }
+                _.remove(
+                    card.states,
+                    function(state) {
+                        return state.id == cardState.id;
+                    }
+                );
+                return trelloService.cards.removeState(
+                    card.id,
+                    cardState.id,
+                    bodyRemoveState
+                )
+            }
+            else {
+                return undefined;
+            }
+
+        }
+
+        function assigneeState(card, state) {
+            var boardStates = trelloService.boards.getStatesFromSession();
+            var cardState = _.find(
+                boardStates, {
+                    name: state
+                }
+            );
+            var hasState = _.includes(
+                _.map(
+                    card.states,
+                    'id'
+                ),
+                cardState.id
+            );
+
+            if (!hasState) {
+
+                var bodyState = {
+                    value: cardState.id
+                };
+                card.states.push(cardState);
+                return trelloService.cards.assigneeState(
+                    card.id,
+                    bodyState
+                );
+            }
+            else {
+                return undefined;
+            }
+        }
+
+        function updateCard(card) {
+            card.assignee = _.map(card.assignee, 'id');
+            card.issue_links = _.map(card.issue_links, 'id');
+            card.reporter = _.map(card.reporter, 'id');
+            card.states = _.map(card.states, 'id');
+
+            var bodyCard = {
+                name: card.name,
+                desc: jsonFormatterService.jsonToString(
+                    _.pick(
+                        card, [
+                            'priority',
+                            'points',
+                            'description',
+                            'assignee',
+                            'reporter',
+                            'issue_links',
+                            'states',
+                            'idRequeriment'
+                        ]
+                    )
+                ),
+                idMembers: card.assignee
+            };
+            return trelloService.cards.update(
+                card.id,
+                bodyCard
             );
         }
     }

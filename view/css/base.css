@@ -66,8 +66,7 @@ html, body {
 }
 .dndPlaceholder {
     display: block;
-    background-color: #ddd;
-    min-height: 42px;
+    min-height: 0;
 }
 /* ----------NAVBAR-------------  */
 nav.navbar-findcond { background: #fff; border-color: #ccc; box-shadow: 0 0 2px 0 #ccc; }

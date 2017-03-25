@@ -54,6 +54,25 @@
                                 jsonFormatterService.stringToJson(card.desc)
                             );
                             card.idList = vm.idList;
+
+                            if (typeof card.reporter !== 'undefined') {
+                                var reporter = [];
+                                _.forEach(card.reporter, function(idReporter) {
+                                    reporter.push(
+                                        _.merge(
+                                            _.find(
+                                                angular.copy(vm.members), {
+                                                    id: idReporter
+                                                }
+                                            ), {
+                                                selected: true
+                                            }
+                                        )
+                                    );
+                                });
+                                card.reporter = reporter;
+                            }
+
                             var cardStates = [];
                             _.forEach(
                                 card.states,
@@ -68,13 +87,21 @@
                                 }
                             );
                             card.states = cardStates;
+
                             if (typeof card.assignee !== 'undefined') {
                                 var assignees = [];
-                                _.forEach(card.assignee, function(idMember) {
-                                    assignees.push(_.find(vm.members, {
-                                        id: idMember
-                                    }));
-                                });
+                                _.forEach(
+                                    card.assignee,
+                                    function(idMember) {
+                                        assignees.push(
+                                            _.find(
+                                                vm.members, {
+                                                    id: idMember
+                                                }
+                                            )
+                                        );
+                                    }
+                                );
                                 card.assignee = assignees;
                             }
                         }

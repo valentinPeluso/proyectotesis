@@ -11,26 +11,41 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <div class="huge" ng-if="$ctrl.list.cards.lenght > 0">
-                            {{$ctrl.list.cards.lenght}} <img src="/view/img/trello.png" class="trelloImg" />
-                        </div>
-                        <i class="fa fa-5x"
-                            ng-class="{
-                            'fa-list': $ctrl.list.name == 'Backlog',
-                            'fa-lock': $ctrl.list.closed,
-                            'fa-folder-open-o': !$ctrl.list.closed && $ctrl.list.name !== 'Backlog'
-                            }"></i>
+                        <span>
+                            <i class="fa fa-5x"
+                                ng-class="{
+                                'fa-list': $ctrl.list.name == 'Backlog',
+                                'fa-lock': $ctrl.list.closed,
+                                'fa-folder-open-o': !$ctrl.list.closed && $ctrl.list.name !== 'Backlog'
+                                }"></i>
+                        </span>
+                        <!--<span class="huge" ng-if="$ctrl.list.cards.length > 0">-->
+                        <!--    {{$ctrl.list.cards.length}}-->
+                        <!--    <img src="/view/img/trello.png" class="trelloImg" />-->
+                        <!--</span>-->
+                        
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">{{$ctrl.list.name}}</div>
                         <div class="medium"
-                            ng-if="$ctrl.list.name !== 'Backlog' && $ctrl.list.name !== 'Requeriments'">
-                            <span class="label label-success">
-                                {{ $ctrl.list.points_made }}
+                            ng-if="$ctrl.list.name !== 'Backlog'
+                            && $ctrl.list.name !== 'Requeriments'">
+                            <span class="label label-primary">
+                                {{ $ctrl.list.cards.length }}
+                                &nbsp;
+                                <i class="fa fa-trello" aria-hidden="true"></i>
                             </span>
                             &nbsp;&nbsp;
-                            <span class="label label-primary">
+                            <span class="label label-success">
+                                {{ $ctrl.list.points_made }}
+                                &nbsp;
+                                <i class="fa fa-trophy" aria-hidden="true"></i>
+                            </span>
+                            &nbsp;&nbsp;
+                            <span class="label label-warning">
                                 {{ $ctrl.list.points_to_do }}
+                                &nbsp;
+                                <i class="fa fa-calculator" aria-hidden="true"></i>
                             </span>
                         </div>                        
                         <div ng-if="$ctrl.list.closed">Closed</div>
