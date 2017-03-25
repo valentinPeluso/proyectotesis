@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Options
+                        <a class="btn btn-success"
+                            ng-click="$ctrl.createAttachment()">
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody cg-busy="$ctrl.promise">
+                <tr ng-repeat="att in $ctrl.attachments.cards track by $index"
+                    style="cursor: pointer;">
+                    <td>{{ att.name }}</td>
+                    <td>{{ att.desc }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

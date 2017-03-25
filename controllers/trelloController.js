@@ -90,6 +90,10 @@ function removeState(req, res) {
     res.send(res.data);
 }
 
+function getCardAttachments(req, res) {
+    res.send(res.data);
+}
+
 module.exports = {
     me: me,
     membersBoards: membersBoards,
@@ -113,5 +117,6 @@ module.exports = {
     getCardsFromBoard: getCardsFromBoard,
     moveCard: moveCard,
     assigneeState: assigneeState,
-    removeState: removeState
+    removeState: removeState,
+    getCardAttachments: getCardAttachments
 };

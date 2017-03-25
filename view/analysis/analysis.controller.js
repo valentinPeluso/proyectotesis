@@ -46,6 +46,10 @@
                     'name': 'Backlog'
                 });
 
+                vm.attachmentsList = _.find(result[0].data, {
+                    'name': 'Attachments'
+                });
+
                 vm.cards = _.filter(
                     result[1].data,
                     function(card) {

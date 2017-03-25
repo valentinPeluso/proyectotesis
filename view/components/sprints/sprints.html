@@ -1,5 +1,5 @@
 <div class="row form-group">
-    <div class="col-lg-6">
+    <div class="col-lg-6" style="margin-bottom: 15px;">
         <tg-panel 
             list="$ctrl.backlog"
             allow-move-card="true"
@@ -7,7 +7,9 @@
             id-backlog-list="$ctrl.backlog.id"></tg-panel>
     </div>
 
-    <div class="col-lg-6" ng-repeat="sprint in $ctrl.sprints | orderBy: 'name' track by $index">
+    <div class="col-lg-6"
+        ng-repeat="sprint in $ctrl.sprints | orderBy: 'name' track by $index"
+        style="margin-bottom: 15px;">
         <tg-panel 
             list="sprint"
             allow-move-card="true"

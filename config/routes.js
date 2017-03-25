@@ -96,6 +96,11 @@ module.exports = function(app) {
     trelloAPI.getCardById,
     trello.getCardById
   ]);
+  app.get('/trello/cards/:id/attachments', [
+    errorHandling.checkauth,
+    trelloAPI.getCardAttachments,
+    trello.getCardAttachments
+  ]);
   app.post('/trello/lists/:id/cards', [
     errorHandling.checkauth,
     trelloAPI.createCard,
