@@ -11,7 +11,7 @@
                     </th>
                     <th>
                         Options
-                        <a class="btn btn-success"
+                        <a class="btn btn-success btn-sm"
                             ng-click="$ctrl.createAttachment()">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>
                         </a>
@@ -23,7 +23,16 @@
                     style="cursor: pointer;">
                     <td>{{ att.name }}</td>
                     <td>{{ att.desc }}</td>
-                    <td></td>
+                    <td>
+                        <a class="btn btn-warning btn-sm"
+                            ng-click="$ctrl.updateAttachment()">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm"
+                            ng-click="$ctrl.removeAttachment()">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>

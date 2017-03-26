@@ -43,7 +43,8 @@
                 moveCard: moveCard,
                 assigneeState: assigneeState,
                 removeState: removeState,
-                getCardAttachments: getCardAttachments
+                getCardAttachments: getCardAttachments,
+                addAttachment: addAttachment
             }
         };
 
@@ -52,6 +53,10 @@
                 '/trello/cards/' + idCard + '/idLabels/' + idLabel,
                 value
             );
+        }
+
+        function addAttachment(idCard, body) {
+            return $http.post('/trello/cards/' + idCard + '/attachments', body);
         }
 
         function assigneeState(idCard, value) {

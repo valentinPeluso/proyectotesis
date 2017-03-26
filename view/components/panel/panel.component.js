@@ -10,7 +10,8 @@
                 list: '<',
                 allowMoveCard: '<',
                 type: '<', // REQUERIMENT | CARD
-                idBacklogList: '<'
+                idBacklogList: '<',
+                allowFinishSprint: '<'
             }
         });
 
@@ -36,6 +37,11 @@
         vm.click = click;
         vm.onRemove = onRemove;
         vm.onOpen = onOpen;
+        vm.finishSprint = finishSprint;
+
+        function finishSprint() {
+
+        }
 
         function inserted(index, item, external, type) {
 

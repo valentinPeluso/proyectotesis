@@ -8,6 +8,7 @@
             controller: 'createCardComponentController',
             bindings: {
                 idBacklogList: '<',
+                idAttachmentList: '<',
                 idRequeriment: '<'
             }
         })

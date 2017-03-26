@@ -25,6 +25,8 @@
         vm.attachments = [];
 
         vm.createAttachment = createAttachment;
+        vm.updateAttachment = updateAttachment;
+        vm.removeAttachment = removeAttachment;
 
         this.$onChanges = function(changesObj) {
             if (changesObj.idAttachmentList.currentValue) {
@@ -50,6 +52,14 @@
 
         function createAttachment() {
             UIAttachmentService.create(vm.idAttachmentList);
+        }
+
+        function updateAttachment() {
+
+        }
+
+        function removeAttachment() {
+
         }
 
     }

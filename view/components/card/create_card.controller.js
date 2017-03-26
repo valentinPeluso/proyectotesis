@@ -22,13 +22,15 @@
 
         var promise = $q.all([
             trelloService.boards.getMembers(boardSelected.id),
-            trelloService.lists.getList(vm.idBacklogList)
+            trelloService.lists.getList(vm.idBacklogList),
+            trelloService.lists.getList(vm.idAttachmentList),
         ]).then(
             function(result) {
                 vm.members = result[0].data;
                 vm.possible_assignees = vm.members;
                 vm.possible_reporter = angular.copy(vm.members);
                 vm.backlogCards = result[1].data.cards;
+                vm.attachmentCards = result[2].data.cards;
                 vm.possible_issue_links = vm.backlogCards;
                 vm.newCardState = _.find(boardStates, {
                     name: "Not started"
@@ -47,6 +49,7 @@
             vm.card.assignee = _.map(vm.card.assignee, 'id');
             vm.card.reporter = _.map(vm.card.reporter, 'id');
             vm.card.issue_links = _.map(vm.card.issue_links, 'id');
+            vm.card.wikis = _.map(vm.card.wikis, 'id');
             vm.card.states = [
                 vm.newCardState.id
             ];

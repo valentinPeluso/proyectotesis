@@ -31,7 +31,11 @@
             modalInstance.result.then(function(success) {}, function(err) {});
         }
 
-        function createCardsFromRequeriment(requeriment, idBacklogList) {
+        function createCardsFromRequeriment(
+            requeriment,
+            idBacklogList,
+            idAttachmentList
+        ) {
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '/view/ui_services/requeriment/create_cards_from_requeriment.html',
@@ -44,6 +48,9 @@
                     },
                     idBacklogList: function() {
                         return idBacklogList;
+                    },
+                    idAttachmentList: function() {
+                        return idAttachmentList;
                     }
                 }
             });

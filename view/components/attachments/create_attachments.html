@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-lg-12" cg-busy="$ctrl.promise">
+        <div class="row form-group">
+            <div class="col-lg-12">
+                <label>Title (*)</label>
+                <input type="text"
+                    class="form-control"
+                    ng-model="$ctrl.attachment.name">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-12">
+                <label>Description (*)</label>
+                <textarea rows="2"
+                    class="form-control"
+                    ng-model="$ctrl.attachment.desc"
+                    placeholder="Description of the attachment.">
+                </textarea>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-12">
+                <label>Attachment (*)</label>
+                <br />
+                <button type="file"
+                    class="btn btn-primary"
+                    ngf-select="$ctrl.upload($file)"
+                    accept="image/*"
+                    ngf-max-height="1000"
+                    ngf-max-size="1MB">Select File</button>
+                <span>{{$ctrl.attachment.fileName}}</span>
+            </div>
+        </div>
+        <hr />
+            <div class="form-group row">
+                <div class="col-lg-6 col-sm-6">
+                    <button type="submit" class="btn btn-success btn-block" ng-click="$ctrl.createAttachment()">Save</button>
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                    <button type="reset" class="btn btn-default btn-block" ng-click="$ctrl.reset()">Reset</button>
+                </div>
+            </div>
+    </div>
+</div>

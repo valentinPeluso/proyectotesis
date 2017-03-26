@@ -114,7 +114,11 @@
         vm.openRequeriment = openRequeriment;
 
         function openRequeriment(requeriment) {
-            UIRequerimentService.createCardsFromRequeriment(requeriment, vm.backlogList.id);
+            UIRequerimentService.createCardsFromRequeriment(
+                requeriment,
+                vm.backlogList.id,
+                vm.attachmentsList.id
+            );
         }
     }
 
