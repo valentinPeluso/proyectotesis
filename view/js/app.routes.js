@@ -1,20 +1,20 @@
-(function () {
+(function() {
     'use strict';
 
     angular.module('app')
         .config(routes)
-        
-        routes.$inject= ['$routeProvider']
+
+    routes.$inject = ['$routeProvider']
 
     function routes($routeProvider) {
-         $routeProvider
+        $routeProvider
             .when('/configuration', {
                 templateUrl: '/view/configuration/configuration.html',
                 controller: 'configurationController',
                 controllerAs: 'vm',
                 roles: [
                     'Verification_Validation',
-                    'Requeriment', 
+                    'Requeriment',
                     'Admin',
                     'Analysis',
                     'Developmen',
@@ -27,7 +27,7 @@
                 controller: 'verificationValidationController',
                 controllerAs: 'vm',
                 roles: [
-                    'Verification_Validation', 
+                    'Verification_Validation',
                     'Admin'
                 ]
             })
@@ -36,7 +36,7 @@
                 controller: 'analysisController',
                 controllerAs: 'vm',
                 roles: [
-                    'Admin', 
+                    'Admin',
                     'Analysis'
                 ]
             })
@@ -45,16 +45,16 @@
                 controller: 'requirementsController',
                 controllerAs: 'vm',
                 roles: [
-                    'Requeriment', 
+                    'Requeriment',
                     'Admin'
                 ]
-            }) 
+            })
             .when('/development', {
                 templateUrl: '/view/development/development.html',
                 controller: 'developmentController',
                 controllerAs: 'vm',
                 roles: [
-                    'Developmen', 
+                    'Developmen',
                     'Admin'
                 ]
             })
@@ -63,9 +63,14 @@
                 controller: 'boardController',
                 controllerAs: 'vm',
             })
+            .when('/login', {
+                templateUrl: '/view/login/login.html',
+                controller: 'loginController',
+                controllerAs: 'vm',
+            })
             .otherwise({
-                redirectTo: '/configuration'
+                redirectTo: '/login'
             });
-        
+
     }
 })();

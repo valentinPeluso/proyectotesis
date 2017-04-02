@@ -4,11 +4,36 @@
     angular.module('app')
         .run(run)
 
-    run.$inject = ["editableOptions", "$rootScope", "sessionService", '$location', 'storageService', 'trelloService', '$route', '$http']
+    run.$inject = ["editableOptions", "$rootScope", "sessionService", '$location', 'storageService', 'trelloService', '$route', '$http', '$window']
 
-    function run(editableOptions, $rootScope, sessionService, $location, storageService, trelloService, $route, $http) {
+    function run(editableOptions, $rootScope, sessionService, $location, storageService, trelloService, $route, $http, $window) {
 
         editableOptions.theme = 'bs3'; // ANGULAR-XEDITABLE: bootstrap3 theme. Can be also 'bs2', 'default'
+
+        // $http.get().then(
+        //     function(res) {
+        //         debugger;
+        //     },
+        //     function(err) {
+        //         debugger;
+        //     }
+        // );
+        // .then(
+        //     function(res) {
+        //         $http.get("/github/repos/get").then(
+        //             function(res) {
+        //                 debugger;
+        //             },
+        //             function(err) {
+        //                 debugger;
+        //             }
+        //         );
+        //     },
+        //     function(err) {
+        //         debugger;
+        //     }
+        // );
+
 
         trelloService.members.me().then(
             function(result) {
@@ -18,13 +43,17 @@
                 }
                 storageService.session.put(session);
             },
-            function(error) {
-                console.log();
+            function(err) {
+                debugger;
             });
 
         $rootScope.$on("$routeChangeStart", function(event, current) {
             var nav_element = $('#nav');
-            if (Trello.authorized()) {
+            var session = {
+                id: 'GitHubUser'
+            }
+            var githubUser = storageService.session.get(session);
+            if (Trello.authorized() && githubUser !== null) {
 
                 var session = {
                     id: 'BoardSelected'
@@ -61,8 +90,8 @@
                     }
                 }
             }
-            else {
-
+            else if (current.$$route.originalPath !== '/login') {
+                $location.path('/login');
             }
         });
 

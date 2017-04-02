@@ -40,13 +40,67 @@
         vm.finishSprint = finishSprint;
 
         function finishSprint() {
+            var cardsClosed = _.filter(vm.list.cards, {
+                closed: true
+            });
+            var cardsDontClosed = _.filter(vm.list.cards, {
+                closed: false
+            });
+
+            var promises = _.concat(
+                generateDocInGithub(cardsClosed),
+                moveCardsToNextSprint(cardsDontClosed)
+                //,closeSprint()
+            );
+
+            var promise = $q.all(
+                promises
+            ).then(
+                function(result) {
+                    $route.reload();
+                },
+                function(err) {
+                    debugger;
+                });
+            vm.promise = {
+                promise: promise,
+                message: 'Loading'
+            };
+            debugger;
+        }
+
+        function moveCardsToNextSprint(cardsDontClosed) {
+            /* 
+            Para todas las cards dentro del sprint que todavia no estaban en 
+            el estado "Closed" entran en el proceso de carry over. A las cards
+            que entran en el proceso de carry over se les agrega el estado 
+            "Carry over" al estado actual de la card. 
+            */
+            var promises = [];
+            _.forEach(cardsDontClosed, function(card) {
+                promises.push(removeState(card, "Ready for dev"));
+                promises.push(assigneeState(card, "Carry over"));
+                promises.push(moveCard(card, vm.list.idNextSprint));
+            });
+            return promises
+
+        }
+
+        function generateDocInGithub(cardsClosed) {
+            /* 
+            Para todas las cards con el estado "Closed" se genera un doc en 
+            github especificando todo el history que fue sucediendo en la 
+            card (todos los comentarios y descripciones). El nombre del doc 
+            se corresponde con el titulo de la card en snake case. 
+            */
+
 
         }
 
         function inserted(index, item, external, type) {
 
             var promises = [];
-            promises.push(moveCard(item));
+            promises.push(moveCard(item, vm.list.id));
 
             if (vm.list.id == vm.idBacklogList) {
                 //esta moviendo una card desde un sprint al backlog
@@ -91,9 +145,9 @@
             );
         }
 
-        function moveCard(card) {
+        function moveCard(card, listId) {
             var bodyMove = {
-                value: vm.list.id
+                value: listId
             };
             return trelloService.cards.moveCard(
                 card.id,

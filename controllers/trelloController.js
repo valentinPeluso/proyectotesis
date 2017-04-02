@@ -94,6 +94,10 @@ function getCardAttachments(req, res) {
     res.send(res.data);
 }
 
+function addAttachment(req, res) {
+    res.send(res.data);
+}
+
 module.exports = {
     me: me,
     membersBoards: membersBoards,
@@ -118,5 +122,6 @@ module.exports = {
     moveCard: moveCard,
     assigneeState: assigneeState,
     removeState: removeState,
-    getCardAttachments: getCardAttachments
+    getCardAttachments: getCardAttachments,
+    addAttachment: addAttachment
 };

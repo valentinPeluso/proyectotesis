@@ -1,134 +1,148 @@
-var saludador = require('../controllers/saludadorController');
-var restify = require('restify');
-var trelloAPI = require('../controllers/trelloApiController');
+var trelloAPI = {
+  members: require('../controllers/trello/membersApiController'),
+  boards: require('../controllers/trello/boardsApiController'),
+  cards: require('../controllers/trello/cardsApiController'),
+  lists: require('../controllers/trello/listsApiController'),
+}
 var trello = require('../controllers/trelloController');
 var filesController = require('../controllers/filesController');
 var errorHandling = require('../controllers/errorHandlingController');
+var githubAPI = require("../controllers/github/githubApiController");
 
 module.exports = function(app) {
-  app.get('/saludo', saludador.saludo);
-  app.get('/despedida', saludador.despedida);
+  //--------GITHUB----------
+  app.post('/github/authenticate', [
+    githubAPI.authenticate
+  ]);
+  app.get('/github/repos/get', [
+    githubAPI.repos.get
+  ]);
   //--------TRELLO----------
   app.get('/trello/members/me', [
     errorHandling.checkauth,
-    trelloAPI.me,
+    trelloAPI.members.me,
     trello.me
   ]);
   app.get('/trello/members/:id/boards', [
     errorHandling.checkauth,
-    trelloAPI.membersBoards,
+    trelloAPI.members.membersBoards,
     trello.membersBoards
   ]);
   app.post('/trello/boards', [
     errorHandling.checkauth,
-    trelloAPI.createBoard,
+    trelloAPI.boards.createBoard,
     trello.createBoard
   ]);
 
   app.put('/trello/boards/:id/members', [
     errorHandling.checkauth,
-    trelloAPI.addMemberToBoard,
+    trelloAPI.boards.addMemberToBoard,
     trello.addMemberToBoard
   ]);
 
   app.put('/trello/boards/:id/labelNames/blue', [
     errorHandling.checkauth,
-    trelloAPI.addLabelBlue,
+    trelloAPI.boards.addLabelBlue,
     trello.addLabelBlue
   ]);
   app.put('/trello/boards/:id/labelNames/green', [
     errorHandling.checkauth,
-    trelloAPI.addLabelGreen,
+    trelloAPI.boards.addLabelGreen,
     trello.addLabelGreen
   ]);
   app.put('/trello/boards/:id/labelNames/orange', [
     errorHandling.checkauth,
-    trelloAPI.addLabelOrange,
+    trelloAPI.boards.addLabelOrange,
     trello.addLabelOrange
   ]);
   app.put('/trello/boards/:id/labelNames/purple', [
     errorHandling.checkauth,
-    trelloAPI.addLabelPurple,
+    trelloAPI.boards.addLabelPurple,
     trello.addLabelPurple
   ]);
   app.put('/trello/boards/:id/labelNames/red', [
     errorHandling.checkauth,
-    trelloAPI.addLabelRed,
+    trelloAPI.boards.addLabelRed,
     trello.addLabelRed
   ]);
   app.put('/trello/boards/:id/labelNames/yellow', [
     errorHandling.checkauth,
-    trelloAPI.addLabelYellow,
+    trelloAPI.boards.addLabelYellow,
     trello.addLabelYellow
   ]);
   app.post('/trello/boards/:id/lists', [
     errorHandling.checkauth,
-    trelloAPI.addListToBoard,
+    trelloAPI.boards.addListToBoard,
     trello.addListToBoard
   ]);
   app.get('/trello/boards/:id/lists', [
     errorHandling.checkauth,
-    trelloAPI.getListsFromBoard,
+    trelloAPI.boards.getListsFromBoard,
     trello.getListsFromBoard
   ]);
   app.get('/trello/boards/:id/members', [
     errorHandling.checkauth,
-    trelloAPI.getMembersFromBoard,
+    trelloAPI.boards.getMembersFromBoard,
     trello.getMembersFromBoard
   ]);
   app.get('/trello/boards/:id/labels', [
     errorHandling.checkauth,
-    trelloAPI.getLabelsFromBoard,
+    trelloAPI.boards.getLabelsFromBoard,
     trello.getLabelsFromBoard
   ]);
   app.get('/trello/boards/:id/cards', [
     errorHandling.checkauth,
-    trelloAPI.getCardsFromBoard,
+    trelloAPI.boards.getCardsFromBoard,
     trello.getCardsFromBoard
   ]);
   app.get('/trello/lists/:id', [
     errorHandling.checkauth,
-    trelloAPI.getListById,
+    trelloAPI.lists.getListById,
     trello.getListById
   ]);
   app.get('/trello/cards/:id', [
     errorHandling.checkauth,
-    trelloAPI.getCardById,
+    trelloAPI.cards.getCardById,
     trello.getCardById
   ]);
   app.get('/trello/cards/:id/attachments', [
     errorHandling.checkauth,
-    trelloAPI.getCardAttachments,
+    trelloAPI.cards.getCardAttachments,
     trello.getCardAttachments
   ]);
   app.post('/trello/lists/:id/cards', [
     errorHandling.checkauth,
-    trelloAPI.createCard,
+    trelloAPI.lists.createCard,
     trello.createCard
   ]);
   app.post('/trello/cards/:id/actions/comments', [
     errorHandling.checkauth,
-    trelloAPI.createComent,
+    trelloAPI.cards.createComent,
     trello.createComent
   ]);
   app.put('/trello/cards/:id', [
     errorHandling.checkauth,
-    trelloAPI.updateCard,
+    trelloAPI.cards.updateCard,
     trello.updateCard
   ]);
   app.put('/trello/cards/:idCard/idList', [
     errorHandling.checkauth,
-    trelloAPI.moveCard,
+    trelloAPI.cards.moveCard,
     trello.moveCard
   ]);
   app.post('/trello/cards/:idCard/idLabels', [
     errorHandling.checkauth,
-    trelloAPI.assigneeState,
+    trelloAPI.cards.assigneeState,
     trello.assigneeState
+  ]);
+  app.post('/trello/cards/:idCard/attachments', [
+    errorHandling.checkauth,
+    trelloAPI.cards.addAttachment,
+    trello.addAttachment
   ]);
   app.del('/trello/cards/:idCard/idLabels/:idLabel', [
     errorHandling.checkauth,
-    trelloAPI.removeState,
+    trelloAPI.cards.removeState,
     trello.removeState
   ]);
   //-------- VIEW FILES ------

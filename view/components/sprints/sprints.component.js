@@ -11,23 +11,45 @@
             }
         });
 
-    sprintsComponentController.$inject = ['mockedObjectsService', 'UICardService', 'trelloService', 'jsonFormatterService']
+    sprintsComponentController.$inject = [
+        'mockedObjectsService',
+        'UICardService',
+        'trelloService',
+        'jsonFormatterService',
+        '$filter'
+    ]
 
-    function sprintsComponentController(mockedObjectsService, UICardService, trelloService, jsonFormatterService) {
+    function sprintsComponentController(
+        mockedObjectsService,
+        UICardService,
+        trelloService,
+        jsonFormatterService,
+        $filter
+    ) {
         var vm = this;
 
         var boardSelected = trelloService.boards.getFromSession();
 
         var promise = trelloService.boards.getLists(boardSelected.id).then(
             function(result) {
-                vm.sprints = _.filter(result.data, function(list) {
-                    return list.name !== 'Requeriments' &&
-                        list.name !== 'Attachments' &&
-                        list.name !== "Backlog" &&
-                        !list.closed;
-                });
-                _.forEach(vm.sprints, function(sprint) {
+                vm.sprints = _.orderBy(
+                    _.filter(
+                        result.data,
+                        function(list) {
+                            return list.name !== 'Requeriments' &&
+                                list.name !== 'Attachments' &&
+                                list.name !== "Backlog"
+                        }
+                    ), [
+                        'name'
+                    ]
+                );
+                var sprints_copy = angular.copy(vm.sprints);
+                _.forEach(vm.sprints, function(sprint, index) {
                     sprint.opened = false;
+                    if ((index + 1) < sprints_copy.length) {
+                        sprint.idNextSprint = sprints_copy[index + 1].id;
+                    }
 
                     var cards_points = [];
                     _.forEach(sprint.cards, function(card) {

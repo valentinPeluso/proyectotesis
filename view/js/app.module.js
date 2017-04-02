@@ -17,6 +17,7 @@
         'app.requirements',
         'app.configuration',
         'app.analysis',
+        'app.login',
         'app.development',
         'app.board',
         'app.interceptors',
@@ -30,8 +31,6 @@
         'dndLists',
         'isteven-multi-select',
         'ngFileUpload'
-
-
-    ])
+    ]);
 
 })();
