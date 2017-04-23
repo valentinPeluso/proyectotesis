@@ -20,7 +20,7 @@
                     function(result) {
                         if (result.status == 200) {
                             githubService.users.postInSession(result.data);
-                            $location.path('/board');
+                            $location.path('/repository');
                         }
                     },
                     function(err) {

@@ -63,6 +63,11 @@
                 controller: 'boardController',
                 controllerAs: 'vm',
             })
+            .when('/repository', {
+                templateUrl: '/view/repository/repository.html',
+                controller: 'repositoryController',
+                controllerAs: 'vm',
+            })
             .when('/login', {
                 templateUrl: '/view/login/login.html',
                 controller: 'loginController',

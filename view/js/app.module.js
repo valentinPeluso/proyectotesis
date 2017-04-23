@@ -18,6 +18,7 @@
         'app.configuration',
         'app.analysis',
         'app.login',
+        'app.repository',
         'app.development',
         'app.board',
         'app.interceptors',

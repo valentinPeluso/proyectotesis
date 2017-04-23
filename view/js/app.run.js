@@ -55,17 +55,27 @@
             var githubUser = storageService.session.get(session);
             if (Trello.authorized() && githubUser !== null) {
 
-                var session = {
+                var repositrySession = {
+                    id: 'RepositrySelected'
+                };
+
+                var boardSession = {
                     id: 'BoardSelected'
+                };
+
+                var repositrySelected = storageService.session.get(repositrySession);
+                var boardSelected = storageService.session.get(boardSession);
+
+                if (!repositrySelected &&
+                    current.$$route.originalPath !== '/repository') {
+                    $location.path('/repository');
                 }
-                var boardSelected = storageService.session.get(session);
-
-                if (!boardSelected && current.$$route.originalPath !== '/board') {
-
+                else if (repositrySelected &&
+                    !boardSelected &&
+                    current.$$route.originalPath !== '/board') {
                     $location.path('/board');
-
                 }
-                else if (boardSelected) {
+                else if (boardSelected && repositrySelected) {
                     nav_element.show();
 
                     var route_permission = sessionService.checkRoutePermission(current.$$route);

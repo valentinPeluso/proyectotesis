@@ -11,8 +11,24 @@
         var service = {
             users: {
                 authenticate: authenticate,
-                postInSession: postInSession
+                postInSession: postUserInSession
+            },
+            repos: {
+                get: getRepos,
+                postInSession: postRepoInSession
             }
+        }
+
+        function postRepoInSession(repository) {
+            var session = {
+                id: 'RepositrySelected',
+                data: repository
+            }
+            storageService.session.put(session);
+        }
+
+        function getRepos() {
+            return $http.get('/github/repos/get');
         }
 
         function authenticate(username, password) {
@@ -24,7 +40,7 @@
             );
         }
 
-        function postInSession(user) {
+        function postUserInSession(user) {
             var session = {
                 id: 'GitHubUser',
                 data: user

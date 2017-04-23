@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/view/repository/repository.css" />
+
+<div class="row form-group">
+    <div class="col-lg-12">
+        <tg-header-component header-title="'Repositories'"></tg-header-component>
+    </div>
+</div>
+<div class="row" cg-busy="vm.repositoriesPromise">
+    <div class="col-lg-3" ng-repeat="repository in vm.repositories track by $index" ng-click="vm.selectRepository(repository)">
+        <div class="well well-sm tg-repository">
+            <div class="row form-group">
+                <div class="col-sm-12">
+                    {{ repository.name }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3" id="createRepositoryElement" style="display:none">
+        <div class="well well-sm tg-repository" ng-click="vm.createRepository()">
+            <div class="row  form-group">
+                <div class="col-sm-12">
+                    Create a new repository
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
