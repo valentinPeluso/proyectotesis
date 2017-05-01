@@ -4,44 +4,37 @@
     angular.module('app')
         .run(run)
 
-    run.$inject = ["editableOptions", "$rootScope", "sessionService", '$location', 'storageService', 'trelloService', '$route', '$http', '$window']
+    run.$inject = [
+        'editableOptions',
+        '$rootScope',
+        'sessionService',
+        '$location',
+        'storageService',
+        'trelloService',
+        '$route',
+        '$http',
+        '$window',
+        'githubService'
+    ];
 
-    function run(editableOptions, $rootScope, sessionService, $location, storageService, trelloService, $route, $http, $window) {
+    function run(
+        editableOptions,
+        $rootScope,
+        sessionService,
+        $location,
+        storageService,
+        trelloService,
+        $route,
+        $http,
+        $window,
+        githubService
+    ) {
 
         editableOptions.theme = 'bs3'; // ANGULAR-XEDITABLE: bootstrap3 theme. Can be also 'bs2', 'default'
 
-        // $http.get().then(
-        //     function(res) {
-        //         debugger;
-        //     },
-        //     function(err) {
-        //         debugger;
-        //     }
-        // );
-        // .then(
-        //     function(res) {
-        //         $http.get("/github/repos/get").then(
-        //             function(res) {
-        //                 debugger;
-        //             },
-        //             function(err) {
-        //                 debugger;
-        //             }
-        //         );
-        //     },
-        //     function(err) {
-        //         debugger;
-        //     }
-        // );
-
-
         trelloService.members.me().then(
             function(result) {
-                var session = {
-                    id: 'TrelloUserLogged',
-                    data: result.data
-                }
-                storageService.session.put(session);
+                trelloService.user.postInSession(result.data);
             },
             function(err) {
                 debugger;
@@ -49,10 +42,8 @@
 
         $rootScope.$on("$routeChangeStart", function(event, current) {
             var nav_element = $('#nav');
-            var session = {
-                id: 'GitHubUser'
-            }
-            var githubUser = storageService.session.get(session);
+
+            var githubUser = githubService.users.getFromSession(session);
             if (Trello.authorized() && githubUser !== null) {
 
                 var repositrySession = {

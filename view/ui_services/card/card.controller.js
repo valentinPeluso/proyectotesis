@@ -1,29 +1,23 @@
-(function () {
+(function() {
     'use strict';
 
     angular.module('app.ui_services')
-    .controller('viewCardController', viewCardController)
-    
-    viewCardController.$inject = ['card', 'mockedObjectsService', '$location'];
-    
-    function viewCardController(card, mockedObjectsService, $location){
+        .controller('viewCardController', viewCardController)
+
+    viewCardController.$inject = ['idCard', 'cardName', '$uibModalInstance'];
+
+    function viewCardController(idCard, cardName, $uibModalInstance) {
         var vm = this;
-        
-        vm.location = "/"+_.words($location.$$path)[0];
-        
-        vm.possible_issue_links = mockedObjectsService.cards.getMockedIssuesLinks();
-        vm.possible_assignees = mockedObjectsService.cards.getMockedPossibleAssigness();
-        vm.states = mockedObjectsService.cards.getMockedCardsStates();
-        
-        vm.card = angular.copy(card);       
-        vm.card.state = _.find(vm.states, { 'id' : card.state});
 
-        vm.saveCard = saveCard;
-       
-        console.log(vm.card);
+        vm.card = {
+            id: angular.copy(idCard),
+            name: cardName
+        }
 
-        function saveCard(card) {
-            console.log(card);
+        vm.cancel = cancel;
+
+        function cancel() {
+            $uibModalInstance.dismiss();
         }
     };
 })();

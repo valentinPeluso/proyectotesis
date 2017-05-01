@@ -10,6 +10,10 @@
     function trelloService($http, storageService) {
 
         var service = {
+            user: {
+                getFromSession: getUserFromSession,
+                postInSession: postUserInSession
+            },
             members: {
                 me: membersMe,
                 boards: membersBoards
@@ -47,6 +51,21 @@
                 addAttachment: addAttachment
             }
         };
+
+        function postUserInSession(user) {
+            var session = {
+                id: 'TrelloUserLogged',
+                data: user
+            }
+            storageService.session.put(session);
+        }
+
+        function getUserFromSession() {
+            var session = {
+                id: 'TrelloUserLogged'
+            }
+            return storageService.session.get(session);
+        }
 
         function removeState(idCard, idLabel, value) {
             return $http.delete(
@@ -132,10 +151,7 @@
         }
 
         function getUserLoggedId() {
-            var cookie = {
-                id: 'TrelloUserLogged'
-            }
-            var userLogged = storageService.session.get(cookie);
+            var userLogged = getUserFromSession();
             return userLogged.id;
         }
 

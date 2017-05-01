@@ -11,7 +11,8 @@
                 allowMoveCard: '<',
                 type: '<', // REQUERIMENT | CARD
                 idBacklogList: '<',
-                allowFinishSprint: '<'
+                allowFinishSprint: '<',
+                allowUpdateCard: '<'
             }
         });
 

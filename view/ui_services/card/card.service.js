@@ -15,7 +15,7 @@
 
         return service;
 
-        function open(card) {
+        function open(idCard, cardName) {
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '/view/ui_services/card/card.html',
@@ -23,8 +23,11 @@
                 controllerAs: 'vm',
                 size: 'lg',
                 resolve: {
-                    card: function() {
-                        return card;
+                    idCard: function() {
+                        return idCard;
+                    },
+                    cardName: function() {
+                        return cardName;
                     }
                 }
             });

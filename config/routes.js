@@ -14,8 +14,8 @@ module.exports = function(app) {
   app.post('/github/authenticate', [
     githubAPI.authenticate
   ]);
-  app.get('/github/repos/get', [
-    githubAPI.repos.get
+  app.get('/github/get', [
+    githubAPI.get
   ]);
   //--------TRELLO----------
   app.get('/trello/members/me', [

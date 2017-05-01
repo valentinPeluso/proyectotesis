@@ -1,62 +1,15 @@
 <div class="modal-header">
     <h3 class="modal-title" id="modal-title">
-        {{ vm.card.title }}<a href=""></a>
-        <!--<a href="#" editable-text="vm.card.title" e-label="Card title">{{ vm.card.title || 'empty' }}</a>-->
-        <span class="{{vm.card.state.clases}}" style="float: right;">{{ vm.card.state.label }}</span>
+        {{ vm.card.name }}
     </h3>
 </div>
 <div class="modal-body" id="modal-body">
     <div class="row">
         <div class="col-sm-12">
-            <uib-tabset justified="true" active="0">
-                <uib-tab index="0">
-                    <uib-tab-heading>
-                        <i class="fa fa-trello" aria-hidden="true"></i> Card 
-                    </uib-tab-heading>
-                    <div class="well tg-well">
-                        <tg-card-details card="vm.card"></tg-card-details>                        
-                    </div>
-                </uib-tab>
-                <uib-tab index="1" ng-if="vm.location == '/development'">
-                    <uib-tab-heading>
-                        <i class="fa fa-github" aria-hidden="true"></i> Github 
-                    </uib-tab-heading>
-                    <div class="well tg-well">
-                        <tg-github></tg-github>
-                    </div>
-                </uib-tab>
-                <uib-tab index="2" ng-if="vm.location == '/verificationvalidation' || vm.location == '/development'">
-                    <uib-tab-heading>
-                        <i class="fa fa-comments" aria-hidden="true"></i> Conversation 
-                        <span class="badge">{{ vm.card.comments }}</span>
-                    </uib-tab-heading>
-                    <div class="well tg-well">
-                        <tg-timeline id="234" conversation="true"></tg-timeline>
-                    </div>
-                </uib-tab>
-                <uib-tab index="3" ng-if="vm.location == '/verificationvalidation' || vm.location == '/development'">
-                    <uib-tab-heading>
-                        <i class="fa fa-cloud-upload" aria-hidden="true"></i> Commits 
-                        <span class="badge">3</span>
-                    </uib-tab-heading>
-                    <div class="well tg-well">
-                        <tg-timeline id="234" commits="true"></tg-timeline>
-                    </div>
-                </uib-tab>
-                <uib-tab index="4" ng-if="vm.location == '/verificationvalidation' || vm.location == '/development'">
-                    <uib-tab-heading>
-                        <i class="fa fa-file-code-o" aria-hidden="true"></i> Files changed 
-                        <span class="badge">2</span>
-                    </uib-tab-heading>
-                     <div class="well tg-well">
-                         <tg-timeline id="234" files-changed="true"></tg-timeline>
-                     </div>
-                </uib-tab>
-            </uib-tabset>
+            <tg-detail-card id-card="vm.card.id"></tg-detail-card>
         </div>
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
-    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+    <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
 </div>

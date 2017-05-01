@@ -19,6 +19,13 @@
                 idCard: '<'
             }
         })
+        .component('tgDetailCard', {
+            templateUrl: '/view/components/card/detail_card.html',
+            controller: 'detailCardComponentController',
+            bindings: {
+                idCard: '<'
+            }
+        })
         .component('tgListCards', {
             templateUrl: '/view/components/card/list_cards.html',
             controller: 'listCardsComponentController',
@@ -28,7 +35,8 @@
                 allowMoveCard: '<',
                 onOpen: '&',
                 type: '<', // REQUERIMENT | CARD
-                onRemove: '&'
+                onRemove: '&',
+                allowUpdateCard: '<'
             }
         });
 

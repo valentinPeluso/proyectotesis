@@ -128,7 +128,12 @@
         function openCard(card) {
             switch (vm.type) {
                 case "CARD":
-                    UICardService.updateCard(card.id, card.name);
+                    if (vm.allowUpdateCard) {
+                        UICardService.updateCard(card.id, card.name);
+                    }
+                    else {
+                        UICardService.open(card.id, card.name);
+                    }
                     break;
                 case "REQUERIMENT":
                     UIRequerimentService.update(card)

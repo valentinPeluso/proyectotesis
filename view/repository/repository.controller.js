@@ -14,7 +14,7 @@
         vm.selectRepository = selectRepository;
         vm.createRepository = createRepository;
 
-        var promise = githubService.repos.get().then(
+        var promise = githubService.repos.getRepos().then(
             function(result) {
                 vm.repositories = result.data;
                 var create_repository_element = $('#createRepositoryElement');

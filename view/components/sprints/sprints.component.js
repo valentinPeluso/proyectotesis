@@ -7,7 +7,9 @@
             templateUrl: '/view/components/sprints/sprints.html',
             controller: sprintsComponentController,
             bindings: {
-                allowMoveCard: '<'
+                allowMoveCard: '<',
+                allowFinishSprint: '<',
+                allowUpdateCard: '<'
             }
         });
 
