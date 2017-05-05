@@ -26,10 +26,10 @@
         vm.possible_pull_request = [];
 
         var repositorySelected = githubService.repos.getFromSession();
-        debugger;
 
         // vm.saveCard = saveCard;
         // vm.resetCard = resetCard;
+        vm.selectPullRequest = selectPullRequest;
 
         var boardSelected = trelloService.boards.getFromSession();
 
@@ -37,7 +37,8 @@
             trelloService.boards.getMembers(boardSelected.id),
             trelloService.boards.getCards(boardSelected.id),
             trelloService.cards.getCard(vm.idCard),
-            trelloService.boards.getLists(boardSelected.id)
+            trelloService.boards.getLists(boardSelected.id),
+            githubService.repos.getPullRequest()
         ]).then(
             function(result) {
                 vm.members = result[0].data;
@@ -49,7 +50,7 @@
                 vm.possible_issue_links = _.filter(result[1].data, function(card) {
                     return card.idList !== vm.requerimentList.id
                 });
-
+                vm.possible_pull_request = result[4].data;
                 var card = result[2].data;
                 vm.card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
 
@@ -112,7 +113,29 @@
                 );
             });
             vm.card.issue_links = issue_links;
-            debugger;
+        }
+
+        function selectPullRequest(pullRequest) {
+
+            var body = {
+                description: vm.card.description,
+                title: vm.card.name
+            };
+            var promise = $q.all([
+                githubService.repos.commentPullRequestBody(pullRequest.number, body),
+                //update card agregando el numero del pull request
+            ]).then(
+                function(result) {
+                    debugger;
+                },
+                function(err) {
+                    debugger;
+                }
+            );
+            vm.promise = {
+                promise: promise,
+                message: 'Linking pull request to card'
+            };
         }
 
         // function saveCard() {

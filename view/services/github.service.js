@@ -18,7 +18,8 @@
                 getFromSession: getRepoFromSession,
                 postInSession: postRepoInSession,
                 getRepos: getRepos,
-                getPullRequest: getPullRequest
+                getPullRequest: getPullRequest,
+                commentPullRequestBody: commentPullRequestBody
             }
         }
 
@@ -38,18 +39,23 @@
         }
 
         function getPullRequest() {
-            return $http.get('/github/repos/get');
+            var githubUser = getUserFromSession();
+            var githubRepo = getRepoFromSession();
+            var url = '/github/' + githubUser.username + '/' + githubUser.password;
+            return $http.get(url + '/repos/' + githubUser.user.login + '/' + githubRepo.name + '/pulls');
+        }
+
+        function commentPullRequestBody(number, body) {
+            var githubUser = getUserFromSession();
+            var githubRepo = getRepoFromSession();
+            var url = '/github/' + githubUser.username + '/' + githubUser.password;
+            return $http.put(url + '/repos/' + githubUser.user.login + '/' + githubRepo.name + '/pulls/' + number, body);
         }
 
         function getRepos() {
-            // var githubUser = getUserFromSession();
-            // if (githubUser !== null) {
-            //     return $http.get(githubUser.repos_url);
-            // }
-            // else {
-            //     $location.path('/login');
-            // }
-            return $http.get('/github/get?url=https://api.github.com/users/valentinPeluso/repos');
+            var githubUser = getUserFromSession();
+            var url = '/github/' + githubUser.username + '/' + githubUser.password;
+            return $http.get(url + '/repos/get');
         }
 
         function authenticate(username, password) {
@@ -61,10 +67,14 @@
             );
         }
 
-        function postUserInSession(user) {
+        function postUserInSession(user, username, password) {
             var session = {
                 id: 'GitHubUser',
-                data: user
+                data: {
+                    user: user,
+                    username: username,
+                    password: password
+                }
             }
             storageService.session.put(session);
         }

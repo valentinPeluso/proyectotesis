@@ -67,9 +67,11 @@
                     isteven-multi-select
                     input-model="$ctrl.possible_pull_request"
                     output-model="$ctrl.card.pull_request"
-                    button-label="name"
-                    item-label="name"
+                    button-label="title"
+                    item-label="title"
                     tick-property="selected"
+                    selection-mode="single"
+                    on-item-click="$ctrl.selectPullRequest(data)"
                 ></div>
             </div>
         </div>

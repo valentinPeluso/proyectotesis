@@ -19,7 +19,7 @@
                 githubService.users.authenticate(vm.username, vm.password).then(
                     function(result) {
                         if (result.status == 200) {
-                            githubService.users.postInSession(result.data);
+                            githubService.users.postInSession(result.data, vm.username, vm.password);
                             $location.path('/repository');
                         }
                     },
