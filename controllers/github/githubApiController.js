@@ -33,7 +33,8 @@ function getAllPullRequest(req, res, next) {
 
     github.pullRequests.getAll({
             "owner": req.params.owner,
-            "repo": req.params.repo
+            "repo": req.params.repo,
+            "state": "all"
         },
         function(err, response) {
             if (err) throw err;

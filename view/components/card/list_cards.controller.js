@@ -9,7 +9,8 @@
         '$q',
         'jsonFormatterService',
         'UICardService',
-        'UIRequerimentService'
+        'UIRequerimentService',
+        'githubService'
     ];
 
     function listCardsComponentController(
@@ -17,7 +18,8 @@
         $q,
         jsonFormatterService,
         UICardService,
-        UIRequerimentService
+        UIRequerimentService,
+        githubService
     ) {
         var vm = this;
 
@@ -40,11 +42,14 @@
         function activate() {
             var promise = $q.all([
                 trelloService.lists.getList(vm.idList),
-                trelloService.boards.getMembers(boardSelected.id)
+                trelloService.boards.getMembers(boardSelected.id),
+                githubService.repos.getPullRequests()
             ]).then(
                 function(result) {
                     vm.cards = result[0].data.cards;
                     vm.members = result[1].data;
+                    vm.possible_pull_request = result[2].data;
+
                     vm.states = boardStates;
                     _.forEach(
                         vm.cards,
@@ -55,6 +60,42 @@
                             );
                             card.idList = vm.idList;
 
+                            if (card.pullRequestNumber) {
+                                card.pullRequest = _.find(
+                                    vm.possible_pull_request, {
+                                        number: card.pullRequestNumber
+                                    }
+                                );
+                                var readyForCheckState = _.find(
+                                    vm.states, {
+                                        name: "Ready for check"
+                                    }
+                                );
+                                if (card.pullRequest.merged_at &&
+                                    !_.includes(
+                                        card.states,
+                                        readyForCheckState.id
+                                    )
+                                ) {
+                                    card.states = [readyForCheckState.id];
+
+                                    // var body = {
+                                    //     value: readyForCheckState.id
+                                    // }
+                                    // trelloService.cards.assigneeState(
+                                    //     card.id,
+                                    //     body
+                                    // ).then(
+                                    //     function(result) {
+                                    //         debugger;
+                                    //     },
+                                    //     function(err) {
+                                    //         debugger;
+                                    //     }
+                                    // );
+
+                                }
+                            }
                             if (typeof card.reporter !== 'undefined') {
                                 var reporter = [];
                                 _.forEach(card.reporter, function(idReporter) {
@@ -106,7 +147,6 @@
                             }
                         }
                     );
-                    // Si 
                     if (vm.idLinkedCard) {
                         vm.cards = _.filter(vm.cards, ['idRequeriment', vm.idLinkedCard]);
                     }

@@ -18,7 +18,7 @@
                 getFromSession: getRepoFromSession,
                 postInSession: postRepoInSession,
                 getRepos: getRepos,
-                getPullRequest: getPullRequest,
+                getPullRequests: getPullRequests,
                 commentPullRequestBody: commentPullRequestBody
             }
         }
@@ -38,7 +38,7 @@
             storageService.session.put(session);
         }
 
-        function getPullRequest() {
+        function getPullRequests() {
             var githubUser = getUserFromSession();
             var githubRepo = getRepoFromSession();
             var url = '/github/' + githubUser.username + '/' + githubUser.password;

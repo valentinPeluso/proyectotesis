@@ -38,7 +38,7 @@
             trelloService.boards.getCards(boardSelected.id),
             trelloService.cards.getCard(vm.idCard),
             trelloService.boards.getLists(boardSelected.id),
-            githubService.repos.getPullRequest()
+            githubService.repos.getPullRequests()
         ]).then(
             function(result) {
                 vm.members = result[0].data;
@@ -116,14 +116,43 @@
         }
 
         function selectPullRequest(pullRequest) {
+            vm.card.assignee = _.map(vm.card.assignee, 'id');
+            vm.card.reporter = _.map(vm.card.reporter, 'id');
+            vm.card.issue_links = _.map(vm.card.issue_links, 'id');
 
-            var body = {
+            var card = {
+                name: vm.card.name,
+                desc: jsonFormatterService.jsonToString(
+                    _.merge(
+                        _.pick(
+                            vm.card, [
+                                'priority',
+                                'points',
+                                'description',
+                                'assignee',
+                                'reporter',
+                                'issue_links',
+                                'states',
+                                'idRequeriment'
+                            ]
+                        ), {
+                            pullRequestNumber: pullRequest.number,
+                        }
+                    )
+
+                ),
+                idMembers: vm.card.assignee
+
+            };
+
+            var commentPullRequestBody = {
                 description: vm.card.description,
                 title: vm.card.name
             };
+
             var promise = $q.all([
-                githubService.repos.commentPullRequestBody(pullRequest.number, body),
-                //update card agregando el numero del pull request
+                githubService.repos.commentPullRequestBody(pullRequest.number, commentPullRequestBody),
+                trelloService.cards.update(vm.card.id, card)
             ]).then(
                 function(result) {
                     debugger;
@@ -137,48 +166,6 @@
                 message: 'Linking pull request to card'
             };
         }
-
-        // function saveCard() {
-        //     vm.card.assignee = _.map(vm.card.assignee, 'id');
-        //     vm.card.reporter = _.map(vm.card.reporter, 'id');
-        //     vm.card.issue_links = _.map(vm.card.issue_links, 'id');
-
-        //     var card = {
-        //         name: vm.card.name,
-        //         desc: jsonFormatterService.jsonToString(
-        //             _.pick(
-        //                 vm.card, [
-        //                     'priority',
-        //                     'points',
-        //                     'description',
-        //                     'assignee',
-        //                     'reporter',
-        //                     'issue_links',
-        //                     'states',
-        //                     'idRequeriment'
-        //                 ]
-        //             )
-        //         ),
-        //         idMembers: vm.card.assignee
-
-        //     };
-
-        //     var promise = trelloService.cards.update(vm.card.id, card).then(
-        //         function(result) {
-        //             var cardCreated = result.data;
-        //             vm.card = {};
-        //         },
-        //         function(err) {});
-
-        //     vm.promise = {
-        //         promise: promise,
-        //         message: 'Updating card'
-        //     };
-        // }
-
-        // function resetCard() {
-        //     vm.card = {};
-        // }
 
     }
 

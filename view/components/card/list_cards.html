@@ -9,17 +9,26 @@
         dnd-draggable="card"
         dnd-disable-if="!$ctrl.allowMoveCard">
         <div class="row">
-            <div class="col-xs-8">
+            <div class="col-xs-6">
                 <a href="" >{{ card.name }}</a>
             </div>
-            <div class="col-xs-4 tg-font-13 tg-text-right"
+            <div class="col-xs-6 tg-font-13 tg-text-right"
                  style="margin-top: -3px;"
-                 ng-if="card.points">
-                <span class="label label-success">
+                 ng-if="card.points || card.pullRequest">
+                <a  ng-show="card.pullRequestNumber"
+                    ng-href="{{card.pullRequest.html_url}}"
+                    ng-click="$event.stopPropagation()"
+                    target="_blank">
+                    <span class="label label-primary">
+                        <i class="fa fa-code-fork" aria-hidden="true"></i> Pull request
+                    </span>
+                </a>
+                &nbsp;
+                <span class="label label-success" ng-show="card.points">
                     {{ card.points }} points
                 </span>
                 &nbsp;
-                <span ng-repeat="state in card.states track by $index">
+                <span ng-show="card.points" ng-repeat="state in card.states track by $index">
                     <span class="label label-{{state.color}}">
                         {{state.name}}
                     </span>
