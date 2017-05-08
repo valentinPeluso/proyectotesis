@@ -15,7 +15,12 @@
 
         return service;
 
-        function open(idCard, cardName) {
+        function open(
+            idCard,
+            cardName,
+            allowSelectPullRequest,
+            allowCloseCard
+        ) {
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '/view/ui_services/card/card.html',
@@ -28,6 +33,12 @@
                     },
                     cardName: function() {
                         return cardName;
+                    },
+                    allowSelectPullRequest: function() {
+                        return allowSelectPullRequest;
+                    },
+                    allowCloseCard: function() {
+                        return allowCloseCard;
                     }
                 }
             });

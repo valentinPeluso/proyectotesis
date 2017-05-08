@@ -23,7 +23,9 @@
             templateUrl: '/view/components/card/detail_card.html',
             controller: 'detailCardComponentController',
             bindings: {
-                idCard: '<'
+                idCard: '<',
+                allowSelectPullRequest: '<',
+                allowCloseCard: '<'
             }
         })
         .component('tgListCards', {
@@ -36,7 +38,9 @@
                 onOpen: '&',
                 type: '<', // REQUERIMENT | CARD
                 onRemove: '&',
-                allowUpdateCard: '<'
+                allowUpdateCard: '<',
+                allowSelectPullRequest: '<',
+                allowCloseCard: '<'
             }
         });
 

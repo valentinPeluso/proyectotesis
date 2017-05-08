@@ -41,11 +41,6 @@
                     <div class="col-xs-4" ng-if="card.assignee">
                         <span ng-repeat="member in card.assignee track by $index">{{ member.fullName }} </span><i class="fa fa-user" aria-hidden="true"></i>
                     </div>
-                    <!--<div class="col-xs-4" ng-if="card.pull_request_linked">-->
-                    <!--    <span >-->
-                    <!--        Pull Req. <i class="fa fa-code-fork" aria-hidden="true"></i>-->
-                    <!--    </span>                           -->
-                    <!--</div>-->
                     <div class="col-xs-8 tg-text-right">                                
                         <span >
                             <span>{{ card.description }} <i class="fa fa-comment" aria-hidden="true"></i></span>

@@ -12,7 +12,9 @@
                 type: '<', // REQUERIMENT | CARD
                 idBacklogList: '<',
                 allowFinishSprint: '<',
-                allowUpdateCard: '<'
+                allowUpdateCard: '<',
+                allowCloseCard: '<',
+                allowSelectPullRequest: '<'
             }
         });
 

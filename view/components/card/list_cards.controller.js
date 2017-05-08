@@ -10,7 +10,8 @@
         'jsonFormatterService',
         'UICardService',
         'UIRequerimentService',
-        'githubService'
+        'githubService',
+        '$route'
     ];
 
     function listCardsComponentController(
@@ -19,7 +20,8 @@
         jsonFormatterService,
         UICardService,
         UIRequerimentService,
-        githubService
+        githubService,
+        $route
     ) {
         var vm = this;
 
@@ -60,42 +62,6 @@
                             );
                             card.idList = vm.idList;
 
-                            if (card.pullRequestNumber) {
-                                card.pullRequest = _.find(
-                                    vm.possible_pull_request, {
-                                        number: card.pullRequestNumber
-                                    }
-                                );
-                                var readyForCheckState = _.find(
-                                    vm.states, {
-                                        name: "Ready for check"
-                                    }
-                                );
-                                if (card.pullRequest.merged_at &&
-                                    !_.includes(
-                                        card.states,
-                                        readyForCheckState.id
-                                    )
-                                ) {
-                                    card.states = [readyForCheckState.id];
-
-                                    // var body = {
-                                    //     value: readyForCheckState.id
-                                    // }
-                                    // trelloService.cards.assigneeState(
-                                    //     card.id,
-                                    //     body
-                                    // ).then(
-                                    //     function(result) {
-                                    //         debugger;
-                                    //     },
-                                    //     function(err) {
-                                    //         debugger;
-                                    //     }
-                                    // );
-
-                                }
-                            }
                             if (typeof card.reporter !== 'undefined') {
                                 var reporter = [];
                                 _.forEach(card.reporter, function(idReporter) {
@@ -145,6 +111,7 @@
                                 );
                                 card.assignee = assignees;
                             }
+                            setPullRequest(card);
                         }
                     );
                     if (vm.idLinkedCard) {
@@ -165,6 +132,101 @@
             });
         }
 
+        function setPullRequest(card) {
+            if (card.pullRequestNumber) {
+                card.pullRequest = _.find(
+                    vm.possible_pull_request, {
+                        number: card.pullRequestNumber
+                    }
+                );
+                if (card.pullRequest.merged_at) {
+                    var removeStatePromise = removeState(card, "Ready for dev");
+                    var assigneeStatePromise = assigneeState(card, "Ready for test");
+                    var promises = [];
+                    if (typeof removeStatePromise !== 'undefined')
+                        promises.push(removeStatePromise);
+                    if (typeof assigneeStatePromise !== 'undefined')
+                        promises.push(assigneeStatePromise);
+                    if (typeof removeStatePromise !== 'undefined' ||
+                        typeof assigneeStatePromise !== 'undefined')
+                        promises.push(updateCard(card));
+
+                    if (promises.length > 0) {
+                        var promise = $q.all(
+                            promises
+                        ).then(
+                            function(result) {
+                                $route.reload();
+                            },
+                            function(err) {
+                                debugger;
+                            });
+                        vm.promise = {
+                            promise: promise,
+                            message: 'Loading'
+                        };
+                    }
+                }
+            }
+        }
+
+        function assigneeState(card, state) {
+            var boardStates = trelloService.boards.getStatesFromSession();
+            var cardState = _.find(
+                boardStates, {
+                    name: state
+                }
+            );
+            var hasState = _.includes(
+                _.map(
+                    card.states,
+                    'id'
+                ),
+                cardState.id
+            );
+
+            if (!hasState) {
+
+                var bodyState = {
+                    value: cardState.id
+                };
+                card.states.push(cardState);
+                return trelloService.cards.assigneeState(
+                    card.id,
+                    bodyState
+                );
+            }
+            else {
+                return undefined;
+            }
+        }
+
+        function removeState(card, state) {
+            var cardState = _.find(card.states, {
+                name: state
+            });
+            if (typeof cardState !== 'undefined') {
+                var bodyRemoveState = {
+                    idLabel: cardState.id
+                }
+                _.remove(
+                    card.states,
+                    function(state) {
+                        return state.id == cardState.id;
+                    }
+                );
+                return trelloService.cards.removeState(
+                    card.id,
+                    cardState.id,
+                    bodyRemoveState
+                )
+            }
+            else {
+                return undefined;
+            }
+
+        }
+
         function openCard(card) {
             switch (vm.type) {
                 case "CARD":
@@ -172,7 +234,12 @@
                         UICardService.updateCard(card.id, card.name);
                     }
                     else {
-                        UICardService.open(card.id, card.name);
+                        UICardService.open(
+                            card.id,
+                            card.name,
+                            vm.allowSelectPullRequest,
+                            vm.allowCloseCard
+                        );
                     }
                     break;
                 case "REQUERIMENT":
@@ -190,6 +257,37 @@
                     card: card
                 })
             }
+        }
+
+        function updateCard(card) {
+            card.assignee = _.map(card.assignee, 'id');
+            card.issue_links = _.map(card.issue_links, 'id');
+            card.reporter = _.map(card.reporter, 'id');
+            card.states = _.map(card.states, 'id');
+
+            var bodyCard = {
+                name: card.name,
+                desc: jsonFormatterService.jsonToString(
+                    _.pick(
+                        card, [
+                            'priority',
+                            'points',
+                            'description',
+                            'assignee',
+                            'reporter',
+                            'issue_links',
+                            'states',
+                            'idRequeriment',
+                            'pullRequestNumber'
+                        ]
+                    )
+                ),
+                idMembers: card.assignee
+            };
+            return trelloService.cards.update(
+                card.id,
+                bodyCard
+            );
         }
 
         activate();

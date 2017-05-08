@@ -9,7 +9,9 @@
             bindings: {
                 allowMoveCard: '<',
                 allowFinishSprint: '<',
-                allowUpdateCard: '<'
+                allowUpdateCard: '<',
+                allowCloseCard: '<',
+                allowSelectPullRequest: '<'
             }
         });
 
@@ -31,7 +33,7 @@
         var vm = this;
 
         var boardSelected = trelloService.boards.getFromSession();
-
+        var boardStates = trelloService.boards.getStatesFromSession();
         var promise = trelloService.boards.getLists(boardSelected.id).then(
             function(result) {
                 vm.sprints = _.orderBy(
@@ -54,15 +56,20 @@
                     }
 
                     var cards_points = [];
+                    var cards_points_made = [];
                     _.forEach(sprint.cards, function(card) {
                         card = _.merge(
                             card,
                             jsonFormatterService.stringToJson(card.desc)
                         );
                         cards_points.push(card.points);
+                        if (cardIsClosed(card)) {
+                            cards_points_made.push(card.points);
+                        }
+
                     })
                     sprint.points_to_do = _.sum(cards_points);
-                    sprint.points_made = 0;
+                    sprint.points_made = _.sum(cards_points_made);
 
                 })
 
@@ -73,21 +80,18 @@
             },
             function() {
 
-            })
+            });
 
-        // vm.openSprint = openSprint;
-        // vm.openBacklog = openBacklog;
+        function cardIsClosed(card) {
+            var stateClosed = _.find(boardStates, {
+                name: 'Closed'
+            });
+            return _.includes(card.states, stateClosed.id);
+        }
 
         vm.backlog = [];
         vm.sprints = [];
 
-        // function openBacklog() {
-        //     vm.backlog.opened = !vm.backlog.opened;
-        // };
-
-        // function openSprint(sprint) {
-        //     sprint.opened = !sprint.opened;
-        // };
     }
 
 })();

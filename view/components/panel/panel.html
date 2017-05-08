@@ -71,7 +71,10 @@
                 allow-update-card="$ctrl.allowUpdateCard"
                 on-open="$ctrl.onOpen(promise)"
                 type="$ctrl.type"
-                on-remove="$ctrl.onRemove(card)"></tg-list-cards>
+                on-remove="$ctrl.onRemove(card)"
+                allow-close-card="$ctrl.allowCloseCard"
+                allow-select-pull-request="$ctrl.allowSelectPullRequest">
+            </tg-list-cards>
         </div>
     </div>
 </div>
