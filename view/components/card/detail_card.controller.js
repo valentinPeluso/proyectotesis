@@ -30,8 +30,6 @@
         var repositorySelected = githubService.repos.getFromSession();
         var boardStates = trelloService.boards.getStatesFromSession();
 
-        // vm.saveCard = saveCard;
-        // vm.resetCard = resetCard;
         vm.selectPullRequest = selectPullRequest;
         vm.acceptValidation = acceptValidation;
         vm.rejectValidation = rejectValidation;
@@ -55,11 +53,13 @@
                 vm.possible_issue_links = _.filter(result[1].data, function(card) {
                     return card.idList !== vm.requerimentList.id
                 });
-                vm.possible_pull_request = result[4].data;
+                vm.possible_pull_request = getOpenedPullRequests(result[4].data);
+
                 var card = result[2].data;
                 vm.card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
                 vm.states = boardStates;
                 parseCard();
+                assigneeState(vm.card, 'Ready for dev')
             },
             function(err) {
                 console.log();
@@ -153,49 +153,18 @@
         }
 
         function selectPullRequest(pullRequest) {
-            vm.card.assignee = _.map(vm.card.assignee, 'id');
-            vm.card.reporter = _.map(vm.card.reporter, 'id');
-            vm.card.issue_links = _.map(vm.card.issue_links, 'id');
-
-            var card = {
-                name: vm.card.name,
-                desc: jsonFormatterService.jsonToString(
-                    _.merge(
-                        _.pick(
-                            vm.card, [
-                                'priority',
-                                'points',
-                                'description',
-                                'assignee',
-                                'reporter',
-                                'issue_links',
-                                'states',
-                                'idRequeriment'
-                            ]
-                        ), {
-                            pullRequestNumber: pullRequest.number,
-                        }
-                    )
-
-                ),
-                idMembers: vm.card.assignee
-
-            };
-
-            var commentPullRequestBody = {
-                description: vm.card.description,
-                title: vm.card.name
-            };
-
-            var promise = $q.all([
-                githubService.repos.commentPullRequestBody(pullRequest.number, commentPullRequestBody),
-                trelloService.cards.update(vm.card.id, card)
-            ]).then(
+            var promises = [
+                commentPullRequest(vm.card, pullRequest),
+                updateCard(vm.card, pullRequest)
+            ];
+            var promise = $q.all(
+                promises
+            ).then(
                 function(result) {
-                    debugger;
+                    $route.reload();
                 },
                 function(err) {
-                    debugger;
+                    throw err;
                 }
             );
             vm.promise = {
@@ -205,10 +174,6 @@
         }
 
         function acceptValidation() {
-            /* 
-                Tiene que actualizar el estado de la card a "Closed"
-                Tiene que remover de la desc el pull request asignado
-            */
             var promises = [
                 removeState(vm.card, 'Ready for test'),
                 assigneeState(vm.card, 'Closed'),
@@ -231,10 +196,6 @@
         }
 
         function rejectValidation() {
-            /* 
-                Tiene que actualizar el estado de la card a "Ready for dev"
-                Tiene que remover de la desc el pull request asignado
-            */
             var promises = [
                 removeState(vm.card, 'Ready for test'),
                 assigneeState(vm.card, 'Ready for dev'),
@@ -254,6 +215,24 @@
                 promise: promise,
                 message: 'Loading'
             };
+        }
+
+        function getOpenedPullRequests(pullRequests) {
+            return _.filter(pullRequests, function(pullRequest) {
+                return !pullRequest.closed_at;
+            })
+        }
+
+        function commentPullRequest(card, pullRequest) {
+            var commentPullRequestBody = {
+                description: card.description,
+                title: card.name
+            };
+
+            return githubService.repos.commentPullRequestBody(
+                pullRequest.number,
+                commentPullRequestBody
+            );
         }
 
         function assigneeState(card, state) {
@@ -313,28 +292,34 @@
 
         }
 
-        function updateCard(card) {
+        function updateCard(card, pullRequest) {
             card.assignee = _.map(card.assignee, 'id');
             card.issue_links = _.map(card.issue_links, 'id');
             card.reporter = _.map(card.reporter, 'id');
             card.states = _.map(card.states, 'id');
 
+            var updateCard = _.pick(
+                card, [
+                    'priority',
+                    'points',
+                    'description',
+                    'assignee',
+                    'reporter',
+                    'issue_links',
+                    'states',
+                    'idRequeriment'
+                ]
+            );
+            if (typeof pullRequestNumber !== 'undefined') {
+                updateCard = _.merge(
+                    updateCard, {
+                        pullRequestNumber: pullRequest.number,
+                    }
+                );
+            }
             var bodyCard = {
                 name: card.name,
-                desc: jsonFormatterService.jsonToString(
-                    _.pick(
-                        card, [
-                            'priority',
-                            'points',
-                            'description',
-                            'assignee',
-                            'reporter',
-                            'issue_links',
-                            'states',
-                            'idRequeriment'
-                        ]
-                    )
-                ),
+                desc: jsonFormatterService.jsonToString(updateCard),
                 idMembers: card.assignee
             };
             return trelloService.cards.update(
