@@ -101,10 +101,12 @@
                 }
             );
             vm.card.states = cardStates;
+            var stateReadyForTest = _.find(vm.states, {
+                name: 'Ready for test'
+            });
             vm.card.can_do_validation = _.includes(
-                vm.card.states, {
-                    name: 'Ready for test'
-                }
+                _.map(vm.card.states, 'id'),
+                stateReadyForTest.id
             );
 
             var reporter = [];
