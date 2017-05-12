@@ -2,7 +2,7 @@
     <div class="col-lg-6" style="margin-bottom: 15px;">
         <tg-panel 
             list="$ctrl.backlog"
-            allow-move-card="true"
+            allow-move-card="$ctrl.allowMoveCard"
             type="'CARD'"
             id-backlog-list="$ctrl.backlog.id"></tg-panel>
     </div>
@@ -12,7 +12,7 @@
         style="margin-bottom: 15px;">
         <tg-panel 
             list="sprint"
-            allow-move-card="true"
+            allow-move-card="$ctrl.allowMoveCard"
             type="'CARD'"
             id-backlog-list="$ctrl.backlog.id"
             allow-finish-sprint="$ctrl.allowFinishSprint"
