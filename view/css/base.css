@@ -54,7 +54,10 @@ html, body {
     font-size: 13px;
 }
 .tg-text-right {
-    text-align: right;
+    text-align: right !important;
+}
+.tg-text-left {
+    text-align: left !important;
 }
 .tg-list-group-item-draggable {
     cursor: move;

@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-
+    /*global angular */
     angular.module('app.components')
         .controller('listCardsComponentController', listCardsComponentController)
 
@@ -35,7 +35,7 @@
                 vm.idList = changesObj.idList.currentValue;
                 vm.cards = [];
                 activate();
-            };
+            }
         };
 
         vm.openCard = openCard;
@@ -45,12 +45,21 @@
             var promise = $q.all([
                 trelloService.lists.getList(vm.idList),
                 trelloService.boards.getMembers(boardSelected.id),
-                githubService.repos.getPullRequests()
+                githubService.repos.getPullRequests(),
+                trelloService.boards.getCards(boardSelected.id),
+                trelloService.boards.getLists(boardSelected.id),
             ]).then(
                 function(result) {
                     vm.cards = result[0].data.cards;
                     vm.members = result[1].data;
                     vm.possible_pull_request = result[2].data;
+                    vm.requerimentList = _.find(result[4].data, {
+                        'name': 'Requeriments'
+                    });
+                    /*global _ */
+                    vm.possible_issue_links = _.filter(result[3].data, function(card) {
+                        return card.idList !== vm.requerimentList.id;
+                    });
 
                     vm.states = boardStates;
                     _.forEach(
@@ -90,7 +99,7 @@
                                                 id: idState
                                             }
                                         )
-                                    )
+                                    );
                                 }
                             );
                             card.states = cardStates;
@@ -111,6 +120,22 @@
                                 );
                                 card.assignee = assignees;
                             }
+
+                            var issue_links = [];
+                            _.forEach(card.issue_links, function(idIssueLink) {
+                                issue_links.push(
+                                    _.merge(
+                                        _.find(
+                                            vm.possible_issue_links, {
+                                                id: idIssueLink
+                                            }
+                                        ), {
+                                            selected: true
+                                        }
+                                    )
+                                );
+                            });
+                            card.issue_links = issue_links;
                             setPullRequest(card);
                         }
                     );
@@ -119,7 +144,7 @@
                     }
                 },
                 function(err) {
-                    console.log();
+                    throw err;
                 });
 
             vm.promise = {
@@ -132,6 +157,56 @@
             });
         }
 
+        function checkIfPullRequestWasMerged(card) {
+            var stateClosed = getStateByName('Closed');
+            var stateReadyForTest = getStateByName('Ready for test');
+            var cardStatesIds = _.map(card.states, 'id');
+
+            if (card.pullRequest.merged_at !== null &&
+                !_.includes(cardStatesIds, stateClosed.id) &&
+                !_.includes(cardStatesIds, stateReadyForTest.id)
+            ) {
+                debugger;
+                //Todavia no marco en la card que el PR fue mergiado
+                var removeStateReadyForDevPromise = removeState(card, "Ready for dev");
+                var removeStateCarryOverPromise = removeState(card, "Carry over");
+                var assigneeStateReadyForTestPromise = assigneeState(card, "Ready for test");
+                var promises = [];
+
+                if (typeof removeStateReadyForDevPromise !== 'undefined')
+                    promises.push(removeStateReadyForDevPromise);
+
+                if (typeof removeStateCarryOverPromise !== 'undefined')
+                    promises.push(removeStateCarryOverPromise);
+
+                if (typeof assigneeStateReadyForTestPromise !== 'undefined')
+                    promises.push(assigneeStateReadyForTestPromise);
+
+                if (typeof removeStateReadyForDevPromise !== 'undefined' ||
+                    typeof removeStateCarryOverPromise !== 'undefined' ||
+                    typeof assigneeStateReadyForTestPromise !== 'undefined'
+                ) {
+                    promises.push(updateCard(card));
+                }
+
+                if (promises.length > 0) {
+                    var promise = $q.all(
+                        promises
+                    ).then(
+                        function(result) {
+                            $route.reload();
+                        },
+                        function(err) {
+                            throw err;
+                        });
+                    vm.promise = {
+                        promise: promise,
+                        message: 'Loading'
+                    };
+                }
+            }
+        }
+
         function setPullRequest(card) {
             if (card.pullRequestNumber) {
                 card.pullRequest = _.find(
@@ -139,44 +214,22 @@
                         number: card.pullRequestNumber
                     }
                 );
-                if (card.pullRequest.merged_at) {
-                    var removeStatePromise = removeState(card, "Ready for dev");
-                    var assigneeStatePromise = assigneeState(card, "Ready for test");
-                    var promises = [];
-                    if (typeof removeStatePromise !== 'undefined')
-                        promises.push(removeStatePromise);
-                    if (typeof assigneeStatePromise !== 'undefined')
-                        promises.push(assigneeStatePromise);
-                    if (typeof removeStatePromise !== 'undefined' ||
-                        typeof assigneeStatePromise !== 'undefined')
-                        promises.push(updateCard(card));
 
-                    if (promises.length > 0) {
-                        var promise = $q.all(
-                            promises
-                        ).then(
-                            function(result) {
-                                $route.reload();
-                            },
-                            function(err) {
-                                debugger;
-                            });
-                        vm.promise = {
-                            promise: promise,
-                            message: 'Loading'
-                        };
-                    }
-                }
+                checkIfPullRequestWasMerged(card);
             }
         }
 
-        function assigneeState(card, state) {
+        function getStateByName(stateName) {
             var boardStates = trelloService.boards.getStatesFromSession();
-            var cardState = _.find(
+            return _.find(
                 boardStates, {
-                    name: state
+                    name: stateName
                 }
             );
+        }
+
+        function assigneeState(card, stateName) {
+            var cardState = getStateByName(stateName);
             var hasState = _.includes(
                 _.map(
                     card.states,
@@ -208,7 +261,7 @@
             if (typeof cardState !== 'undefined') {
                 var bodyRemoveState = {
                     idLabel: cardState.id
-                }
+                };
                 _.remove(
                     card.states,
                     function(state) {
@@ -219,7 +272,7 @@
                     card.id,
                     cardState.id,
                     bodyRemoveState
-                )
+                );
             }
             else {
                 return undefined;
@@ -243,19 +296,19 @@
                     }
                     break;
                 case "REQUERIMENT":
-                    UIRequerimentService.update(card)
+                    UIRequerimentService.update(card);
                     break;
                 default:
                     break;
-            };
-        };
+            }
+        }
 
         function removeCard(cards, index, card) {
             cards.splice(index, 1);
             if (typeof vm.onRemove !== 'undefined') {
                 vm.onRemove({
                     card: card
-                })
+                });
             }
         }
 
@@ -265,23 +318,30 @@
             card.reporter = _.map(card.reporter, 'id');
             card.states = _.map(card.states, 'id');
 
+            if (typeof card.pull_request !== 'undefined') {
+                card.pull_request = _.head(card.pull_request);
+                card.idPullRequest = _.toString(card.pull_request.id);
+                card.pullRequestNumber = card.pull_request.number;
+            }
+
+            var updateCard = _.pick(
+                card, [
+                    'priority',
+                    'points',
+                    'description',
+                    'assignee',
+                    'reporter',
+                    'issue_links',
+                    'states',
+                    'idRequeriment',
+                    'idPullRequest',
+                    'pullRequestNumber'
+                ]
+            );
+
             var bodyCard = {
                 name: card.name,
-                desc: jsonFormatterService.jsonToString(
-                    _.pick(
-                        card, [
-                            'priority',
-                            'points',
-                            'description',
-                            'assignee',
-                            'reporter',
-                            'issue_links',
-                            'states',
-                            'idRequeriment',
-                            'pullRequestNumber'
-                        ]
-                    )
-                ),
+                desc: jsonFormatterService.jsonToString(updateCard),
                 idMembers: card.assignee
             };
             return trelloService.cards.update(

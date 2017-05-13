@@ -221,22 +221,30 @@
             card.reporter = _.map(card.reporter, 'id');
             card.states = _.map(card.states, 'id');
 
+            if (typeof card.pull_request !== 'undefined') {
+                card.pull_request = _.head(card.pull_request);
+                card.idPullRequest = _.toString(card.pull_request.id);
+                card.pullRequestNumber = card.pull_request.number;
+            }
+
+            var updateCard = _.pick(
+                card, [
+                    'priority',
+                    'points',
+                    'description',
+                    'assignee',
+                    'reporter',
+                    'issue_links',
+                    'states',
+                    'idRequeriment',
+                    'idPullRequest',
+                    'pullRequestNumber'
+                ]
+            );
+
             var bodyCard = {
                 name: card.name,
-                desc: jsonFormatterService.jsonToString(
-                    _.pick(
-                        card, [
-                            'priority',
-                            'points',
-                            'description',
-                            'assignee',
-                            'reporter',
-                            'issue_links',
-                            'states',
-                            'idRequeriment'
-                        ]
-                    )
-                ),
+                desc: jsonFormatterService.jsonToString(updateCard),
                 idMembers: card.assignee
             };
             return trelloService.cards.update(
