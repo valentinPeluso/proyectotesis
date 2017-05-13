@@ -24,17 +24,20 @@
                     </span>
                 </a>
                 &nbsp;
-                <span class="label label-info" ng-show="card.points">
-                    {{ card.points }} points
-                </span>
-                &nbsp;
                 <span ng-show="card.points" ng-repeat="state in card.states track by $index">
                     <span class="label label-{{state.color}}">
                         {{state.name}}
                     </span>
-                    &nbsp;
+                    <span ng-if="!$last">&nbsp;</span>
                 </span>
-                
+                &nbsp;
+                <span class="label label-info" ng-show="card.points">
+                    {{ card.points }} points
+                </span>
+                &nbsp;
+                <span class="label priority-{{card.priority}}">
+                    Priority {{card.priority}}
+                </span>
             </div>
             <div class="tg-font-13 col-xs-12" ng-if="$ctrl.type == 'CARD'">
                 <div class="row">

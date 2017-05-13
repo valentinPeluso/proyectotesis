@@ -1,101 +1,243 @@
 <div class="row">
     <div class="col-sm-12"  cg-busy="$ctrl.promise">
-        <div class="form-group row">
-            <div class="col-lg-12">
-                <label>Title:</label>
-                <div>{{$ctrl.card.name}}</div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-12">
-                <label>Description:</label>
-                <div>{{$ctrl.card.description}}</div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label>Assignee:</label>
-                <ul>
-                    <li ng-repeat="assigne in $ctrl.card.assignee track by $index">
-                        {{assigne.fullName}}
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <label>Points:</label>
-                <div>{{$ctrl.card.points}}</div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-6">
-                <label>Reporter:</label>
-                <ul>
-                    <li ng-repeat="reporter in $ctrl.card.reporter track by $index">
-                        {{reporter.fullName}}
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <label>Priority:</label>
-                <div>{{$ctrl.card.priority || 'none'}}</div>
-            </div>
-        </div>            
-        <div class="form-group row" ng-if="$ctrl.card.issue_links && $ctrl.card.issue_links.length > 0">
-            <div class="col-md-12">
-                <label>Issue Link:</label>
-                <ul>
-                    <li ng-repeat="issue_link in $ctrl.card.issue_links track by $index">
-                        {{issue_link.name}}
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="form-group row" ng-if="$ctrl.card.attachments && $ctrl.card.attachments.length > 0">
-            <div class="col-lg-12">
-                <label>Attachments:</label>
-                <ul>
-                    <li ng-repeat="attachment in $ctrl.card.attachments track by $index">
-                        {{attachment.name}}
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="form-group row" ng-if="$ctrl.allowSelectPullRequest">
-            <div class="col-lg-12">
-                <label>Pull request:</label>
-                <div
-                    isteven-multi-select
-                    input-model="$ctrl.possible_pull_request"
-                    output-model="$ctrl.card.pull_request"
-                    button-label="title"
-                    item-label="title"
-                    tick-property="selected"
-                    selection-mode="single"
-                    on-item-click="$ctrl.selectPullRequest(data)"
-                ></div>
-            </div>
-        </div>
-        <div class="form-group row" ng-if="$ctrl.allowCloseCard">
-            <div class="col-lg-6">
-                <button 
-                    type="button"
-                    class="btn btn-success btn-block" 
-                    ng-click="$ctrl.acceptValidation()" 
-                    ng-disabled="!$ctrl.card.can_do_validation">
-                    <i class="fa fa-trophy" aria-hidden="true"></i>
-                    Validation accepted
-                </button>
-            </div>
-            <div class="col-lg-6">
-                <button 
-                    type="button"
-                    class="btn btn-warning btn-block" 
-                    ng-click="$ctrl.rejectValidation()" 
-                    ng-disabled="!$ctrl.card.can_do_validation">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    Validation rejected
-                </button>
-            </div>
-        </div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Title</td>
+                    <td>{{$ctrl.card.name}}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{$ctrl.card.description}}</td>
+                </tr>
+                <tr>
+                    <td>Assignee</td>
+                    <td>
+                        <span ng-repeat="assigne in $ctrl.card.assignee track by $index">
+                            {{assigne.fullName}}&nbsp;
+                            <span ng-if="!$last">-&nbsp;</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Points</td>
+                    <td>
+                        <span class="label label-info" ng-show="$ctrl.card.points">
+                            {{$ctrl.card.points}} points
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>State</td>
+                    <td>
+                        <span ng-repeat="state in $ctrl.card.states track by $index">
+                            <span class="label label-{{state.color}}">
+                                {{state.name}}
+                            </span>&nbsp;
+                            <span ng-if="!$last">-&nbsp;</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Priority</td>
+                    <td>
+                        <span class="label priority-{{$ctrl.card.priority}}">
+                            Priority {{$ctrl.card.priority}}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Reporter</td>
+                    <td>
+                        <span ng-repeat="reporter in $ctrl.card.reporter track by $index">
+                            {{reporter.fullName}}&nbsp;
+                            <span ng-if="!$last">-&nbsp;</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr ng-if="$ctrl.card.issue_links && $ctrl.card.issue_links.length > 0">
+                    <td>Issue Link</td>
+                    <td>
+                        <span ng-repeat="issue_link in $ctrl.card.issue_links track by $index">
+                            {{issue_link.name}}&nbsp;
+                            <span ng-if="!$last">-&nbsp;</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr ng-if="$ctrl.card.attachments && $ctrl.card.attachments.length > 0">
+                    <td>Attachments</td>
+                    <td>
+                        <span ng-repeat="attachment in $ctrl.card.attachments track by $index">
+                            {{attachment.name}}&nbsp;
+                            <span ng-if="!$last">-&nbsp;</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr ng-if="
+                    ($ctrl.allowSelectPullRequest && 
+                    $ctrl.canSelectPullRequest && 
+                    !$ctrl.card.pullRequest) ||
+                    $ctrl.card.pullRequest
+                ">
+                    <td>Pull request</td>
+                    <td>
+                        <div 
+                            ng-if="
+                                $ctrl.allowSelectPullRequest && 
+                                $ctrl.canSelectPullRequest && 
+                                !$ctrl.card.pullRequest
+                            "
+                            isteven-multi-select
+                            input-model="$ctrl.possible_pull_request"
+                            output-model="$ctrl.card.pull_request"
+                            button-label="title"
+                            item-label="title"
+                            tick-property="selected"
+                            selection-mode="single"
+                            on-item-click="$ctrl.selectPullRequest(data)"
+                        ></div>
+                        <a  ng-if="$ctrl.card.pullRequest"
+                            ng-href="{{$ctrl.card.pullRequest.html_url}}"
+                            ng-click="$event.stopPropagation()"
+                            target="_blank">
+                            <span class="label label-primary">
+                                <i class="fa fa-code-fork" aria-hidden="true"></i> Pull request
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-if="$ctrl.allowCloseCard">
+                    <td>
+                        <button 
+                            type="button"
+                            class="btn btn-success btn-block" 
+                            ng-click="$ctrl.acceptValidation()" 
+                            ng-disabled="!$ctrl.card.can_do_validation">
+                            <i class="fa fa-trophy" aria-hidden="true"></i>
+                            Validation accepted
+                        </button>
+                    </td>
+                    <td>
+                        <button 
+                            type="button"
+                            class="btn btn-warning btn-block" 
+                            ng-click="$ctrl.rejectValidation()" 
+                            ng-disabled="!$ctrl.card.can_do_validation">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            Validation rejected
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!--<div class="form-group row">-->
+        <!--    <div class="col-lg-12">-->
+        <!--        <label>Title:</label>-->
+        <!--        <div>{{$ctrl.card.name}}</div>-->
+        <!--    </div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+        <!--    <div class="col-lg-12">-->
+        <!--        <label>Description:</label>-->
+        <!--        <div>{{$ctrl.card.description}}</div>-->
+        <!--    </div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+        <!--    <div class="col-md-6">-->
+        <!--        <label>Assignee:</label>-->
+        <!--        <ul>-->
+        <!--            <li ng-repeat="assigne in $ctrl.card.assignee track by $index">-->
+        <!--                {{assigne.fullName}}-->
+        <!--            </li>-->
+        <!--        </ul>-->
+        <!--    </div>-->
+        <!--    <div class="col-md-6">-->
+        <!--        <label>Points:</label>-->
+        <!--        <div>{{$ctrl.card.points}}</div>-->
+        <!--    </div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+        <!--    <div class="col-md-6">-->
+        <!--        <label>Reporter:</label>-->
+        <!--        <ul>-->
+        <!--            <li ng-repeat="reporter in $ctrl.card.reporter track by $index">-->
+        <!--                {{reporter.fullName}}-->
+        <!--            </li>-->
+        <!--        </ul>-->
+        <!--    </div>-->
+        <!--    <div class="col-md-6">-->
+        <!--        <label>Priority:</label>-->
+        <!--        <div>{{$ctrl.card.priority || 'none'}}</div>-->
+        <!--    </div>-->
+        <!--</div>            -->
+        <!--<div class="form-group row" ng-if="$ctrl.card.issue_links && $ctrl.card.issue_links.length > 0">-->
+        <!--    <div class="col-md-12">-->
+        <!--        <label>Issue Link:</label>-->
+        <!--        <ul>-->
+        <!--            <li ng-repeat="issue_link in $ctrl.card.issue_links track by $index">-->
+        <!--                {{issue_link.name}}-->
+        <!--            </li>-->
+        <!--        </ul>-->
+        <!--    </div>-->
+        <!--</div>-->
+        <!--<div class="form-group row" ng-if="$ctrl.card.attachments && $ctrl.card.attachments.length > 0">-->
+        <!--    <div class="col-lg-12">-->
+        <!--        <label>Attachments:</label>-->
+        <!--        <ul>-->
+        <!--            <li ng-repeat="attachment in $ctrl.card.attachments track by $index">-->
+        <!--                {{attachment.name}}-->
+        <!--            </li>-->
+        <!--        </ul>-->
+        <!--    </div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+        <!--    <div class="col-lg-12">-->
+        <!--        <label>Pull request:</label>-->
+        <!--        <div -->
+        <!--            ng-if="-->
+        <!--                $ctrl.allowSelectPullRequest && -->
+        <!--                $ctrl.canSelectPullRequest && -->
+        <!--                !$ctrl.card.pullRequest"-->
+        <!--            isteven-multi-select-->
+        <!--            input-model="$ctrl.possible_pull_request"-->
+        <!--            output-model="$ctrl.card.pull_request"-->
+        <!--            button-label="title"-->
+        <!--            item-label="title"-->
+        <!--            tick-property="selected"-->
+        <!--            selection-mode="single"-->
+        <!--            on-item-click="$ctrl.selectPullRequest(data)"-->
+        <!--        ></div>-->
+        <!--        <div ng-if="$ctrl.card.pullRequest">-->
+        <!--            <a -->
+        <!--                ng-href="{{$ctrl.card.pullRequest.html_url}}"-->
+        <!--                target="_blank">-->
+        <!--                {{$ctrl.card.pullRequest.title}}-->
+        <!--            </a>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--</div>-->
+        <!--<div class="form-group row" ng-if="$ctrl.allowCloseCard">-->
+        <!--    <div class="col-lg-6">-->
+        <!--        <button -->
+        <!--            type="button"-->
+        <!--            class="btn btn-success btn-block" -->
+        <!--            ng-click="$ctrl.acceptValidation()" -->
+        <!--            ng-disabled="!$ctrl.card.can_do_validation">-->
+        <!--            <i class="fa fa-trophy" aria-hidden="true"></i>-->
+        <!--            Validation accepted-->
+        <!--        </button>-->
+        <!--    </div>-->
+        <!--    <div class="col-lg-6">-->
+        <!--        <button -->
+        <!--            type="button"-->
+        <!--            class="btn btn-warning btn-block" -->
+        <!--            ng-click="$ctrl.rejectValidation()" -->
+        <!--            ng-disabled="!$ctrl.card.can_do_validation">-->
+        <!--            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>-->
+        <!--            Validation rejected-->
+        <!--        </button>-->
+        <!--    </div>-->
+        <!--</div>-->
     </div>
 </div>

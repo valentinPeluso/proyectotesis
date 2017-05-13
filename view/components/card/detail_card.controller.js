@@ -53,13 +53,13 @@
                 vm.possible_issue_links = _.filter(result[1].data, function(card) {
                     return card.idList !== vm.requerimentList.id
                 });
-                vm.possible_pull_request = getOpenedPullRequests(result[4].data);
+                vm.possible_pull_request = getPossiblePullRequests(result[4].data);
 
                 var card = result[2].data;
                 vm.card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
                 vm.states = boardStates;
                 parseCard();
-                assigneeState(vm.card, 'Ready for dev')
+                parsePullRequest();
             },
             function(err) {
                 console.log();
@@ -140,24 +140,27 @@
                 );
             });
             vm.card.issue_links = issue_links;
-
-            setPullRequest(vm.card);
         }
 
-        function setPullRequest(card) {
-            if (card.pullRequestNumber) {
-                card.pullRequest = _.find(
+        function parsePullRequest() {
+            if (vm.card.pullRequestNumber) {
+                vm.card.pullRequest = _.find(
                     vm.possible_pull_request, {
-                        number: card.pullRequestNumber
+                        number: vm.card.pullRequestNumber
                     }
                 );
             }
+            var userLogged = trelloService.user.getFromSession();
+            vm.canSelectPullRequest = _.includes(
+                _.map(vm.card.assignee, 'id'),
+                userLogged.id
+            )
         }
 
         function selectPullRequest(pullRequest) {
             var promises = [
                 commentPullRequest(vm.card, pullRequest),
-                updateCard(vm.card, pullRequest)
+                updateCard(vm.card)
             ];
             var promise = $q.all(
                 promises
@@ -189,7 +192,7 @@
                     $route.reload();
                 },
                 function(err) {
-                    debugger;
+                    throw err;
                 });
             vm.promise = {
                 promise: promise,
@@ -211,7 +214,7 @@
                     $route.reload();
                 },
                 function(err) {
-                    debugger;
+                    throw err;
                 });
             vm.promise = {
                 promise: promise,
@@ -219,10 +222,12 @@
             };
         }
 
-        function getOpenedPullRequests(pullRequests) {
+        function getPossiblePullRequests(pullRequests) {
+            var userLogged = githubService.users.getFromSession();
             return _.filter(pullRequests, function(pullRequest) {
-                return !pullRequest.closed_at;
-            })
+                return !pullRequest.closed_at &&
+                    userLogged.user.id == pullRequest.user.id;
+            });
         }
 
         function commentPullRequest(card, pullRequest) {
@@ -294,11 +299,17 @@
 
         }
 
-        function updateCard(card, pullRequest) {
+        function updateCard(card) {
             card.assignee = _.map(card.assignee, 'id');
             card.issue_links = _.map(card.issue_links, 'id');
             card.reporter = _.map(card.reporter, 'id');
             card.states = _.map(card.states, 'id');
+
+            if (typeof card.pull_request !== 'undefined') {
+                card.pull_request = _.head(card.pull_request);
+                card.idPullRequest = _.toString(card.pull_request.id);
+                card.pullRequestNumber = card.pull_request.number;
+            }
 
             var updateCard = _.pick(
                 card, [
@@ -309,16 +320,12 @@
                     'reporter',
                     'issue_links',
                     'states',
-                    'idRequeriment'
+                    'idRequeriment',
+                    'idPullRequest',
+                    'pullRequestNumber'
                 ]
             );
-            if (typeof pullRequestNumber !== 'undefined') {
-                updateCard = _.merge(
-                    updateCard, {
-                        pullRequestNumber: pullRequest.number,
-                    }
-                );
-            }
+
             var bodyCard = {
                 name: card.name,
                 desc: jsonFormatterService.jsonToString(updateCard),
