@@ -34,13 +34,15 @@
             bindings: {
                 idList: '<',
                 idLinkedCard: '<',
+                idBacklogList: '<',
                 allowMoveCard: '<',
                 onOpen: '&',
                 type: '<', // REQUERIMENT | CARD
                 onRemove: '&',
                 allowUpdateCard: '<',
                 allowSelectPullRequest: '<',
-                allowCloseCard: '<'
+                allowCloseCard: '<',
+                allowFinishSprint: '<'
             }
         });
 

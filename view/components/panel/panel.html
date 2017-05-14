@@ -58,22 +58,17 @@
             </div>
         </div>
         <div ng-if="$ctrl.list.opened">
-            <div class="row form-group" ng-if="$ctrl.allowFinishSprint">
-                <div class="col-sm-12">
-                    <a href="" class="btn btn-sm btn-danger pull-right" ng-click="$ctrl.finishSprint()">
-                        Finish sprint <i class="fa fa-folder" aria-hidden="true"></i>
-                    </a>
-                </div>
-            </div>
             <tg-list-cards 
                 id-list="$ctrl.list.id"
-                allow-move-card="$ctrl.allowMoveCard"
-                allow-update-card="$ctrl.allowUpdateCard"
                 on-open="$ctrl.onOpen(promise)"
+                id-backlog-list="$ctrl.idBacklogList"
                 type="$ctrl.type"
                 on-remove="$ctrl.onRemove(card)"
+                allow-move-card="$ctrl.allowMoveCard"
+                allow-update-card="$ctrl.allowUpdateCard"
                 allow-close-card="$ctrl.allowCloseCard"
-                allow-select-pull-request="$ctrl.allowSelectPullRequest">
+                allow-select-pull-request="$ctrl.allowSelectPullRequest"
+                allow-finish-sprint="$ctrl.allowFinishSprint">
             </tg-list-cards>
         </div>
     </div>

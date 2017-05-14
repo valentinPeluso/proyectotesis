@@ -11,7 +11,8 @@
         'UICardService',
         'UIRequerimentService',
         'githubService',
-        '$route'
+        '$route',
+        '$rootScope'
     ];
 
     function listCardsComponentController(
@@ -21,7 +22,8 @@
         UICardService,
         UIRequerimentService,
         githubService,
-        $route
+        $route,
+        $rootScope
     ) {
         var vm = this;
 
@@ -29,6 +31,18 @@
 
         var boardSelected = trelloService.boards.getFromSession();
         var boardStates = trelloService.boards.getStatesFromSession();
+
+        $rootScope.$on('cardInserted', function(event, cardInserted) {
+            if (cardInserted.idList == vm.list.id) {
+                debugger;
+                inserted(
+                    cardInserted.index,
+                    cardInserted.item,
+                    cardInserted.external,
+                    cardInserted.type
+                );
+            }
+        });
 
         this.$onChanges = function(changesObj) {
             if (changesObj.idList.currentValue) {
@@ -40,6 +54,8 @@
 
         vm.openCard = openCard;
         vm.removeCard = removeCard;
+        vm.finishSprint = finishSprint;
+        vm.inserted = inserted;
 
         function activate() {
             var promise = $q.all([
@@ -50,7 +66,8 @@
                 trelloService.boards.getLists(boardSelected.id),
             ]).then(
                 function(result) {
-                    vm.cards = result[0].data.cards;
+                    vm.list = result[0].data;
+                    vm.cards = vm.list.cards;
                     vm.members = result[1].data;
                     vm.possible_pull_request = result[2].data;
                     vm.requerimentList = _.find(result[4].data, {
@@ -348,6 +365,127 @@
                 card.id,
                 bodyCard
             );
+        }
+
+        function finishSprint() {
+            var cardsClosed = _.filter(vm.list.cards, {
+                closed: true
+            });
+            var cardsDontClosed = _.filter(vm.list.cards, {
+                closed: false
+            });
+
+            var promises = _.concat(
+                generateDoc(cardsClosed),
+                moveCardsToNextSprint(cardsDontClosed)
+                //,closeSprint()
+            );
+
+            var promise = $q.all(
+                promises
+            ).then(
+                function(result) {
+                    $route.reload();
+                },
+                function(err) {
+                    debugger;
+                });
+            vm.promise = {
+                promise: promise,
+                message: 'Loading'
+            };
+            debugger;
+        }
+
+        function moveCardsToNextSprint(cardsDontClosed) {
+            /* 
+            Para todas las cards dentro del sprint que todavia no estaban en 
+            el estado "Closed" entran en el proceso de carry over. A las cards
+            que entran en el proceso de carry over se les agrega el estado 
+            "Carry over" al estado actual de la card. 
+            */
+            var promises = [];
+            _.forEach(cardsDontClosed, function(card) {
+                promises.push(removeState(card, "Ready for dev"));
+                promises.push(assigneeState(card, "Carry over"));
+                promises.push(moveCard(card, vm.list.idNextSprint));
+            });
+            return promises
+
+        }
+
+        function generateDoc(cardsClosed) {
+            /* 
+            Para todas las cards con el estado "Closed" se genera un doc en 
+            una card especial especificando todo el history que fue sucediendo 
+            en cada una de las cards (todos los comentarios y descripciones). 
+            El nombre de la card se corresponde con el nombre del sprint. 
+            */
+        }
+
+        function moveCard(card, listId) {
+            var bodyMove = {
+                value: listId
+            };
+            return trelloService.cards.moveCard(
+                card.id,
+                bodyMove
+            );
+        }
+
+        function inserted(index, item, external, type) {
+            var promises = [];
+            var cardStatesIds = _.map(item.states, 'id');
+            var stateClosed = getStateByName('Closed');
+            var stateReadyForTest = getStateByName('Ready for test');
+            var stateCarryOver = getStateByName('Carry over');
+            var hasStateCarryOver = _.includes(cardStatesIds, stateCarryOver.id);
+            var hasStateReadyForTest = _.includes(cardStatesIds, stateReadyForTest.id);
+            var hasStateClosed = _.includes(cardStatesIds, stateClosed.id);
+            var hasPullRequest = typeof item.idPullRequest !== 'undefined';
+            debugger;
+            if (vm.list.id == vm.idBacklogList &&
+                !hasStateCarryOver &&
+                !hasStateReadyForTest &&
+                !hasStateClosed &&
+                !hasPullRequest
+            ) {
+                //esta moviendo una card desde un sprint al backlog
+                promises.push(removeState(item, "Ready for dev"));
+                promises.push(assigneeState(item, "Not started"));
+                promises.push(moveCard(item, vm.list.id));
+                promises.push(updateCard(item));
+
+            }
+            else if (item.idList == vm.idBacklogList) {
+                //esta moviendo una card de la lista de backlog a un sprint
+                promises.push(removeState(item, "Not started"));
+                promises.push(assigneeState(item, "Ready for dev"));
+                promises.push(moveCard(item, vm.list.id));
+                promises.push(updateCard(item));
+            }
+            else if (vm.list.id !== vm.idBacklogList &&
+                item.idList !== vm.idBacklogList &&
+                !hasStateReadyForTest &&
+                !hasStateClosed
+            ) {
+                //esta moviendo una card de un sprint a otro
+                promises.push(moveCard(item, vm.list.id));
+            }
+
+            var promise = $q.all(
+                promises
+            ).then(
+                function(result) {
+                    $route.reload();
+                },
+                function(err) {
+                    throw err;
+                });
+            vm.promise = {
+                promise: promise,
+                message: 'Loading'
+            };
         }
 
         activate();
