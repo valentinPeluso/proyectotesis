@@ -61,7 +61,7 @@
                     </td>
                 </tr>
             </tbody>
-            <tfoot  ng-if="$ctrl.allowFinishSprint">
+            <tfoot  ng-if="$ctrl.allowFinishSprint && $ctrl.canFinishSprint">
                 <tr>
                     <td colspan="8">
                         <a href="" class="btn btn-sm btn-danger pull-right" ng-click="$ctrl.finishSprint()">

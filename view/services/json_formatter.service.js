@@ -5,12 +5,13 @@
         .module('app.services')
         .factory('jsonFormatterService', jsonFormatterService);
 
-    jsonFormatterService.$inject = []
+    jsonFormatterService.$inject = ['$filter'];
 
-    function jsonFormatterService(mockedObjectsService, $location) {
+    function jsonFormatterService($filter) {
         var service = {
             stringToJson: stringToJson,
-            jsonToString: jsonToString
+            jsonToString: jsonToString,
+            getDescForClosedCard: getDescForClosedCard
         };
 
         return service;
@@ -43,6 +44,19 @@
             _.forEach(json, function(value, key) {
                 string = string + '**' + key + ':** ' + angular.toJson(value) + '\n';
             });
+            return string;
+        }
+
+        function getDescForClosedCard(card) {
+            var string = "The card " + card.name +
+                " with description (" + card.description + "), " +
+                " priority " + card.priority +
+                " pointed as " + card.points +
+                " was merged at " +
+                $filter('date')(card.pullRequest.merged_at, 'dd/MM/yyyy HH:mm') +
+                "." +
+                " This card was developed for " + card.assignee[0].fullName + "." +
+                '\n';
             return string;
         }
     }

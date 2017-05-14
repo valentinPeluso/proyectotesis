@@ -34,7 +34,6 @@
 
         $rootScope.$on('cardInserted', function(event, cardInserted) {
             if (cardInserted.idList == vm.list.id) {
-                debugger;
                 inserted(
                     cardInserted.index,
                     cardInserted.item,
@@ -68,11 +67,38 @@
                 function(result) {
                     vm.list = result[0].data;
                     vm.cards = vm.list.cards;
+
+                    // Check if sprint is closed
+                    vm.cardWithDocForSprintClosed = _.filter(vm.cards,
+                        function(card) {
+                            return _.includes(card.name, '(Closed)')
+                        }
+                    );
+                    vm.canFinishSprint = vm.cardWithDocForSprintClosed.length == 0;
+
                     vm.members = result[1].data;
                     vm.possible_pull_request = result[2].data;
-                    vm.requerimentList = _.find(result[4].data, {
+
+                    vm.lists = result[4].data;
+                    vm.requerimentList = _.find(vm.lists, {
                         'name': 'Requeriments'
                     });
+                    vm.backlogList = _.find(vm.lists, {
+                        'name': 'Backlog'
+                    });
+                    vm.attachmentList = _.find(vm.lists, {
+                        'name': 'Attachments'
+                    });
+                    vm.sprints = _.orderBy(
+                        _.filter(
+                            vm.lists,
+                            function(list) {
+                                return list.id !== vm.requerimentList.id &&
+                                    list.id !== vm.backlogList.id &&
+                                    list.id !== vm.attachmentList.id;
+                            }
+                        ), ['name'], ['asc']);
+
                     /*global _ */
                     vm.possible_issue_links = _.filter(result[3].data, function(card) {
                         return card.idList !== vm.requerimentList.id;
@@ -183,7 +209,6 @@
                 !_.includes(cardStatesIds, stateClosed.id) &&
                 !_.includes(cardStatesIds, stateReadyForTest.id)
             ) {
-                debugger;
                 //Todavia no marco en la card que el PR fue mergiado
                 var removeStateReadyForDevPromise = removeState(card, "Ready for dev");
                 var removeStateCarryOverPromise = removeState(card, "Carry over");
@@ -368,17 +393,48 @@
         }
 
         function finishSprint() {
-            var cardsClosed = _.filter(vm.list.cards, {
-                closed: true
-            });
-            var cardsDontClosed = _.filter(vm.list.cards, {
-                closed: false
+            var stateClosed = getStateByName('Closed');
+            var stateReadyForTest = getStateByName('Ready for test');
+            var stateReadyForDev = getStateByName('Ready for dev');
+            var stateCarryOver = getStateByName('Carry over');
+            var cardsClosed = [];
+            var cardsCarryOver = [];
+            var cardsReadyForTest = [];
+            var cardsReadyForDev = [];
+            var cardStatesIds;
+            var hasStateCarryOver;
+            var hasStateReadyForTest;
+            var hasStateClosed;
+            var hasStateReadyForDev;
+            _.forEach(vm.list.cards, function(card) {
+                cardStatesIds = _.map(card.states, 'id');
+                hasStateCarryOver = _.includes(cardStatesIds, stateCarryOver.id);
+                hasStateReadyForTest = _.includes(cardStatesIds, stateReadyForTest.id);
+                hasStateClosed = _.includes(cardStatesIds, stateClosed.id);
+                hasStateReadyForDev = _.includes(cardStatesIds, stateReadyForDev.id);
+
+                if (hasStateCarryOver) {
+                    cardsCarryOver.push(card);
+                }
+                if (hasStateReadyForTest) {
+                    cardsReadyForTest.push(card);
+                }
+                if (hasStateClosed) {
+                    cardsClosed.push(card);
+                }
+                if (hasStateReadyForDev) {
+                    cardsReadyForDev.push(card);
+                }
             });
 
             var promises = _.concat(
                 generateDoc(cardsClosed),
-                moveCardsToNextSprint(cardsDontClosed)
-                //,closeSprint()
+                moveCardsToNextSprint(
+                    cardsReadyForDev,
+                    cardsReadyForTest,
+                    cardsCarryOver
+                ),
+                closeSprint()
             );
 
             var promise = $q.all(
@@ -388,30 +444,49 @@
                     $route.reload();
                 },
                 function(err) {
-                    debugger;
+                    throw err;
                 });
             vm.promise = {
                 promise: promise,
                 message: 'Loading'
             };
-            debugger;
         }
 
-        function moveCardsToNextSprint(cardsDontClosed) {
+        function moveCardsToNextSprint(
+            cardsReadyForDev,
+            cardsReadyForTest,
+            cardsCarryOver
+        ) {
             /* 
             Para todas las cards dentro del sprint que todavia no estaban en 
             el estado "Closed" entran en el proceso de carry over. A las cards
             que entran en el proceso de carry over se les agrega el estado 
             "Carry over" al estado actual de la card. 
             */
+            var indexActualSprint = _.indexOf(
+                _.map(vm.sprints, 'id'),
+                vm.list.id
+            );
+            var nextSprint = vm.sprints[indexActualSprint + 1];
             var promises = [];
-            _.forEach(cardsDontClosed, function(card) {
+
+            _.forEach(cardsReadyForDev, function(card) {
                 promises.push(removeState(card, "Ready for dev"));
                 promises.push(assigneeState(card, "Carry over"));
-                promises.push(moveCard(card, vm.list.idNextSprint));
+                promises.push(moveCard(card, nextSprint.id));
+                promises.push(updateCard(card));
             });
-            return promises
+            _.forEach(cardsReadyForTest, function(card) {
+                promises.push(assigneeState(card, "Carry over"));
+                promises.push(moveCard(card, nextSprint.id));
+                promises.push(updateCard(card));
+            });
+            _.forEach(cardsCarryOver, function(card) {
+                promises.push(moveCard(card, nextSprint.id));
+                promises.push(updateCard(card));
+            });
 
+            return promises;
         }
 
         function generateDoc(cardsClosed) {
@@ -421,6 +496,30 @@
             en cada una de las cards (todos los comentarios y descripciones). 
             El nombre de la card se corresponde con el nombre del sprint. 
             */
+            var desc = null;
+            _.forEach(cardsClosed, function(card) {
+                desc = (desc !== null) ?
+                    desc + jsonFormatterService.getDescForClosedCard(card) :
+                    '' + jsonFormatterService.getDescForClosedCard(card);
+            });
+
+            var card = {
+                name: vm.list.name + '(Closed)',
+                desc: desc
+            };
+
+            return trelloService.lists.createCard(vm.list.id, card);
+        }
+
+        function closeSprint() {
+            var lastSprint = _.last(vm.sprints);
+            var newSprint = {
+                name: 'Sprint ' + (parseInt(lastSprint.name.split(' ')[1]) + 1)
+            };
+            return trelloService.boards.addListToBoard(
+                boardSelected.id,
+                newSprint
+            );
         }
 
         function moveCard(card, listId) {
@@ -443,7 +542,7 @@
             var hasStateReadyForTest = _.includes(cardStatesIds, stateReadyForTest.id);
             var hasStateClosed = _.includes(cardStatesIds, stateClosed.id);
             var hasPullRequest = typeof item.idPullRequest !== 'undefined';
-            debugger;
+
             if (vm.list.id == vm.idBacklogList &&
                 !hasStateCarryOver &&
                 !hasStateReadyForTest &&
