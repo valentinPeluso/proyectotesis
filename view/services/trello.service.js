@@ -12,7 +12,8 @@
         var service = {
             user: {
                 getFromSession: getUserFromSession,
-                postInSession: postUserInSession
+                postInSession: postUserInSession,
+                getRoles: getUserRoles
             },
             members: {
                 me: membersMe,
@@ -84,6 +85,10 @@
 
         function moveCard(idCard, value) {
             return $http.put('/trello/cards/' + idCard + '/idList', value);
+        }
+
+        function getUserRoles() {
+            return $http.get('/trello/users/roles');
         }
 
         function getCardAttachments(idCard) {

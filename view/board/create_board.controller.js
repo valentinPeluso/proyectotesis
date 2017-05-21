@@ -2,11 +2,23 @@
     'use strict';
 
     angular.module('app.board')
-        .controller('createBoardController', createBoardController)
+        .controller('createBoardController', createBoardController);
 
-    createBoardController.$inject = ['trelloService', '$uibModalInstance', '$q', 'ngToast'];
+    createBoardController.$inject = [
+        'trelloService',
+        '$uibModalInstance',
+        '$q',
+        'ngToast',
+        'jsonFormatterService',
+    ];
 
-    function createBoardController(trelloService, $uibModalInstance, $q, ngToast) {
+    function createBoardController(
+        trelloService,
+        $uibModalInstance,
+        $q,
+        ngToast,
+        jsonFormatterService
+    ) {
         var vm = this;
 
         vm.board = {
@@ -15,20 +27,41 @@
         vm.members = [];
         vm.member = {
             fullName: '',
-            email: ''
-        }
+            email: '',
+            roles: []
+        };
+        vm.possible_roles = [];
 
         vm.cancel = cancel;
         vm.createBoard = createBoard;
         vm.addMember = addMember;
         vm.removeMember = removeMember;
 
+        function activate() {
+            var promise = trelloService.user.getRoles();
+
+            promise.then(
+                function(result) {
+                    vm.possible_roles = result.data;
+                },
+                function(err) {
+                    throw err;
+                }
+            );
+
+            vm.promise = {
+                promise: promise,
+                message: 'Getting possible roles'
+            };
+        }
+
         function addMember() {
             vm.members.push(vm.member);
             vm.member = {
                 fullName: '',
-                email: ''
-            }
+                email: '',
+                roles: []
+            };
         }
 
         function removeMember(index) {
@@ -37,141 +70,139 @@
             });
         }
 
+        function addMembersToBoard(boardId) {
+            var promises = [];
+            _.forEach(vm.members, function(member, pos) {
+                promises.push(
+                    trelloService.boards.addMemberToBoard(boardId, member)
+                );
+            });
+
+            return promises;
+        }
+
+        function addListsToBoard(boardId) {
+            var promises = [];
+            var lists = [{
+                name: 'Requeriments'
+            }, {
+                name: 'Backlog'
+            }, {
+                name: 'Attachments'
+            }, {
+                name: 'Sprint 1'
+            }, {
+                name: 'Sprint 2'
+            }, {
+                name: 'Sprint 3'
+            }];
+            _.forEach(lists, function(list, pos) {
+                promises.push(
+                    trelloService.boards.addListToBoard(boardId, list)
+                );
+            });
+            return promises;
+        }
+
+        function addLabelsToBoard(boardId) {
+            var promises = [
+                trelloService.boards.addLabelBlue(boardId, {
+                    value: 'Not started'
+                }),
+                trelloService.boards.addLabelGreen(boardId, {
+                    value: 'Closed'
+                }),
+                /* 
+                    El estado de Ready for check no se está usando, 
+                    ver de remplazar por otro estado
+                */
+                // trelloService.boards.addLabelOrange(boardId, {
+                //     value: 'Ready for check'
+                // }),
+                trelloService.boards.addLabelPurple(boardId, {
+                    value: 'Ready for test'
+                }),
+                trelloService.boards.addLabelRed(boardId, {
+                    value: 'Carry over'
+                }),
+                trelloService.boards.addLabelYellow(boardId, {
+                    value: 'Ready for dev'
+                })
+            ];
+
+            return promises;
+        }
+
+        function addUserRolesToBoard(boardId) {
+            var deferred = $q.defer();
+            var promises = [deferred.promise];
+            var list = {
+                name: 'Users'
+            };
+
+            trelloService.boards.addListToBoard(boardId, list).then(
+                function(result) {
+                    var createdList = result.data;
+                    var membersPromises = [];
+                    var card;
+                    _.forEach(vm.members, function(member, pos) {
+                        card = {
+                            name: member.fullName,
+                            desc: jsonFormatterService.jsonToString(member)
+                        };
+                        membersPromises.push(
+                            trelloService.lists.createCard(
+                                createdList.id,
+                                card
+                            )
+                        );
+                    });
+                    $q.all(membersPromises).then(
+                        function(result) {
+                            deferred.resolve(result);
+                        },
+                        function(err) {
+                            deferred.reject(err);
+                            throw err;
+                        }
+                    );
+                },
+                function(err) {
+                    deferred.reject(err);
+                    throw err;
+                }
+            );
+
+            return promises;
+        }
+
         function createBoard() {
             var deferred = $q.defer();
-            vm.createBoardPromise = {
+            vm.promise = {
                 promise: deferred.promise,
                 message: 'Creating board'
-            }
+            };
             trelloService.boards.create(vm.board).then(
                 function(result) {
                     var board = result.data;
-                    var boardId = result.data.id;
 
-                    var cantPromiseResolved = 0,
-                        cantPromiseMembers = vm.members.length,
-                        cantPromiseList = 5,
-                        cantPromiseLabels = 6,
-                        cantPromise = cantPromiseMembers + cantPromiseList + cantPromiseLabels;
+                    var promises = [];
+                    promises = promises.concat(addMembersToBoard(board.id));
+                    promises = promises.concat(addListsToBoard(board.id));
+                    promises = promises.concat(addLabelsToBoard(board.id));
+                    promises = promises.concat(addUserRolesToBoard(board.id));
 
-                    //Members
-                    _.forEach(vm.members, function(member, pos) {
-                        trelloService.boards.addMemberToBoard(boardId, member).then(
-                            function(result) {
-                                cantPromiseResolved++;
-                                if (cantPromiseResolved == cantPromise) {
-                                    deferred.resolve(board);
-                                }
-                            },
-                            function(err) {
-                                console.log();
-                            });
-                    });
-
-                    //Lists
-                    var lists = [{
-                        name: 'Requeriments'
-                    }, {
-                        name: 'Backlog'
-                    }, {
-                        name: 'Attachments'
-                    }, {
-                        name: 'Sprint 1'
-                    }, {
-                        name: 'Sprint 2'
-                    }, {
-                        name: 'Sprint 3'
-                    }];
-                    _.forEach(lists, function(list, pos) {
-                        trelloService.boards.addListToBoard(boardId, list).then(
-                            function(result) {
-                                cantPromiseResolved++;
-                                if (cantPromiseResolved == cantPromise) {
-                                    deferred.resolve(board);
-                                }
-                            },
-                            function(err) {
-                                console.log();
-                            });
-                    });
-
-                    //Labels
-                    trelloService.boards.addLabelBlue(boardId, {
-                        value: 'Not started'
-                    }).then(
+                    $q.all(promises).then(
                         function(result) {
-                            cantPromiseResolved++;
-                            if (cantPromiseResolved == cantPromise) {
-                                deferred.resolve(board);
-                            }
+                            deferred.resolve(result);
                         },
                         function(err) {
-
-                        })
-                    trelloService.boards.addLabelGreen(boardId, {
-                        value: 'Closed'
-                    }).then(
-                        function(result) {
-                            cantPromiseResolved++;
-                            if (cantPromiseResolved == cantPromise) {
-                                deferred.resolve(board);
-                            }
-                        },
-                        function(err) {
-
-                        })
-                    trelloService.boards.addLabelOrange(boardId, {
-                        value: 'Ready for check'
-                    }).then(
-                        function(result) {
-                            cantPromiseResolved++;
-                            if (cantPromiseResolved == cantPromise) {
-                                deferred.resolve(board);
-                            }
-                        },
-                        function(err) {
-
-                        })
-                    trelloService.boards.addLabelPurple(boardId, {
-                        value: 'Ready for test'
-                    }).then(
-                        function(result) {
-                            cantPromiseResolved++;
-                            if (cantPromiseResolved == cantPromise) {
-                                deferred.resolve(board);
-                            }
-                        },
-                        function(err) {
-
-                        })
-                    trelloService.boards.addLabelRed(boardId, {
-                        value: 'Carry over'
-                    }).then(
-                        function(result) {
-                            cantPromiseResolved++;
-                            if (cantPromiseResolved == cantPromise) {
-                                deferred.resolve(board);
-                            }
-                        },
-                        function(err) {
-
-                        })
-                    trelloService.boards.addLabelYellow(boardId, {
-                        value: 'Ready for dev'
-                    }).then(
-                        function(result) {
-                            cantPromiseResolved++;
-                            if (cantPromiseResolved == cantPromise) {
-                                deferred.resolve(board);
-                            }
-                        },
-                        function(err) {
-
-                        })
-
+                            throw err;
+                        }
+                    );
                 },
                 function(err) {
-                    console.log();
+                    throw err;
                 });
             deferred.promise.then(
                 function(board) {
@@ -181,7 +212,7 @@
                     $uibModalInstance.close(board);
                 },
                 function(err) {
-                    // body...
+                    throw err;
                 });
 
         }
@@ -189,5 +220,7 @@
         function cancel(argument) {
             $uibModalInstance.dismiss('cancel');
         }
+
+        activate();
     };
 })();

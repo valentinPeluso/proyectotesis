@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     angular
@@ -14,29 +14,31 @@
             checkPermission: checkPermission
         };
 
-        return service;   
+        return service;
 
         function getUserLogued() {
             return mockedObjectsService.users.getUserLogued();
         }
+
         function checkRoutePermission(currentRoute) {
             var user_logued = this.getUserLogued();
             return _.some(
-                        _.map(user_logued.roles, 'role'), 
-                        function(role) {
-                            return _.includes(currentRoute.roles, role)
-                        }
-                    );
+                _.map(user_logued.roles, 'role'),
+                function(role) {
+                    return _.includes(currentRoute.roles, role)
+                }
+            );
         }
+
         function checkPermission(roles) {
             var user_logued = this.getUserLogued();
             return _.some(
-                        _.map(user_logued.roles, 'role'), 
-                        function(role) {
-                            return _.includes(roles, role)
-                        }
-                    );
-        }        
+                _.map(user_logued.roles, 'role'),
+                function(role) {
+                    return _.includes(roles, role)
+                }
+            );
+        }
     }
 
 })();

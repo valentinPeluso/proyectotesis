@@ -3,6 +3,7 @@ var trelloAPI = {
   boards: require('../controllers/trello/boardsApiController'),
   cards: require('../controllers/trello/cardsApiController'),
   lists: require('../controllers/trello/listsApiController'),
+  users: require('../controllers/trello/usersApiController')
 }
 var trello = require('../controllers/trelloController');
 var filesController = require('../controllers/filesController');
@@ -28,6 +29,11 @@ module.exports = function(app) {
     errorHandling.checkauth,
     trelloAPI.members.me,
     trello.me
+  ]);
+  app.get('/trello/users/roles', [
+    errorHandling.checkauth,
+    trelloAPI.users.roles,
+    trello.roles
   ]);
   app.get('/trello/members/:id/boards', [
     errorHandling.checkauth,

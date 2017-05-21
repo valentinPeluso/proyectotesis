@@ -98,6 +98,10 @@ function addAttachment(req, res) {
     res.send(res.data);
 }
 
+function getRoles(req, res) {
+    res.send(res.data);
+}
+
 module.exports = {
     me: me,
     membersBoards: membersBoards,
@@ -123,5 +127,6 @@ module.exports = {
     assigneeState: assigneeState,
     removeState: removeState,
     getCardAttachments: getCardAttachments,
-    addAttachment: addAttachment
+    addAttachment: addAttachment,
+    roles: getRoles
 };

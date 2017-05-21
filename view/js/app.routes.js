@@ -17,9 +17,7 @@
                     'Requeriment',
                     'Admin',
                     'Analysis',
-                    'Developmen',
-                    'Statistics',
-                    'Design'
+                    'Developmen'
                 ]
             })
             .when('/verificationvalidation', {
