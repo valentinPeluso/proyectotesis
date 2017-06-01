@@ -4,9 +4,9 @@
     angular.module('app.requirements')
         .controller('requirementsController', requirementsController)
 
-    requirementsController.$inject = ['mockedObjectsService', 'UIRequerimentService', 'trelloService', 'storageService', '$q', 'jsonFormatterService'];
+    requirementsController.$inject = ['UIRequerimentService', 'trelloService', 'storageService', '$q', 'jsonFormatterService'];
 
-    function requirementsController(mockedObjectsService, UIRequerimentService, trelloService, storageService, $q, jsonFormatterService) {
+    function requirementsController(UIRequerimentService, trelloService, storageService, $q, jsonFormatterService) {
         var vm = this;
 
         var boardSelected = trelloService.boards.getFromSession();

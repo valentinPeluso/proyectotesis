@@ -10,9 +10,6 @@ function getRoles(req, res, next) {
         id: 'Requeriment',
         name: 'Requeriment'
     }, {
-        id: 'Admin',
-        name: 'Administrator'
-    }, {
         id: 'Analysis',
         name: 'Analysis'
     }, {

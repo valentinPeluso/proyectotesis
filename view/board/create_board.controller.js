@@ -1,6 +1,9 @@
 (function() {
     'use strict';
 
+    /* global _ */
+    /* global angular */
+
     angular.module('app.board')
         .controller('createBoardController', createBoardController);
 
@@ -27,6 +30,7 @@
         vm.members = [];
         vm.member = {
             fullName: '',
+            username: '',
             email: '',
             roles: []
         };
@@ -38,7 +42,7 @@
         vm.removeMember = removeMember;
 
         function activate() {
-            var promise = trelloService.user.getRoles();
+            var promise = trelloService.user.getAllRoles();
 
             promise.then(
                 function(result) {
@@ -59,6 +63,7 @@
             vm.members.push(vm.member);
             vm.member = {
                 fullName: '',
+                username: '',
                 email: '',
                 roles: []
             };
@@ -71,14 +76,45 @@
         }
 
         function addMembersToBoard(boardId) {
+            var deferred = $q.defer();
             var promises = [];
+
             _.forEach(vm.members, function(member, pos) {
                 promises.push(
                     trelloService.boards.addMemberToBoard(boardId, member)
                 );
             });
 
-            return promises;
+            $q.all(promises).then(
+                function(result) {
+                    var members = _.last(result).data.members;
+
+                    _.forEach(members, function(member) {
+                        var mem = _.find(vm.members, {
+                            username: member.username
+                        });
+                        if (typeof mem !== 'undefined') {
+                            member.roles = mem.roles;
+                        }
+                        else {
+                            member.roles = [{
+                                id: 'Admin',
+                                name: 'Administrator'
+                            }];
+                        }
+                    });
+
+                    vm.members = members;
+
+                    trelloService.boards.postUsersInSession(vm.members);
+
+                    deferred.resolve(result);
+                },
+                function(err) {
+                    throw err;
+                }
+            );
+            return [deferred.promise];
         }
 
         function addListsToBoard(boardId) {
@@ -188,13 +224,15 @@
 
                     var promises = [];
                     promises = promises.concat(addMembersToBoard(board.id));
+                    promises = promises.concat(addUserRolesToBoard(board.id));
                     promises = promises.concat(addListsToBoard(board.id));
                     promises = promises.concat(addLabelsToBoard(board.id));
-                    promises = promises.concat(addUserRolesToBoard(board.id));
 
                     $q.all(promises).then(
                         function(result) {
-                            deferred.resolve(result);
+                            console.log(board);
+                            debugger;
+                            deferred.resolve(board);
                         },
                         function(err) {
                             throw err;

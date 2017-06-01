@@ -1,43 +1,68 @@
 (function() {
     'use strict';
 
+    /* global _ */
+    /* global angular */
+
     angular
         .module('app.services')
         .factory('sessionService', sessionService);
 
-    sessionService.$inject = ['mockedObjectsService', '$location']
+    sessionService.$inject = ['trelloService', '$location'];
 
-    function sessionService(mockedObjectsService, $location) {
+    function sessionService(trelloService, $location) {
         var service = {
-            getUserLogued: getUserLogued,
             checkRoutePermission: checkRoutePermission,
             checkPermission: checkPermission
         };
 
         return service;
 
-        function getUserLogued() {
-            return mockedObjectsService.users.getUserLogued();
-        }
-
         function checkRoutePermission(currentRoute) {
-            var user_logued = this.getUserLogued();
-            return _.some(
-                _.map(user_logued.roles, 'role'),
-                function(role) {
-                    return _.includes(currentRoute.roles, role)
-                }
-            );
+            var userLogged = trelloService.user.getFromSession();
+            var boardUsers = trelloService.boards.getUsersFromSession();
+            var userLoggedWithRoles = null;
+            if (typeof boardUsers !== 'undefined' &&
+                boardUsers !== null
+            ) {
+                userLoggedWithRoles = _.find(boardUsers, {
+                    id: userLogged.id
+                });
+                userLogged = _.merge(userLogged, userLoggedWithRoles);
+                return _.some(
+                    _.map(userLogged.roles, 'id'),
+                    function(role) {
+                        return _.includes(currentRoute.roles, role);
+                    }
+                );
+            }
+            else {
+                return false;
+            }
+
         }
 
         function checkPermission(roles) {
-            var user_logued = this.getUserLogued();
-            return _.some(
-                _.map(user_logued.roles, 'role'),
-                function(role) {
-                    return _.includes(roles, role)
-                }
-            );
+            var userLogged = trelloService.user.getFromSession();
+            var boardUsers = trelloService.boards.getUsersFromSession();
+            var userLoggedWithRoles = null;
+            if (typeof boardUsers !== 'undefined' &&
+                boardUsers !== null
+            ) {
+                userLoggedWithRoles = _.find(boardUsers, {
+                    id: userLogged.id
+                });
+                userLogged = _.merge(userLogged, userLoggedWithRoles);
+                return _.some(
+                    _.map(userLogged.roles, 'id'),
+                    function(role) {
+                        return _.includes(roles, role);
+                    }
+                );
+            }
+            else {
+                return false;
+            }
         }
     }
 

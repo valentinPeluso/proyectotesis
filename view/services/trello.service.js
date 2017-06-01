@@ -1,19 +1,32 @@
 (function() {
     'use strict';
 
+    /* global _ */
+    /* global angular */
+
     angular
         .module('app.services')
         .factory('trelloService', trelloService);
 
-    trelloService.$inject = ['$http', 'storageService'];
+    trelloService.$inject = [
+        '$http',
+        'storageService',
+        '$q',
+        'jsonFormatterService'
+    ];
 
-    function trelloService($http, storageService) {
+    function trelloService(
+        $http,
+        storageService,
+        $q,
+        jsonFormatterService
+    ) {
 
         var service = {
             user: {
                 getFromSession: getUserFromSession,
                 postInSession: postUserInSession,
-                getRoles: getUserRoles
+                getAllRoles: getAllUserRoles
             },
             members: {
                 me: membersMe,
@@ -24,6 +37,8 @@
                 getList: getListById
             },
             boards: {
+                postUsersInSession: postUsersInSession,
+                getUsersFromSession: getUsersFromSession,
                 create: createBoard,
                 postInSession: boardPostInSession,
                 getFromSession: boardGetFromSession,
@@ -57,15 +72,33 @@
             var session = {
                 id: 'TrelloUserLogged',
                 data: user
-            }
+            };
+
             storageService.session.put(session);
         }
 
         function getUserFromSession() {
             var session = {
                 id: 'TrelloUserLogged'
-            }
+            };
+
             return storageService.session.get(session);
+        }
+
+        function getUsersFromSession() {
+            var session = {
+                id: 'TrelloBoardUsers'
+            };
+            return storageService.session.get(session);
+        }
+
+        function postUsersInSession(users) {
+            var session = {
+                id: 'TrelloBoardUsers',
+                data: users
+            };
+
+            storageService.session.put(session);
         }
 
         function removeState(idCard, idLabel, value) {
@@ -87,7 +120,7 @@
             return $http.put('/trello/cards/' + idCard + '/idList', value);
         }
 
-        function getUserRoles() {
+        function getAllUserRoles() {
             return $http.get('/trello/users/roles');
         }
 
@@ -204,8 +237,8 @@
                     }
                     storageService.session.put(session);
                 },
-                function(data) {
-
+                function(err) {
+                    throw err;
                 }
             )
         }
