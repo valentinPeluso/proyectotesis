@@ -4,17 +4,17 @@ var trelloAPIController = require('./trelloApiController');
 function getRoles(req, res, next) {
 
     var roles = [{
-        id: 'Verification_Validation',
-        name: 'Verification and Validation'
+        id: 'Scrum_Master',
+        name: 'Scrum Mastar'
     }, {
-        id: 'Requeriment',
-        name: 'Requeriment'
+        id: 'Team_Member',
+        name: 'Team Member'
     }, {
-        id: 'Analysis',
-        name: 'Analysis'
+        id: 'Product_Owner',
+        name: 'Product Owner'
     }, {
-        id: 'Developmen',
-        name: 'Developmen'
+        id: 'Other',
+        name: 'Other'
     }];
 
     res.data = roles;

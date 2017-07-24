@@ -12,7 +12,6 @@
         'cgBusy',
 
         /* 3rd-party modules */
-        'app.nav',
         'app.verification_validation',
         'app.requirements',
         'app.configuration',

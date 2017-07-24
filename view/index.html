@@ -31,38 +31,8 @@
 
 <body ng-app="app">
 	<toast></toast>
-	<header ng-controller="navController as vm">
-		<nav id="nav" class="navbar navbar-findcond navbar-fixed-top" style="display:none">
-			<div class="container">				
-				<div class="collapse navbar-collapse" id="navbar">
-					<ul class="nav navbar-nav navbar-left">											
-						<li tg-roles="Admin,Requeriment">
-							<a href="#/requirements" ng-class="{'active': vm.active == '/requirements'}" ng-click="vm.changeOfLocation('/requirements')">
-								Requeriments
-							</a>
-						</li>
-						<li tg-roles="Admin,Analysis">
-							<a href="#/analysis" ng-class="{'active': vm.active == '/analysis'}" ng-click="vm.changeOfLocation('/analysis')">
-								Analysis
-							</a>
-						</li>
-						<li tg-roles="Admin,Developmen">
-							<a href="#/development" ng-class="{'active': vm.active == '/development'}" ng-click="vm.changeOfLocation('/development')">
-								Development
-							</a>
-						</li>
-						<li tg-roles="Admin,Verification_Validation">
-							<a href="#/verificationvalidation" ng-class="{'active': vm.active == '/verificationvalidation'}" ng-click="vm.changeOfLocation('/verificationvalidation')">
-								Verification and Validation
-							</a>							
-						</li>
-						<li>
-							<a href="#/configuration" ng-class="{'active': vm.active == '/configuration'}" ng-click="vm.changeOfLocation('/configuration')">Configuration</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+	<header>
+		<tg-nav></tg-nav>
 	</header>
 	<div ng-view="" style="margin-top: 100px;" id="page-wrap">
 	</div>		
@@ -139,7 +109,9 @@
 <script src="/view/services/get_mocked_objects.service.js"></script>
 
 <script src="/view/components/components.module.js"></script>
+
 <script src="/view/components/timeline/timeline.component.js"></script>
+<script src="/view/components/nav/nav.component.js"></script>
 <script src="/view/components/panel/panel.component.js"></script>
 
 <script src="/view/components/attachments/attachments.component.js"></script>
@@ -164,8 +136,6 @@
 <script src="/view/components/calendario/calendario.module.js"></script>
 <script src="/view/components/calendario/calendario.component.js"></script>-->
 
-<script src="/view/nav/nav.module.js"></script>
-<script src="/view/nav/nav.controller.js"></script>
 
 <script src="/view/verification_validation/verification_validation.module.js"></script>
 <script src="/view/verification_validation/verification_validation.controller.js"></script>

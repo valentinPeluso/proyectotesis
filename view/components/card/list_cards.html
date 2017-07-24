@@ -14,11 +14,11 @@
                 dnd-disable-if="!$ctrl.allowMoveCard"
                 style="border: 2px solid #ddd;">
                 <tr>
-                    <td colspan="4" class="tg-text-left">
+                    <td class="tg-card-name tg-text-left">
                         <a href="" >{{ card.name }}</a>
                     </td>
-                    <td class="tg-font-13 tg-text-right">
-                        <a  ng-show="card.pullRequestNumber"
+                    <td class="tg-card-labels tg-font-13 tg-text-right">
+                        <a  ng-if="card.pullRequestNumber"
                             ng-href="{{card.pullRequest.html_url}}"
                             ng-click="$event.stopPropagation()"
                             target="_blank">
@@ -26,35 +26,36 @@
                                 <i class="fa fa-code-fork" aria-hidden="true"></i> Pull request
                             </span>
                         </a>
-                    </td>
-                    <td class="tg-font-13 tg-text-right">
-                        <span ng-show="card.points" ng-repeat="state in card.states track by $index">
+                        <span ng-if="card.points" ng-repeat="state in card.states track by $index">
                             <span class="label label-{{state.color}}">
                                 {{state.name}}
                             </span>
                             <span ng-if="!$last">&nbsp;</span>
                         </span>
-                    </td>
-                    <td class="tg-font-13 tg-text-right">
-                        <span class="label label-info" ng-show="card.points">
+                        <span class="label label-info" ng-if="card.points">
                             {{ card.points }} points
                         </span>
-                    </td>
-                    <td class="tg-font-13 tg-text-right">
+                        <span class="label label-info" ng-if="card.effort">
+                            Effort needed {{ card.effort }} 
+                        </span>
                         <span class="label priority-{{card.priority}}">
                             Priority {{card.priority}}
                         </span>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="tg-text-left">
+                    <td ng-if="$ctrl.type === 'CARD'"
+                        class="tg-card-members tg-text-left">
                         <span ng-repeat="member in card.assignee track by $index">
                             {{ member.fullName }} 
                         </span>
                         &nbsp;
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </td>
-                    <td colspan="6" class="tg-text-right">
+                    <td class="tg-card-description"
+                        colspan="{{ ($ctrl.type === 'CARD') ? '1' : '2' }}"
+                        ng-class="{'tg-text-right': ($ctrl.type === 'CARD'),
+                            'tg-text-left' : ($ctrl.type !== 'CARD')}">
                          <span>
                             <span>{{ card.description }} <i class="fa fa-comment" aria-hidden="true"></i></span>
                         </span>  

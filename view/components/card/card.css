@@ -7,3 +7,12 @@
 .priority-7, .priority-8, .priority-9, .priority-10 {
     background-color: #777;
 }
+.tg-card-name {
+    width: 30%;
+}
+.tg-card-labels {
+    width: 70%;
+}
+.tg-card-labels .label {
+    margin-right: 2px;
+}

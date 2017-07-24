@@ -22,7 +22,11 @@
                         </span>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">{{$ctrl.list.name}}</div>
+                        <div class="huge">
+                            <span ng-show="$ctrl.list.name == 'Requeriments'">Product Backlog</span>
+                            <span ng-show="$ctrl.list.name == 'Backlog'">Sprint Backlog</span>
+                            <span ng-show="$ctrl.list.name !== 'Backlog' && $ctrl.list.name !== 'Requeriments'">{{ $ctrl.list.name }}</span>
+                        </div>
                         <div class="medium"
                             ng-if="$ctrl.list.name !== 'Backlog'
                             && $ctrl.list.name !== 'Requeriments'">

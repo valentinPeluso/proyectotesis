@@ -42,7 +42,8 @@
                         function(list) {
                             return list.name !== 'Requeriments' &&
                                 list.name !== 'Attachments' &&
-                                list.name !== "Backlog"
+                                list.name !== "Backlog" &&
+                                list.name !== "Users"
                         }
                     ), [
                         'name'
