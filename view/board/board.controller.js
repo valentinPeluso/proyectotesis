@@ -42,7 +42,7 @@
                 templateUrl: '/view/board/create_board.html',
                 controller: 'createBoardController',
                 controllerAs: 'vm',
-                size: 'md'
+                size: 'lg'
             });
             modalInstance.result.then(
                 function(board) {

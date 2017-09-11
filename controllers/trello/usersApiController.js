@@ -5,16 +5,20 @@ function getRoles(req, res, next) {
 
     var roles = [{
         id: 'Scrum_Master',
-        name: 'Scrum Mastar'
+        name: 'Scrum Mastar',
+        label: 'label-warning'
     }, {
         id: 'Team_Member',
-        name: 'Team Member'
+        name: 'Team Member',
+        label: 'label-primary'
     }, {
         id: 'Product_Owner',
-        name: 'Product Owner'
+        name: 'Product Owner',
+        label: 'label-danger'
     }, {
         id: 'Other',
-        name: 'Other'
+        name: 'Other',
+        label: 'label-info'
     }];
 
     res.data = roles;

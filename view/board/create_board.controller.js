@@ -13,6 +13,7 @@
         '$q',
         'ngToast',
         'jsonFormatterService',
+        '$uibModal'
     ];
 
     function createBoardController(
@@ -20,26 +21,35 @@
         $uibModalInstance,
         $q,
         ngToast,
-        jsonFormatterService
+        jsonFormatterService,
+        $uibModal
     ) {
         var vm = this;
 
         vm.board = {
             name: ''
         };
-        vm.members = [];
-        vm.member = {
-            fullName: '',
-            username: '',
-            email: '',
-            roles: []
-        };
+        // vm.members = [];
+        // vm.member = {
+        //     fullName: '',
+        //     username: '',
+        //     email: '',
+        //     roles: []
+        // };
+        vm.teams = [];
+
         vm.possible_roles = [];
 
         vm.cancel = cancel;
         vm.createBoard = createBoard;
-        vm.addMember = addMember;
-        vm.removeMember = removeMember;
+
+        vm.createTeam = createTeam;
+        vm.updateTeam = updateTeam;
+        vm.removeTeam = removeTeam;
+
+        vm.createUser = createUser;
+        vm.updateUser = updateUser;
+        vm.removeUser = removeUser;
 
         function activate() {
             var promise = trelloService.user.getAllRoles();
@@ -59,21 +69,69 @@
             };
         }
 
-        function addMember() {
-            vm.members.push(vm.member);
-            vm.member = {
-                fullName: '',
-                username: '',
-                email: '',
-                roles: []
-            };
+        // function addMember() {
+        //     vm.members.push(vm.member);
+        //     vm.member = {
+        //         fullName: '',
+        //         username: '',
+        //         email: '',
+        //         roles: []
+        //     };
+        // }
+
+        // function removeMember(index) {
+        //     _.remove(vm.members, function(member, pos) {
+        //         return pos == index;
+        //     });
+        // }
+
+        function createTeam() {
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '/view/board/teams/create_team.html',
+                controller: 'createTeamController',
+                controllerAs: 'vm',
+                size: 'md'
+            });
+            modalInstance.result.then(
+                function(team) {
+                    team.users = [];
+                    vm.teams.push(team);
+                },
+                function(err) {
+                    throw err;
+                });
         }
 
-        function removeMember(index) {
-            _.remove(vm.members, function(member, pos) {
-                return pos == index;
+        function updateTeam() {}
+
+        function removeTeam() {}
+
+        function createUser(team) {
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '/view/board/teams/create_user.html',
+                controller: 'createUserController',
+                controllerAs: 'vm',
+                resolve: {
+                    possible_roles: function() {
+                        return vm.possible_roles;
+                    }
+                },
+                size: 'md'
             });
+            modalInstance.result.then(
+                function(user) {
+                    team.users.push(user);
+                },
+                function(err) {
+                    throw err;
+                });
         }
+
+        function updateUser() {}
+
+        function removeUser() {}
 
         function addMembersToBoard(boardId) {
             var deferred = $q.defer();

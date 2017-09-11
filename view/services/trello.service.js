@@ -23,6 +23,9 @@
     ) {
 
         var service = {
+            search: {
+                searchUser: searchUser
+            },
             user: {
                 getFromSession: getUserFromSession,
                 postInSession: postUserInSession,
@@ -67,6 +70,10 @@
                 addAttachment: addAttachment
             }
         };
+
+        function searchUser(user) {
+            return $http.put('/trello/search/user', user);
+        }
 
         function postUserInSession(user) {
             var session = {

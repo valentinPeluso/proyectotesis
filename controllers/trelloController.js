@@ -102,6 +102,10 @@ function getRoles(req, res) {
     res.send(res.data);
 }
 
+function searchUser(req, res) {
+    res.send(res.data);
+}
+
 module.exports = {
     me: me,
     membersBoards: membersBoards,
@@ -128,5 +132,6 @@ module.exports = {
     removeState: removeState,
     getCardAttachments: getCardAttachments,
     addAttachment: addAttachment,
-    roles: getRoles
+    roles: getRoles,
+    search: searchUser
 };

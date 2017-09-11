@@ -1,74 +1,150 @@
 <div class="modal-header">
     <h3 class="modal-title" id="modal-title">
-       Create Board
+       Create Proyect
     </h3>
 </div>
 <div class="modal-body" id="modal-body" cg-busy="vm.promise">
     <div class="row form-group">
         <label for="" class="col-sm-12">Name:</label>
         <div class="col-sm-12">
-            <input type="text" name="name" ng-model="vm.board.name" class="form-control"  placeholder="Board name"/>
+            <input type="text" name="name" ng-model="vm.board.name" class="form-control"  placeholder="Proyect name"/>
         </div>
-    </div>
-    <div class="row">
-        <label for="" class="col-sm-12">Add users to the board</label>
-    </div>
-    <div class="well well-sm">
-        <div class="row form-group">
-            <div class="col-sm-4">
-                <div>
-                    <label for="">Trello Full name:</label>
-                </div>
-                <input type="text" class="form-control" ng-model="vm.member.fullName" placeholder="User Full name" />
-            </div>
-            <div class="col-sm-4">
-                <div>
-                    <label for="">Trello username:</label>
-                </div>
-                <input type="text" class="form-control" ng-model="vm.member.username" placeholder="Username" />
-            </div>
-            <div class="col-sm-4">
-                <div>
-                    <label for="">Email:</label>
-                </div>
-                <input type="email" class="form-control" ng-model="vm.member.email" placeholder="User Email" />
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-12">
-                <label>User roles</label>
-                <div
-                    isteven-multi-select
-                    input-model="vm.possible_roles"
-                    output-model="vm.member.roles"
-                    button-label="name"
-                    item-label="name"
-                    tick-property="selected">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <button type="button" class="btn btn-success btn-sm pull-right" ng-click="vm.addMember()">Add user</button>
-            </div>
-        </div>
-    </div>
-    <hr />
-    <div class="row">
-        <label for="" class="col-sm-12">Users added to the board</label>
     </div>
     <div class="row form-group">
-        <div class="col-sm-12">
-            <div class="list-group">
-                <a class="list-group-item"
-                    ng-repeat="member in vm.members track by $index"
-                    style="cursor: no-drop;"
-                    ng-click="vm.removeMember($index)">
-                    {{member.fullName}} - {{member.email}}
-                    <span class="badge">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                    </span>
-                </a>
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <i class="fa fa-users" aria-hidden="true"></i> Teams 
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-success btn-sm" type="button" ng-click="vm.createTeam()">
+                                Create <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Users
+                                </th>
+                                <th>
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="team in vm.teams track by $index">
+                                <td>
+                                    {{ team.name }}
+                                </td>
+                                <td>
+                                    {{ team.description }}
+                                </td>
+                                <td>
+                                    {{ team.users.length }}
+                                </td>
+                                <td>
+                                    <button class="btn btn-warning btn-xs" type="button"  ng-click="vm.updateTeam()">
+                                       Update <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-xs" type="button"  ng-click="vm.removeTeam()">
+                                        Remove <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            Users <i class="fa fa-user" aria-hidden="true"></i> 
+                        </div>
+                        <div class="col-sm-2">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <!--<thead >-->
+                        <!--    <tr>-->
+                        <!--        <th>-->
+                        <!--            Name-->
+                        <!--        </th>-->
+                        <!--        <th colspan="2">-->
+                        <!--            Description-->
+                        <!--        </th>-->
+                        <!--    </tr>-->
+                        <!--    <tr>-->
+                        <!--        <th>-->
+                        <!--            Email-->
+                        <!--        </th>-->
+                        <!--        <th>-->
+                        <!--            Rol-->
+                        <!--        </th>-->
+                        <!--        <th>-->
+                        <!--            Actions-->
+                        <!--        </th>-->
+                        <!--    </tr>-->
+                        <!--</thead>-->
+                        <tbody ng-repeat="team in vm.teams track by $index">
+                            <tr class="bg-info">
+                                <th>
+                                    <a href="" ng-click="team.open =! team.open">
+                                        
+                                        <i ng-show="!vm.team.open" class="fa fa-caret-right" aria-hidden="true"></i>
+                                        <i ng-show="vm.team.open" class="fa fa-caret-down" aria-hidden="true"></i>
+                                    </a>
+                                </th>
+                                <th colspan="2">
+                                    {{ team.name }}
+                                </th>
+                                <th>
+                                    <button class="btn btn-success btn-xs" type="button"  ng-click="vm.createUser(team)">
+                                        Create <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </th>
+                            </tr>
+                            <tr ng-repeat="user in team.users track by $index" ng-show="team.open">
+                                <td>
+                                    {{ $index + 1 }}
+                                </td>
+                                <td>
+                                    {{ user.username }}
+                                </td>
+                                <td>
+                                    <span class="label {{user.roles[0].label}}">{{ user.roles[0].name }}</span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-warning btn-xs" type="button" ng-click="vm.updateUser()">
+                                       Update <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-xs" type="button" ng-click="vm.removeUser()">
+                                        Remove <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

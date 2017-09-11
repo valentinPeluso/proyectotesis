@@ -3,7 +3,8 @@ var trelloAPI = {
   boards: require('../controllers/trello/boardsApiController'),
   cards: require('../controllers/trello/cardsApiController'),
   lists: require('../controllers/trello/listsApiController'),
-  users: require('../controllers/trello/usersApiController')
+  users: require('../controllers/trello/usersApiController'),
+  search: require('../controllers/trello/searchApiController')
 }
 var trello = require('../controllers/trelloController');
 var filesController = require('../controllers/filesController');
@@ -25,15 +26,20 @@ module.exports = function(app) {
     githubAPI.pullRequests.commentBody
   ]);
   //--------TRELLO----------
-  app.get('/trello/members/me', [
-    errorHandling.checkauth,
-    trelloAPI.members.me,
-    trello.me
-  ]);
   app.get('/trello/users/roles', [
     errorHandling.checkauth,
     trelloAPI.users.roles,
     trello.roles
+  ]);
+  app.put('/trello/search/user', [
+    errorHandling.checkauth,
+    trelloAPI.search.user,
+    trello.search
+  ]);
+  app.get('/trello/members/me', [
+    errorHandling.checkauth,
+    trelloAPI.members.me,
+    trello.me
   ]);
   app.get('/trello/members/:id/boards', [
     errorHandling.checkauth,
