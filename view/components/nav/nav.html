@@ -8,22 +8,22 @@
 	<div class="container">				
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav navbar-left">											
-				<li tg-roles="Admin,Requeriment">
+				<li tg-roles="Scrum_Master,Product_Owner">
 					<a href="#/requirements" ng-class="{'active': $ctrl.active == '/requirements'}" ng-click="$ctrl.changeOfLocation('/requirements')">
 						Product Backlog
 					</a>
 				</li>
-				<li tg-roles="Admin,Analysis">
+				<li tg-roles="Scrum_Master">
 					<a href="#/analysis" ng-class="{'active': $ctrl.active == '/analysis'}" ng-click="$ctrl.changeOfLocation('/analysis')">
 						Sprints
 					</a>
 				</li>
-				<li tg-roles="Admin,Developmen">
+				<li tg-roles="Scrum_Master,Team_Member">
 					<a href="#/development" ng-class="{'active': $ctrl.active == '/development'}" ng-click="$ctrl.changeOfLocation('/development')">
 						Development
 					</a>
 				</li>
-				<li tg-roles="Admin,Verification_Validation">
+				<li tg-roles="Scrum_Master,Team_Member">
 					<a href="#/verificationvalidation" ng-class="{'active': $ctrl.active == '/verificationvalidation'}" ng-click="$ctrl.changeOfLocation('/verificationvalidation')">
 						Verification and Validation
 					</a>							

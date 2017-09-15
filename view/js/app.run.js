@@ -115,54 +115,11 @@
         function getBoardUsers() {
 
             var boardSelected = trelloService.boards.getFromSession();
-            var boardUsers = trelloService.boards.getUsersFromSession();
+            var boardTeams = trelloService.boards.getUsersFromSession();
 
-            if (typeof boardSelected !== 'undefined' &&
-                boardSelected !== null &&
-                (
-                    typeof boardUsers == 'undefined' ||
-                    boardUsers == null
-                )
-            ) {
-                trelloService.boards.getLists(boardSelected.id).then(
-                    function(result) {
-                        var lists = result.data;
-                        var members = [];
-                        var usersList = _.find(lists, {
-                            'name': 'Users'
-                        });
-
-                        _.forEach(
-                            usersList.cards,
-                            function(card) {
-                                card = _.merge(
-                                    card,
-                                    jsonFormatterService.stringToJson(card.desc)
-                                );
-
-                                members.push(
-                                    _.pick(
-                                        card, [
-                                            'id',
-                                            'avatarHash',
-                                            'initials',
-                                            'fullName',
-                                            'username',
-                                            'confirmed',
-                                            'memberType',
-                                            'roles',
-                                        ]
-                                    )
-                                );
-                            }
-                        );
-
-                        trelloService.boards.postUsersInSession(members);
-                    },
-                    function(err) {
-                        throw err;
-                    }
-                );
+            if (typeof boardTeams == 'undefined' || boardTeams == null) {
+                var boardUsers = _.flatten(_.map(boardTeams, 'users'));
+                trelloService.boards.postUsersInSession(boardUsers);
             }
         }
 

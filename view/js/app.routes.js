@@ -13,11 +13,10 @@
                 controller: 'configurationController',
                 controllerAs: 'vm',
                 roles: [
-                    'Verification_Validation',
-                    'Requeriment',
-                    'Admin',
-                    'Analysis',
-                    'Developmen'
+                    'Scrum_Master',
+                    'Team_Member',
+                    'Other',
+                    'Product_Owner'
                 ]
             })
             .when('/verificationvalidation', {
@@ -25,8 +24,8 @@
                 controller: 'verificationValidationController',
                 controllerAs: 'vm',
                 roles: [
-                    'Verification_Validation',
-                    'Admin'
+                    'Scrum_Master',
+                    'Team_Member'
                 ]
             })
             .when('/analysis', {
@@ -34,8 +33,7 @@
                 controller: 'analysisController',
                 controllerAs: 'vm',
                 roles: [
-                    'Admin',
-                    'Analysis'
+                    'Scrum_Master'
                 ]
             })
             .when('/requirements', {
@@ -43,8 +41,8 @@
                 controller: 'requirementsController',
                 controllerAs: 'vm',
                 roles: [
-                    'Requeriment',
-                    'Admin'
+                    'Scrum_Master',
+                    'Product_Owner'
                 ]
             })
             .when('/development', {
@@ -52,8 +50,8 @@
                 controller: 'developmentController',
                 controllerAs: 'vm',
                 roles: [
-                    'Developmen',
-                    'Admin'
+                    'Scrum_Master',
+                    'Team_Member'
                 ]
             })
             .when('/board', {

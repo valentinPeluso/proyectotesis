@@ -25,6 +25,9 @@ module.exports = function(app) {
   app.put('/github/:username/:password/repos/:owner/:repo/pulls/:number', [
     githubAPI.pullRequests.commentBody
   ]);
+  app.put('/github/:username/:password/search/user', [
+    githubAPI.search.user
+  ]);
   //--------TRELLO----------
   app.get('/trello/users/roles', [
     errorHandling.checkauth,

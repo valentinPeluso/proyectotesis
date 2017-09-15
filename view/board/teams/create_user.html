@@ -8,7 +8,7 @@
         <label for="" class="col-sm-12">Email:</label>
         <div class="col-sm-12">
             <div class="input-group">
-                <input type="email" name="email" ng-model="vm.user.email" class="form-control"  placeholder="User email"/>
+                <input type="email" name="email" ng-model="vm.email" class="form-control"  placeholder="User email"/>
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button" ng-disabled="vm.serchingUser" ng-click="vm.findUser()">
                         Find
@@ -19,36 +19,61 @@
             </div>
         </div>
     </div>
-    <div class="row form-group" ng-if="vm.user.id">
-        <div class="col-sm-12">
-            <div class="row form-group">
-                <label for="" class="col-sm-12">Full name:</label>
-                <div class="col-sm-12">
-                    {{ vm.user.fullName }}
+    <div class="row form-group">
+        <div class="col-sm-6">
+            <div class="panel panel-default" ng-if="vm.trelloUser.id">
+                <div class="panel-heading">Trello Information</div>
+                <div class="panel-body">
+                    <div class="row form-group">
+                        <label for="" class="col-sm-12">Name:</label>
+                        <div class="col-sm-12">
+                            {{ vm.trelloUser.fullName }}
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="" class="col-sm-12">Username:</label>
+                        <div class="col-sm-12">
+                            {{ vm.trelloUser.username }}
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-12">
+                            <label>User roles</label>
+                             <div
+                                isteven-multi-select
+                                input-model="vm.possible_roles"
+                                output-model="vm.trelloUser.roles"
+                                button-label="name"
+                                item-label="name"
+                                selection-mode="single"
+                                tick-property="selected">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row form-group">
-                <label for="" class="col-sm-12">Username:</label>
-                <div class="col-sm-12">
-                    {{ vm.user.username }}
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-sm-12">
-                    <label>User roles</label>
-                     <div
-                        isteven-multi-select
-                        input-model="vm.possible_roles"
-                        output-model="vm.user.roles"
-                        button-label="name"
-                        item-label="name"
-                        selection-mode="single"
-                        tick-property="selected">
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default" ng-if="vm.githubUser.id">
+                <div class="panel-heading">GitHub Information</div>
+                <div class="panel-body">
+                    <div class="row form-group">
+                        <label for="" class="col-sm-12">Name:</label>
+                        <div class="col-sm-12">
+                            {{ vm.githubUser.name }}
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="" class="col-sm-12">Username:</label>
+                        <div class="col-sm-12">
+                            {{ vm.githubUser.login }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
 <div class="modal-footer">
     <button class="btn btn-success" type="button" ng-click="vm.createUser()">Create</button>

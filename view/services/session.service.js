@@ -20,7 +20,8 @@
 
         function checkRoutePermission(currentRoute) {
             var userLogged = trelloService.user.getFromSession();
-            var boardUsers = trelloService.boards.getUsersFromSession();
+            var boardTeams = trelloService.boards.getUsersFromSession();
+            var boardUsers = _.flatten(_.map(boardTeams, 'users'));
             var userLoggedWithRoles = null;
             if (typeof boardUsers !== 'undefined' &&
                 boardUsers !== null
@@ -44,7 +45,8 @@
 
         function checkPermission(roles) {
             var userLogged = trelloService.user.getFromSession();
-            var boardUsers = trelloService.boards.getUsersFromSession();
+            var boardTeams = trelloService.boards.getUsersFromSession();
+            var boardUsers = _.flatten(_.map(boardTeams, 'users'));
             var userLoggedWithRoles = null;
             if (typeof boardUsers !== 'undefined' &&
                 boardUsers !== null

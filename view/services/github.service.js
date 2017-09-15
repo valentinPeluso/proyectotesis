@@ -20,7 +20,16 @@
                 getRepos: getRepos,
                 getPullRequests: getPullRequests,
                 commentPullRequestBody: commentPullRequestBody
+            },
+            search: {
+                searchUser: searchUser
             }
+        }
+
+        function searchUser(user) {
+            var githubUser = getUserFromSession();
+            var url = '/github/' + githubUser.username + '/' + githubUser.password;
+            return $http.put(url + '/search/user', user);
         }
 
         function getRepoFromSession() {

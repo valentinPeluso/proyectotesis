@@ -95,6 +95,28 @@ function authenticate(req, res, next) {
     });
 }
 
+function searchUser(req, res, next) {
+    if (typeof req.params.email == 'undefined')
+        throw "Email user is required";
+
+    reqAuthenticate(req.params.username, req.params.password);
+
+    var body = {
+        type: 'Users',
+        email: 'valentinpeluso@gmail.com'
+    };
+
+    github.search.email(
+        body,
+        function(err, response) {
+            if (err) throw err;
+            res.data = response.data;
+            res.send(res.data);
+        }
+    );
+    //search?q=valentinpeluso@gmail.com+in%3Aemail&type=Users
+}
+
 module.exports = {
     authenticate: authenticate,
     repos: {
@@ -103,5 +125,8 @@ module.exports = {
     pullRequests: {
         getAll: getAllPullRequest,
         commentBody: commentPullRequestBody
+    },
+    search: {
+        user: searchUser
     }
 }

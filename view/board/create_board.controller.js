@@ -37,6 +37,7 @@
         //     roles: []
         // };
         vm.teams = [];
+        vm.repositoryUsers = [];
 
         vm.possible_roles = [];
 
@@ -121,8 +122,11 @@
                 size: 'md'
             });
             modalInstance.result.then(
-                function(user) {
-                    team.users.push(user);
+                function(createdUser) {
+                    //usuario para registrar en Trello
+                    team.users.push(createdUser.trelloUser);
+                    //usuario para registrarlo en el repositorio
+                    vm.repositoryUsers.push(createdUser.githubUser);
                 },
                 function(err) {
                     throw err;
@@ -137,34 +141,19 @@
             var deferred = $q.defer();
             var promises = [];
 
-            _.forEach(vm.members, function(member, pos) {
-                promises.push(
-                    trelloService.boards.addMemberToBoard(boardId, member)
-                );
+            trelloService.boards.postUsersInSession(vm.teams);
+
+            //Agrega los members al board
+            _.forEach(vm.teams, function(team, pos) {
+                _.forEach(team.users, function(user, pos) {
+                    promises.push(
+                        trelloService.boards.addMemberToBoard(boardId, user)
+                    );
+                });
             });
 
             $q.all(promises).then(
                 function(result) {
-                    var members = _.last(result).data.members;
-
-                    _.forEach(members, function(member) {
-                        var mem = _.find(vm.members, {
-                            username: member.username
-                        });
-                        if (typeof mem !== 'undefined') {
-                            member.roles = mem.roles;
-                        }
-                        else {
-                            member.roles = [{
-                                id: 'Admin',
-                                name: 'Administrator'
-                            }];
-                        }
-                    });
-
-                    vm.members = members;
-
-                    trelloService.boards.postUsersInSession(vm.members);
 
                     deferred.resolve(result);
                 },
@@ -190,6 +179,7 @@
             }, {
                 name: 'Sprint 3'
             }];
+
             _.forEach(lists, function(list, pos) {
                 promises.push(
                     trelloService.boards.addListToBoard(boardId, list)
@@ -227,45 +217,48 @@
             return promises;
         }
 
-        function addUserRolesToBoard(boardId) {
+        function addTeamsToBoard(boardId) {
             var deferred = $q.defer();
-            var promises = [deferred.promise];
-            var list = {
-                name: 'Users'
-            };
+            var promises = [];
 
-            trelloService.boards.addListToBoard(boardId, list).then(
-                function(result) {
-                    var createdList = result.data;
-                    var membersPromises = [];
-                    var card;
-                    _.forEach(vm.members, function(member, pos) {
-                        card = {
-                            name: member.fullName,
-                            desc: jsonFormatterService.jsonToString(member)
-                        };
-                        membersPromises.push(
-                            trelloService.lists.createCard(
-                                createdList.id,
-                                card
-                            )
-                        );
-                    });
-                    $q.all(membersPromises).then(
+            _.forEach(vm.teams, function(team, pos) {
+                promises.push(
+                    trelloService.boards.addListToBoard(
+                        boardId, { name: team.name }
+                    ).then(
                         function(result) {
-                            deferred.resolve(result);
+                            var createdList = result.data;
+                            var membersPromises = [];
+                            var card;
+                            _.forEach(team.users, function(member, pos) {
+                                card = {
+                                    name: member.fullName,
+                                    desc: jsonFormatterService.jsonToString(member)
+                                };
+                                membersPromises.push(
+                                    trelloService.lists.createCard(
+                                        createdList.id,
+                                        card
+                                    )
+                                );
+                            });
+                            $q.all(membersPromises).then(
+                                function(result) {
+                                    deferred.resolve(result);
+                                },
+                                function(err) {
+                                    deferred.reject(err);
+                                    throw err;
+                                }
+                            );
                         },
                         function(err) {
                             deferred.reject(err);
                             throw err;
                         }
-                    );
-                },
-                function(err) {
-                    deferred.reject(err);
-                    throw err;
-                }
-            );
+                    )
+                );
+            });
 
             return promises;
         }
@@ -281,15 +274,16 @@
                     var board = result.data;
 
                     var promises = [];
+                    // Crear el repositorio
                     promises = promises.concat(addMembersToBoard(board.id));
-                    promises = promises.concat(addUserRolesToBoard(board.id));
+                    promises = promises.concat(addTeamsToBoard(board.id));
                     promises = promises.concat(addListsToBoard(board.id));
                     promises = promises.concat(addLabelsToBoard(board.id));
 
                     $q.all(promises).then(
                         function(result) {
                             console.log(board);
-                            debugger;
+
                             deferred.resolve(board);
                         },
                         function(err) {

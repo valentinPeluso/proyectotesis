@@ -11,14 +11,18 @@
         '$uibModalInstance',
         'ngToast',
         'trelloService',
-        'possible_roles'
+        'possible_roles',
+        '$q',
+        'githubService'
     ];
 
     function createUserController(
         $uibModalInstance,
         ngToast,
         trelloService,
-        possible_roles
+        possible_roles,
+        $q,
+        githubService
     ) {
         var vm = this;
 
@@ -29,16 +33,20 @@
         function activate() {
             vm.serchingUser = false;
             vm.possible_roles = possible_roles;
-            vm.user = {};
+            vm.email = '';
+            vm.trelloUser = {};
+            vm.githubUser = {};
         }
 
         function findUser() {
             vm.serchingUser = true;
-            trelloService.search.searchUser(vm.user).then(
+            $q.all({
+                trello: trelloService.search.searchUser({ email: vm.email }),
+                github: githubService.search.searchUser({ email: vm.email })
+            }).then(
                 function(result) {
-                    vm.user.id = result.data[0].id;
-                    vm.user.fullName = result.data[0].fullName;
-                    vm.user.username = result.data[0].username;
+                    vm.trelloUser = result.trello.data[0];
+                    vm.githubUser = result.github.data.user;
                     vm.serchingUser = false;
                 },
                 function(err) {
@@ -48,7 +56,10 @@
         }
 
         function createUser() {
-            $uibModalInstance.close(vm.user);
+            $uibModalInstance.close({
+                trelloUser: vm.trelloUser,
+                githubUser: vm.githubUser
+            });
         }
 
         function cancel(argument) {
