@@ -4,7 +4,7 @@
     angular
         .module('app.components')
         .component('tgNav', {
-            templateUrl: '/view/components/nav/nav.html',
+            templateUrl: '/proyectotesis/view/components/nav/nav.html',
             controller: navComponentController,
             bindings: {}
         });
@@ -23,7 +23,7 @@
         activate();
 
         function activate(argument) {
-            vm.active = "/" + _.words($location.$$path)[0];
+            vm.active = $location.hash();
         }
 
         function changeOfLocation(location) {

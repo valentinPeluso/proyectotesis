@@ -23,7 +23,7 @@
         ) {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/ui_services/card/card.html',
+                templateUrl: '/proyectotesis/view/ui_services/card/card.html',
                 controller: 'viewCardController',
                 controllerAs: 'vm',
                 size: 'lg',
@@ -52,7 +52,7 @@
         function updateCard(idCard, cardName) {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/ui_services/card/update_card.html',
+                templateUrl: '/proyectotesis/view/ui_services/card/update_card.html',
                 controller: 'viewUpdateCardController',
                 controllerAs: 'vm',
                 size: 'lg',

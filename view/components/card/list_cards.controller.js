@@ -27,6 +27,9 @@
     ) {
         var vm = this;
 
+        vm.$onInit = onInit;
+        vm.$onChanges = onChanges;
+
         vm.cards = [];
 
         var boardSelected = trelloService.boards.getFromSession();
@@ -42,12 +45,11 @@
                 );
             }
         });
-
-        this.$onChanges = function(changesObj) {
+        
+        function onChanges(changesObj) {
             if (changesObj.idList.currentValue) {
                 vm.idList = changesObj.idList.currentValue;
                 vm.cards = [];
-                activate();
             }
         };
 
@@ -56,7 +58,7 @@
         vm.finishSprint = finishSprint;
         vm.inserted = inserted;
 
-        function activate() {
+        function onInit() {
             var promise = $q.all([
                 trelloService.lists.getList(vm.idList),
                 trelloService.boards.getMembers(boardSelected.id),
@@ -586,8 +588,6 @@
                 message: 'Loading'
             };
         }
-
-        activate();
 
     }
 

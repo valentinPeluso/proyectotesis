@@ -4,7 +4,7 @@
     angular
         .module('app.components')
         .component('tgGithub', {
-            templateUrl: '/view/components/github/github.html',
+            templateUrl: '/proyectotesis/view/components/github/github.html',
             controller: githubController,
             // bindings: {
             //     card: '<',

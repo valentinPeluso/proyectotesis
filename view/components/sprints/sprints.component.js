@@ -4,7 +4,7 @@
     angular
         .module('app.components')
         .component('tgSprints', {
-            templateUrl: '/view/components/sprints/sprints.html',
+            templateUrl: '/proyectotesis/view/components/sprints/sprints.html',
             controller: sprintsComponentController,
             bindings: {
                 allowMoveCard: '<',

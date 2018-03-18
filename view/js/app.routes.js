@@ -9,7 +9,7 @@
     function routes($routeProvider) {
         $routeProvider
             .when('/configuration', {
-                templateUrl: '/view/configuration/configuration.html',
+                templateUrl: '/proyectotesis/view/configuration/configuration.html',
                 controller: 'configurationController',
                 controllerAs: 'vm',
                 roles: [
@@ -20,7 +20,7 @@
                 ]
             })
             .when('/verificationvalidation', {
-                templateUrl: '/view/verification_validation/verification_validation.html',
+                templateUrl: '/proyectotesis/view/verification_validation/verification_validation.html',
                 controller: 'verificationValidationController',
                 controllerAs: 'vm',
                 roles: [
@@ -29,7 +29,7 @@
                 ]
             })
             .when('/analysis', {
-                templateUrl: '/view/analysis/analysis.html',
+                templateUrl: '/proyectotesis/view/analysis/analysis.html',
                 controller: 'analysisController',
                 controllerAs: 'vm',
                 roles: [
@@ -37,7 +37,7 @@
                 ]
             })
             .when('/requirements', {
-                templateUrl: '/view/requirements/requirements.html',
+                templateUrl: '/proyectotesis/view/requirements/requirements.html',
                 controller: 'requirementsController',
                 controllerAs: 'vm',
                 roles: [
@@ -46,7 +46,7 @@
                 ]
             })
             .when('/development', {
-                templateUrl: '/view/development/development.html',
+                templateUrl: '/proyectotesis/view/development/development.html',
                 controller: 'developmentController',
                 controllerAs: 'vm',
                 roles: [
@@ -55,17 +55,17 @@
                 ]
             })
             .when('/board', {
-                templateUrl: '/view/board/board.html',
+                templateUrl: '/proyectotesis/view/board/board.html',
                 controller: 'boardController',
                 controllerAs: 'vm',
             })
             .when('/repository', {
-                templateUrl: '/view/repository/repository.html',
+                templateUrl: '/proyectotesis/view/repository/repository.html',
                 controller: 'repositoryController',
                 controllerAs: 'vm',
             })
             .when('/login', {
-                templateUrl: '/view/login/login.html',
+                templateUrl: '/proyectotesis/view/login/login.html',
                 controller: 'loginController',
                 controllerAs: 'vm',
             })

@@ -4,7 +4,7 @@
     angular
         .module('app.components')
         .component('tgPanel', {
-            templateUrl: '/view/components/panel/panel.html',
+            templateUrl: '/proyectotesis/view/components/panel/panel.html',
             controller: panelComponentController,
             bindings: {
                 list: '<',

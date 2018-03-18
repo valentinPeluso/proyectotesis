@@ -17,7 +17,7 @@
         function createAttachment(idAttachmentList) {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/ui_services/attachment/create_attachment.html',
+                templateUrl: '/proyectotesis/view/ui_services/attachment/create_attachment.html',
                 controller: 'viewCreateAttachmentController',
                 controllerAs: 'vm',
                 size: 'lg',

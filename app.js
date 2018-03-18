@@ -19,4 +19,6 @@ server.use(restify.bodyParser());
 
 routes(server);
 
-server.listen(process.env.PORT, process.env.IP);
+server.listen(8080, function () {
+    console.log('%s listening at %s', server.name, server.url);
+});

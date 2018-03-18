@@ -4,8 +4,9 @@ var _ = require("lodash")
 
 function getFile(req, res){
     
-    fs.readFile('./' + req.url, function(err, data) {
-        if (err) throw err;
+    fs.readFile('../' + req.url, function(err, data) {
+        if (err) 
+            throw err;
         res.contentType = mime.lookup(getFileName(req));
         res.writeHead(200);
         res.end(data);

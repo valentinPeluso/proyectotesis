@@ -1,6 +1,4 @@
-var GitHubApi = require("github");
-var Client = require("./../../node_modules/github/lib/index");
-var github = new Client();
+var github = require('@octokit/rest')();
 
 function reqAuthenticate(username, password) {
     github.authenticate({
@@ -81,12 +79,17 @@ function authenticate(req, res, next) {
 
     var username = req.params.username,
         password = req.params.password;
-
-    github.authenticate({
-        type: "basic",
-        username: username,
-        password: password
-    });
+    try {
+        github.authenticate({
+            type: "basic",
+            username: username,
+            password: password
+        }); 
+    } catch (error) {
+        if (error) 
+            throw error;
+    }
+    
 
     github.users.get({}, function(err, response) {
         if (err) throw err;

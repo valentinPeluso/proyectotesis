@@ -39,7 +39,7 @@
         function createRepository() {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/repository/create_repository.html',
+                templateUrl: '/proyectotesis/view/repository/create_repository.html',
                 controller: 'createRepositoryController',
                 controllerAs: 'vm',
                 size: 'md'

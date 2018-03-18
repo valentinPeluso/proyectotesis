@@ -89,7 +89,7 @@
         function createTeam() {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/board/teams/create_team.html',
+                templateUrl: '/proyectotesis/view/board/teams/create_team.html',
                 controller: 'createTeamController',
                 controllerAs: 'vm',
                 size: 'md'
@@ -111,7 +111,7 @@
         function createUser(team) {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/board/teams/create_user.html',
+                templateUrl: '/proyectotesis/view/board/teams/create_user.html',
                 controller: 'createUserController',
                 controllerAs: 'vm',
                 resolve: {

@@ -39,7 +39,7 @@
         function createBoard() {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/board/create_board.html',
+                templateUrl: '/proyectotesis/view/board/create_board.html',
                 controller: 'createBoardController',
                 controllerAs: 'vm',
                 size: 'lg'

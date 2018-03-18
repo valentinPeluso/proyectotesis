@@ -18,7 +18,7 @@
         function updateRequeriment(requeriment) {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/ui_services/requeriment/update_requeriment.html',
+                templateUrl: '/proyectotesis/view/ui_services/requeriment/update_requeriment.html',
                 controller: 'viewUpdateRequerimentController',
                 controllerAs: 'vm',
                 size: 'md',
@@ -38,7 +38,7 @@
         ) {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '/view/ui_services/requeriment/create_cards_from_requeriment.html',
+                templateUrl: '/proyectotesis/view/ui_services/requeriment/create_cards_from_requeriment.html',
                 controller: 'viewCreateCardsFromRequerimentController',
                 controllerAs: 'vm',
                 size: 'lg',
