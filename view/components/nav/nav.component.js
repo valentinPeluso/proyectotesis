@@ -23,7 +23,7 @@
         activate();
 
         function activate(argument) {
-            vm.active = $location.hash();
+            vm.active = $location.path();
         }
 
         function changeOfLocation(location) {

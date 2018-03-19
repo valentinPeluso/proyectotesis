@@ -29,46 +29,48 @@
 
         var repositorySelected = githubService.repos.getFromSession();
         var boardStates = trelloService.boards.getStatesFromSession();
+        var boardSelected = trelloService.boards.getFromSession();
 
         vm.selectPullRequest = selectPullRequest;
         vm.acceptValidation = acceptValidation;
         vm.rejectValidation = rejectValidation;
+        vm.$onInit = onInit;        
 
-        var boardSelected = trelloService.boards.getFromSession();
-
-        var promise = $q.all([
-            trelloService.boards.getMembers(boardSelected.id),
-            trelloService.boards.getCards(boardSelected.id),
-            trelloService.cards.getCard(vm.idCard),
-            trelloService.boards.getLists(boardSelected.id),
-            githubService.repos.getPullRequests()
-        ]).then(
-            function(result) {
-                vm.members = result[0].data;
-                vm.possible_assignees = vm.members;
-                vm.possible_reporter = angular.copy(vm.members);
-                vm.requerimentList = _.find(result[3].data, {
-                    'name': 'Requeriments'
+        function onInit() {
+            var promise = $q.all([
+                trelloService.boards.getMembers(boardSelected.id),
+                trelloService.boards.getCards(boardSelected.id),
+                trelloService.cards.getCard(vm.idCard),
+                trelloService.boards.getLists(boardSelected.id),
+                githubService.repos.getPullRequests()
+            ]).then(
+                function(result) {
+                    vm.members = result[0].data;
+                    vm.possible_assignees = vm.members;
+                    vm.possible_reporter = angular.copy(vm.members);
+                    vm.requerimentList = _.find(result[3].data, {
+                        'name': 'Requeriments'
+                    });
+                    vm.possible_issue_links = _.filter(result[1].data, function(card) {
+                        return card.idList !== vm.requerimentList.id
+                    });
+                    vm.possible_pull_request = getPossiblePullRequests(result[4].data);
+    
+                    var card = result[2].data;
+                    vm.card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
+                    vm.states = boardStates;
+                    parseCard();
+                    parsePullRequest();
+                },
+                function(err) {
+                    console.log();
                 });
-                vm.possible_issue_links = _.filter(result[1].data, function(card) {
-                    return card.idList !== vm.requerimentList.id
-                });
-                vm.possible_pull_request = getPossiblePullRequests(result[4].data);
-
-                var card = result[2].data;
-                vm.card = _.merge(card, jsonFormatterService.stringToJson(card.desc));
-                vm.states = boardStates;
-                parseCard();
-                parsePullRequest();
-            },
-            function(err) {
-                console.log();
-            });
-
-        vm.promise = {
-            promise: promise,
-            message: 'Loading'
-        };
+    
+            vm.promise = {
+                promise: promise,
+                message: 'Loading'
+            };
+        }
 
         function parseCard() {
             var assignee = [];

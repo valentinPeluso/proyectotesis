@@ -27,15 +27,15 @@
         vm.createAttachment = createAttachment;
         vm.updateAttachment = updateAttachment;
         vm.removeAttachment = removeAttachment;
+        vm.$onInit = onInit;
 
         this.$onChanges = function(changesObj) {
             if (changesObj.idAttachmentList.currentValue) {
                 vm.idAttachmentList = changesObj.idAttachmentList.currentValue;
-                activate();
             };
         };
 
-        function activate() {
+        function onInit() {
             var promise = trelloService.lists.getList(vm.idAttachmentList).then(
                 function(result) {
                     vm.attachments = result.data;

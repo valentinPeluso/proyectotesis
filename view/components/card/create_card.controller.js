@@ -16,35 +16,37 @@
 
         vm.saveCard = saveCard;
         vm.resetCard = resetCard;
+        vm.$onInit = onInit;
 
         var boardSelected = trelloService.boards.getFromSession();
         var boardStates = trelloService.boards.getStatesFromSession();
 
-        var promise = $q.all([
-            trelloService.boards.getMembers(boardSelected.id),
-            trelloService.lists.getList(vm.idBacklogList),
-            trelloService.lists.getList(vm.idAttachmentList),
-        ]).then(
-            function(result) {
-                vm.members = result[0].data;
-                vm.possible_assignees = vm.members;
-                vm.possible_reporter = angular.copy(vm.members);
-                vm.backlogCards = result[1].data.cards;
-                vm.attachmentCards = result[2].data.cards;
-                vm.possible_issue_links = vm.backlogCards;
-                vm.newCardState = _.find(boardStates, {
-                    name: "Not started"
+        function onInit() {
+            var promise = $q.all([
+                trelloService.boards.getMembers(boardSelected.id),
+                trelloService.lists.getList(vm.idBacklogList),
+                trelloService.lists.getList(vm.idAttachmentList),
+            ]).then(
+                function(result) {
+                    vm.members = result[0].data;
+                    vm.possible_assignees = vm.members;
+                    vm.possible_reporter = angular.copy(vm.members);
+                    vm.backlogCards = result[1].data.cards;
+                    vm.attachmentCards = result[2].data.cards;
+                    vm.possible_issue_links = vm.backlogCards;
+                    vm.newCardState = _.find(boardStates, {
+                        name: "Not started"
+                    });
+                },
+                function(err) {
+                    console.log();
                 });
-            },
-            function(err) {
-                console.log();
-            });
-
-        vm.promise = {
-            promise: promise,
-            message: 'Loading'
-        };
-
+    
+            vm.promise = {
+                promise: promise,
+                message: 'Loading'
+            };
+        }
         function saveCard() {
             vm.card.assignee = _.map(vm.card.assignee, 'id');
             vm.card.reporter = _.map(vm.card.reporter, 'id');

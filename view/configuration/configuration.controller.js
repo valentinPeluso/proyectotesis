@@ -9,11 +9,16 @@
     function configurationController(trelloService){
         var vm = this;
         
-        trelloService.members.me().then(
-            function(result) {
-                console.log();
-            }, function(error) {
-                console.log();
-            });
+        vm.$onInit = onInit;
+        onInit();
+        function onInit() {
+            trelloService.members.me().then(
+                function(result) {
+                    console.log();
+                }, function(error) {
+                    console.log();
+                });
+        }
+       
     };
 })();

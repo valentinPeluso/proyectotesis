@@ -8,32 +8,37 @@
 
     function createRequerimentComponentController(jsonFormatterService, trelloService, $q) {
         var vm = this;
-
-        this.$onChanges = function(changesObj) {
-            if (changesObj.idRequerimentList.currentValue) {
-                var promise = trelloService.lists.getList(vm.idRequerimentList).then(
-                    function(result) {
-                        vm.requerimentList = result.data
-                        vm.possible_dependencies = vm.requerimentList.cards;
-                        console.log();
-                    },
-                    function(err) {
-                        console.log();
-                    });
-
-                vm.promiseList = {
-                    promise: promise,
-                    message: 'Loading requeriments'
-                };
-            };
-        };
-
+                
         vm.requerimentList = {};
         vm.possible_dependencies = {};
 
+        vm.$onChanges = onChanges;
+        vm.$onInit = onInit;
         vm.saveRequeriment = saveRequeriment;
         vm.resetRequeriment = resetRequeriment;
 
+        function onInit() {
+            var promise = trelloService.lists.getList(vm.idRequerimentList).then(
+                function(result) {
+                    vm.requerimentList = result.data
+                    vm.possible_dependencies = vm.requerimentList.cards;
+                    console.log();
+                },
+                function(err) {
+                    console.log();
+                });
+
+            vm.promiseList = {
+                promise: promise,
+                message: 'Loading requeriments'
+            };
+        }
+        
+        function onChanges(changesObj) {
+            if (changesObj.idRequerimentList.currentValue) {
+                vm.idRequerimentList = changesObj.idRequerimentList.currentValue;
+            };
+        };
         function saveRequeriment() {
             vm.requeriment.dependencies = _.map(vm.requeriment.dependencies, 'id');
 

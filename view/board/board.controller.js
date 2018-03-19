@@ -13,23 +13,24 @@
 
         vm.selectBoard = selectBoard;
         vm.createBoard = createBoard;
-
-        var promise = trelloService.members.boards().then(
-            function(result) {
-                vm.boards = result.data;
-                var create_board_element = $('#createBoardElement');
-                create_board_element.show();
-            },
-            function(error) {
-                console.log();
-            });
-
-        vm.boardPromise = {
-            promise: promise,
-            message: 'Loading Boards'
-        };
-
-
+        vm.$onInit = onInit;
+        onInit();
+        function onInit() {
+            var promise = trelloService.members.boards().then(
+                function(result) {
+                    vm.boards = result.data;
+                    var create_board_element = $('#createBoardElement');
+                    create_board_element.show();
+                },
+                function(error) {
+                    console.log();
+                });
+    
+            vm.boardPromise = {
+                promise: promise,
+                message: 'Loading Boards'
+            };
+        }
         function selectBoard(board) {
             trelloService.boards.postInSession(board);
             trelloService.boards.postStatesInSession(board.id);

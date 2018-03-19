@@ -29,6 +29,10 @@
 
         vm.$onInit = onInit;
         vm.$onChanges = onChanges;
+        vm.openCard = openCard;
+        vm.removeCard = removeCard;
+        vm.finishSprint = finishSprint;
+        vm.inserted = inserted;
 
         vm.cards = [];
 
@@ -52,11 +56,6 @@
                 vm.cards = [];
             }
         };
-
-        vm.openCard = openCard;
-        vm.removeCard = removeCard;
-        vm.finishSprint = finishSprint;
-        vm.inserted = inserted;
 
         function onInit() {
             var promise = $q.all([
